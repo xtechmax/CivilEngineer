@@ -321,6 +321,11 @@
                 <strong class="sale-heading">Independence Day Sale:</strong> 
                 Get <span class="discount-highlight">90% OFF</span> the Construction Civil Engineering Toolkit!
             </span>
+            <span class="inline-flex items-center gap-1.5 bg-black/40 text-construction-amber font-mono font-bold text-xs px-2.5 py-1 rounded-md border border-amber-500/40">
+                <span class="material-symbols-outlined text-sm text-amber-400">timer</span>
+                <span>Ends in</span>
+                <span id="bannerTimer" class="tracking-wider text-white bg-amber-500/20 px-1.5 py-0.5 rounded">30:00</span>
+            </span>
             <a href="#checkout" class="btn-sale">Grab Deal →</a>
         </div>
     </div>
@@ -538,7 +543,7 @@
             <span class="w-3.5 h-3.5 rounded-full bg-construction-amber text-black text-[9px] font-extrabold flex items-center justify-center">2</span>
             One-time offer
         </span>
-        <span class="bg-gradient-to-r from-red-600 to-rose-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded shadow">
+        <span id="addonSaveBadge" class="bg-gradient-to-r from-red-600 to-rose-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded shadow">
             SAVE 84%
         </span>
     </div>
@@ -565,7 +570,7 @@
             <div class="flex items-center gap-1.5 mt-1.5">
                 <span class="font-extrabold text-sm text-construction-amber">+₹49</span>
                 <span class="text-[11px] text-body-gray line-through">₹299</span>
-                <span class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">84% OFF</span>
+                <span id="addonOffBadge" class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">84% OFF</span>
             </div>
         </div>
     </div>
@@ -733,6 +738,85 @@
             document.getElementById("successModal").classList.remove("hidden");
         }
     });
+
+    // Dynamic Discount Formula: round((originalPrice - discountedPrice) / originalPrice * 100)
+    function calcDiscountPercent(orig, current) {
+        return Math.round(((orig - current) / orig) * 100);
+    }
+
+    function initDynamicDiscounts() {
+        // Main Product: Original 1,999, Discounted 199 -> 90%
+        const mainOrig = 1999;
+        const mainCurrent = 199;
+        const mainDiscount = calcDiscountPercent(mainOrig, mainCurrent);
+
+        const bannerHighlight = document.querySelector(".discount-highlight");
+        if (bannerHighlight) {
+            bannerHighlight.innerText = `${mainDiscount}% OFF`;
+        }
+
+        // Add-on Product: Original 299, Discounted 49 -> 84%
+        const addonOrig = 299;
+        const addonCurrent = 49;
+        const addonDiscount = calcDiscountPercent(addonOrig, addonCurrent);
+
+        const addonSaveBadge = document.getElementById("addonSaveBadge");
+        if (addonSaveBadge) {
+            addonSaveBadge.innerText = `SAVE ${addonDiscount}%`;
+        }
+
+        const addonOffBadge = document.getElementById("addonOffBadge");
+        if (addonOffBadge) {
+            addonOffBadge.innerText = `${addonDiscount}% OFF`;
+        }
+    }
+
+    // 30-Minute Live Countdown Timer for Top Banner
+    function startBannerTimer() {
+        const timerElem = document.getElementById("bannerTimer");
+        if (!timerElem) return;
+
+        let duration = 30 * 60; // 30 minutes (1800 seconds)
+        const savedTime = localStorage.getItem("banner_timer_start");
+        const now = Math.floor(Date.now() / 1000);
+
+        if (savedTime) {
+            const elapsed = now - parseInt(savedTime, 10);
+            if (elapsed < duration) {
+                duration = duration - elapsed;
+            } else {
+                localStorage.setItem("banner_timer_start", now.toString());
+            }
+        } else {
+            localStorage.setItem("banner_timer_start", now.toString());
+        }
+
+        function updateTimer() {
+            const minutes = Math.floor(duration / 60);
+            const seconds = duration % 60;
+            const mm = minutes < 10 ? "0" + minutes : minutes;
+            const ss = seconds < 10 ? "0" + seconds : seconds;
+
+            timerElem.innerText = `${mm}:${ss}`;
+
+            if (duration <= 0) {
+                // When timer reaches 00:00, reset to 30:00 automatically
+                duration = 30 * 60;
+                localStorage.setItem("banner_timer_start", Math.floor(Date.now() / 1000).toString());
+            } else {
+                duration--;
+            }
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        initDynamicDiscounts();
+        startBannerTimer();
+    });
+
 </script>
 
 </body></html>
