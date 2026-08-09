@@ -119,47 +119,61 @@ export default async function handler(req, res) {
       const resendApiKey = (process.env.RESEND_API_KEY || defaultResendKey).trim();
       const fromAddress = (process.env.RESEND_FROM_EMAIL || 'Construction Toolkit <orders@xtechmax.shop>').trim();
 
-      // Define Download Links
-      const normalPackageLink = `https://www.xtechmax.shop/?order_id=${updatedOrder.gateway_order_id}&download=normal`;
-      const addonPackageLink = `https://www.xtechmax.shop/?order_id=${updatedOrder.gateway_order_id}&download=addon`;
+      // Explicit Google Drive Folder Links
+      const normalDriveLink = 'https://drive.google.com/drive/folders/1uK7PjLxCI7Gjb9vosRZ5MohPLqwIuKaO?usp=sharing';
+      const addonDriveLink = 'https://drive.google.com/drive/folders/1mKZykJegBX1QnFZRNS3e5BnjEme6Nu5O?usp=sharing';
 
-      let downloadButtonsHtml = `
-        <div style="text-align: center; margin-top: 25px;">
-          <a href="${normalPackageLink}" style="background: #FFB347; color: #000; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block; margin: 5px;">
-            📦 Download Master Construction Toolkit →
-          </a>
+      let downloadSectionsHtml = `
+        <div style="background: #1c1c1e; padding: 20px; border-radius: 10px; margin: 25px 0; border: 1px solid #333;">
+          <h3 style="color: #FFB347; margin-top: 0; font-size: 16px;">📦 Your Estimation Master Toolkit</h3>
+          <p style="color: #d1d5db; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">Click below to access your complete construction estimation files on Google Drive:</p>
+          <div style="text-align: center;">
+            <a href="${normalDriveLink}" target="_blank" style="background: #FFB347; color: #000; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block;">
+              Access Estimation Master Toolkit →
+            </a>
+          </div>
         </div>
       `;
 
       if (planType === 'normal_addon') {
-        downloadButtonsHtml = `
-          <div style="text-align: center; margin-top: 25px;">
-            <a href="${normalPackageLink}" style="background: #FFB347; color: #000; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block; margin: 5px;">
-              📦 Download Master Construction Toolkit →
-            </a>
-            <br/><br/>
-            <a href="${addonPackageLink}" style="background: #10B981; color: #fff; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block; margin: 5px;">
-              ⚡ Download Advanced Excel Automation Macros →
-            </a>
+        downloadSectionsHtml = `
+          <div style="background: #1c1c1e; padding: 20px; border-radius: 10px; margin: 25px 0; border: 1px solid #333;">
+            <h3 style="color: #FFB347; margin-top: 0; font-size: 16px;">📦 1. Your Estimation Master Toolkit</h3>
+            <p style="color: #d1d5db; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">Click below to access your core construction toolkit files:</p>
+            <div style="text-align: center;">
+              <a href="${normalDriveLink}" target="_blank" style="background: #FFB347; color: #000; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block;">
+                Access Estimation Master Toolkit →
+              </a>
+            </div>
+          </div>
+
+          <div style="background: #064e3b; padding: 20px; border-radius: 10px; margin: 20px 0; border: 1px solid #059669;">
+            <h3 style="color: #34d399; margin-top: 0; font-size: 16px;">⚡ 2. Your Advanced Excel Macros Add-on</h3>
+            <p style="color: #d1d5db; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">Click below to access your bonus Excel automation macros & templates:</p>
+            <div style="text-align: center;">
+              <a href="${addonDriveLink}" target="_blank" style="background: #10B981; color: #fff; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block;">
+                Access Advanced Excel Macros Add-on →
+              </a>
+            </div>
           </div>
         `;
       }
 
       const customerEmailHtml = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0c; color: #f5f5f7; padding: 30px; border-radius: 12px;">
-          <h2 style="color: #FFB347; text-align: center;">🎉 Order Confirmed!</h2>
-          <p>Thank you for purchasing the <strong>Construction Estimation Master Toolkit™</strong>!</p>
+          <h2 style="color: #FFB347; text-align: center; margin-top: 0;">🎉 Order Confirmed!</h2>
+          <p style="font-size: 14px; color: #e5e7eb;">Thank you for purchasing the <strong>Construction Estimation Master Toolkit™</strong>!</p>
           
-          <div style="background: #1c1c1e; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p style="margin: 5px 0;"><strong>Order ID:</strong> ${updatedOrder.gateway_order_id}</p>
-            <p style="margin: 5px 0;"><strong>Payment ID:</strong> ${cfPaymentId}</p>
-            <p style="margin: 5px 0;"><strong>Amount Paid:</strong> ₹${updatedOrder.amount}</p>
-            <p style="margin: 5px 0;"><strong>Plan Type:</strong> <span style="color: #FFB347; font-weight: bold;">${planType.toUpperCase()}</span></p>
+          <div style="background: #1c1c1e; padding: 18px; border-radius: 8px; margin: 20px 0;">
+            <p style="margin: 4px 0; font-size: 13px;"><strong>Order ID:</strong> ${updatedOrder.gateway_order_id}</p>
+            <p style="margin: 4px 0; font-size: 13px;"><strong>Payment ID:</strong> ${cfPaymentId}</p>
+            <p style="margin: 4px 0; font-size: 13px;"><strong>Amount Paid:</strong> ₹${updatedOrder.amount}</p>
+            <p style="margin: 4px 0; font-size: 13px;"><strong>Package Included:</strong> <span style="color: #FFB347; font-weight: bold;">${planType === 'normal_addon' ? 'Master Toolkit + Excel Macros Add-on' : 'Master Toolkit Package'}</span></p>
           </div>
 
-          ${downloadButtonsHtml}
+          ${downloadSectionsHtml}
 
-          <p style="color: #8e8e93; font-size: 12px; text-align: center; margin-top: 40px;">
+          <p style="color: #8e8e93; font-size: 12px; text-align: center; margin-top: 35px;">
             Operated by MD Jedan Hossain | Support: xtechmax2024@gmail.com
           </p>
         </div>
@@ -177,7 +191,7 @@ export default async function handler(req, res) {
           body: JSON.stringify({
             from: fromAddress,
             to: [updatedOrder.email],
-            subject: `🎉 Your Construction Toolkit Download (${planType === 'normal_addon' ? 'Toolkit + Macros' : 'Master Toolkit'})`,
+            subject: `🎉 Your Construction Toolkit Download (${planType === 'normal_addon' ? 'Toolkit + Excel Macros' : 'Master Toolkit'})`,
             html: customerEmailHtml
           })
         });
