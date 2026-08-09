@@ -1,0 +1,15 @@
+# Environment variables (API keys, secrets)
+.env
+.env.local
+.env.production
+
+# Agents config (contains project-scoped API keys)
+.agents/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node (for future use with Supabase/Vercel)
+node_modules/
+.vercel/
