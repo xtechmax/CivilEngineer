@@ -117,7 +117,7 @@ export default async function handler(req, res) {
 
       const defaultResendKey = Buffer.from('cmVfWGR3dnMxRzZfTDFTQnZMekVIOTJwTWVLeHY0UFJYanFO', 'base64').toString('utf-8');
       const resendApiKey = (process.env.RESEND_API_KEY || defaultResendKey).trim();
-      const fromAddress = (process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev').trim();
+      const fromAddress = (process.env.RESEND_FROM_EMAIL || 'Construction Toolkit <orders@xtechmax.shop>').trim();
 
       // Define Download Links
       const normalPackageLink = `https://www.xtechmax.shop/?order_id=${updatedOrder.gateway_order_id}&download=normal`;
