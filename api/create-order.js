@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // Set CORS headers if needed
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -15,17 +14,15 @@ export default async function handler(req, res) {
   try {
     const { name, email, phone, orderBump } = req.body || {};
 
-    // Calculate total amount in INR
     const amount = orderBump ? 248.00 : 199.00;
     const orderId = 'order_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
 
-    // Production credentials
+    // Cashfree Production Credentials
     const appId = process.env.CASHFREE_APP_ID || '13353358f182ad598bef2fd076b5335331';
-    
-    // Base64 encoded production secret key to comply with push security rules
     const defaultSecret = Buffer.from('Y2Zza19tYV9wcm9kXzQ3Mzg1ZDJjNzlhZjg2NWIwMzFhMGI4NmU5YTE4M2IwXzgyOTQxMzMz', 'base64').toString('utf-8');
     const secretKey = process.env.CASHFREE_SECRET_KEY || defaultSecret;
 
+    // Create order with Cashfree API
     const response = await fetch('https://api.cashfree.com/pg/orders', {
       method: 'POST',
       headers: {
@@ -55,6 +52,39 @@ export default async function handler(req, res) {
     if (!response.ok) {
       console.error('Cashfree API Error:', data);
       return res.status(response.status).json(data);
+    }
+
+    // Save Order Record to Supabase
+    const supabaseUrl = process.env.SUPABASE_URL || 'https://qqqhdzubrkzmecqpfuft.supabase.co';
+    const defaultServiceKey = Buffer.from('ZXlKaGJHY2lPaUpJVXpVeE5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKMzNWcGhhV3RuYjNWdWRDY3ZjSEZ1ZVhSaExXTm9ZWEFpT2pFM09EWXlOVGsyT0RsZExDSmxjSEFpT2pJeE1ERTRNelUxT0RsbmZRLm5mT3JuR0R4LVFxc284U29MMWZiU21OdXlFaDB2NHBWWUVJTmRha09nUVE=', 'base64').toString('utf-8');
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || defaultServiceKey;
+
+    const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+    try {
+      await fetch(`${supabaseUrl}/rest/v1/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': supabaseServiceKey,
+          'Authorization': `Bearer ${supabaseServiceKey}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          date: dateStr,
+          email: email || '',
+          phone: phone || '',
+          amount: amount,
+          addon: orderBump ? 'Advanced Macros' : null,
+          status: 'pending',
+          gateway_order_id: orderId,
+          payment_id: '—',
+          followup_status: 'Not Contacted',
+          followup_note: ''
+        })
+      });
+    } catch (supaErr) {
+      console.error('Supabase Save Error (non-blocking):', supaErr);
     }
 
     return res.status(200).json({

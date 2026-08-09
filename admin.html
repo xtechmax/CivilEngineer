@@ -55,10 +55,13 @@
         const RechartsObj = window.Recharts || {};
         const { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } = RechartsObj;
 
+        // Supabase Configuration
+        const SUPABASE_URL = "https://qqqhdzubrkzmecqpfuft.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxcWhkenVicmt6bWVjcXBmdWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyNTk2ODksImV4cCI6MjEwMTgzNTY4OX0.6AOXzjpaOOWX_qnhG_6ZLSkdaciQDZWqUVd0X2A864E";
+
         function AdminApp() {
             const [activeTab, setActiveTab] = useState("orders");
             
-            // Clean state - no sample data
             const [orders, setOrders] = useState(() => {
                 const saved = localStorage.getItem("admin_orders");
                 return saved ? JSON.parse(saved) : [];
@@ -69,6 +72,9 @@
                 return saved ? JSON.parse(saved) : [];
             });
 
+            const [loading, setLoading] = useState(true);
+            const [supabaseStatus, setSupabaseStatus] = useState("Connected");
+
             // Filters
             const [statusFilter, setStatusFilter] = useState("all");
             const [searchQuery, setSearchQuery] = useState("");
@@ -77,6 +83,51 @@
             const [endDate, setEndDate] = useState("");
             const [chartMetric, setChartMetric] = useState("revenue");
             const [selectedRows, setSelectedRows] = useState({});
+
+            // Fetch Real Data from Supabase
+            const fetchSupabaseData = async () => {
+                setLoading(true);
+                try {
+                    // Fetch Orders
+                    const ordersResp = await fetch(`${SUPABASE_URL}/rest/v1/orders?select=*&order=created_at.desc`, {
+                        headers: {
+                            "apikey": SUPABASE_ANON_KEY,
+                            "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+                        }
+                    });
+                    if (ordersResp.ok) {
+                        const supaOrders = await ordersResp.json();
+                        if (Array.isArray(supaOrders)) {
+                            setOrders(supaOrders);
+                        }
+                    }
+
+                    // Fetch Contact Requests
+                    const contactResp = await fetch(`${SUPABASE_URL}/rest/v1/contact_requests?select=*&order=created_at.desc`, {
+                        headers: {
+                            "apikey": SUPABASE_ANON_KEY,
+                            "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+                        }
+                    });
+                    if (contactResp.ok) {
+                        const supaContact = await contactResp.json();
+                        if (Array.isArray(supaContact)) {
+                            setContactRequests(supaContact);
+                        }
+                    }
+
+                    setSupabaseStatus("Synced with Supabase");
+                } catch (err) {
+                    console.error("Supabase Fetch Error:", err);
+                    setSupabaseStatus("Offline Mode (Local)");
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            useEffect(() => {
+                fetchSupabaseData();
+            }, []);
 
             // Save to LocalStorage
             useEffect(() => {
@@ -159,13 +210,41 @@
                 });
             }, [orders, statusFilter, searchQuery]);
 
-            // Handlers
-            const handleFollowupChange = (id, newStatus) => {
+            // Handlers & Supabase Sync
+            const handleFollowupChange = async (id, newStatus) => {
                 setOrders(prev => prev.map(o => o.id === id ? { ...o, followup_status: newStatus } : o));
+
+                try {
+                    await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${id}`, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "apikey": SUPABASE_ANON_KEY,
+                            "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+                        },
+                        body: JSON.stringify({ followup_status: newStatus })
+                    });
+                } catch (e) {
+                    console.error("Supabase Patch Error:", e);
+                }
             };
 
-            const handleNoteChange = (id, newNote) => {
+            const handleNoteChange = async (id, newNote) => {
                 setOrders(prev => prev.map(o => o.id === id ? { ...o, followup_note: newNote } : o));
+
+                try {
+                    await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${id}`, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "apikey": SUPABASE_ANON_KEY,
+                            "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+                        },
+                        body: JSON.stringify({ followup_note: newNote })
+                    });
+                } catch (e) {
+                    console.error("Supabase Patch Error:", e);
+                }
             };
 
             const toggleSelectAll = (e) => {
@@ -180,13 +259,6 @@
 
             const toggleSelectRow = (id) => {
                 setSelectedRows(prev => ({ ...prev, [id]: !prev[id] }));
-            };
-
-            const clearSampleData = () => {
-                localStorage.removeItem("admin_orders");
-                localStorage.removeItem("admin_contact_requests");
-                setOrders([]);
-                setContactRequests([]);
             };
 
             return (
@@ -222,13 +294,12 @@
                         </div>
 
                         <div className="pt-6 border-t border-slate-100 text-xs text-slate-400 space-y-2">
+                            <div className="flex items-center gap-1.5 font-medium text-emerald-600">
+                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                {supabaseStatus}
+                            </div>
                             <div>© 2026 ConstructionToolkit Admin</div>
                             <div>Operated by MD Jedan Hossain</div>
-                            {orders.length > 0 && (
-                                <button onClick={clearSampleData} className="text-rose-500 hover:underline text-[11px] block pt-1">
-                                    Clear all data
-                                </button>
-                            )}
                         </div>
                     </aside>
 
@@ -238,7 +309,13 @@
                             <div className="space-y-8">
                                 {/* Page Header & Contact Reminders Panel */}
                                 <div>
-                                    <h1 className="text-3xl font-bold text-slate-900 mb-6">Orders</h1>
+                                    <div className="flex justify-between items-center mb-6">
+                                        <h1 className="text-3xl font-bold text-slate-900">Orders</h1>
+                                        <button onClick={fetchSupabaseData} className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-sm">
+                                            <span className="material-symbols-outlined text-sm">refresh</span>
+                                            Sync Supabase
+                                        </button>
+                                    </div>
                                     
                                     <div className="bg-white border border-slate-200 rounded-xl p-5 flex justify-between items-center shadow-sm">
                                         <div>
@@ -407,7 +484,7 @@
                                                     ))
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan="5" className="py-6 text-center text-slate-400 text-sm">No sales data recorded yet.</td>
+                                                        <td colSpan="5" className="py-6 text-center text-slate-400 text-sm">No sales data recorded in Supabase yet.</td>
                                                     </tr>
                                                 )}
                                             </tbody>
@@ -582,7 +659,7 @@
                                                     <tr>
                                                         <td colSpan="12" className="py-12 text-center text-slate-400">
                                                             <span className="material-symbols-outlined text-4xl block mb-2 opacity-50">shopping_bag</span>
-                                                            No orders found. New customer orders will appear here automatically.
+                                                            No orders found. New customer orders will appear here automatically from Supabase.
                                                         </td>
                                                     </tr>
                                                 )}

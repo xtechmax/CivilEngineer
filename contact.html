@@ -220,9 +220,33 @@
         </div>
     </footer>
 
-    <script>
-        function handleFormSubmit(e) {
+        <script>
+        async function handleFormSubmit(e) {
             e.preventDefault();
+            const name = document.getElementById("senderName").value;
+            const email = document.getElementById("senderEmail").value;
+            const subject = document.getElementById("subject").value;
+            const message = document.getElementById("message").value;
+            const dateStr = new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+
+            const SUPABASE_URL = "https://qqqhdzubrkzmecqpfuft.supabase.co";
+            const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxcWhkenVicmt6bWVjcXBmdWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyNTk2ODksImV4cCI6MjEwMTgzNTY4OX0.6AOXzjpaOOWX_qnhG_6ZLSkdaciQDZWqUVd0X2A864E";
+
+            try {
+                await fetch(`${SUPABASE_URL}/rest/v1/contact_requests`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "apikey": SUPABASE_ANON_KEY,
+                        "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+                        "Prefer": "return=minimal"
+                    },
+                    body: JSON.stringify({ date: dateStr, name, email, subject, message })
+                });
+            } catch(err) {
+                console.error("Supabase Contact Save Error:", err);
+            }
+
             document.getElementById("formFeedback").classList.remove("hidden");
             document.getElementById("contactForm").reset();
         }
