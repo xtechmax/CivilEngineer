@@ -40,7 +40,7 @@ export default async function handler(req, res) {
         order_currency: 'INR',
         customer_details: {
           customer_id: 'cust_' + Date.now(),
-          customer_name: name || 'Customer',
+          customer_name: name || (email ? email.split('@')[0] : 'Customer'),
           customer_email: email || 'customer@example.com',
           customer_phone: phone ? phone.replace(/[^0-9]/g, '').slice(-10) : '9999999999',
         },

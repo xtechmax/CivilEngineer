@@ -509,10 +509,6 @@
 </div>
 <form id="checkoutForm" onsubmit="initiatePayment(event)" class="flex flex-col gap-4">
 <div class="flex flex-col gap-2">
-<label class="font-label-sm text-label-sm text-body-gray">Full Name</label>
-<input id="custName" required class="bg-surface text-headline-white border border-border-subtle rounded-lg px-4 py-3 focus:border-construction-amber focus:ring-1 focus:ring-construction-amber outline-none transition-colors" placeholder="e.g. Rahul Sharma" type="text"/>
-</div>
-<div class="flex flex-col gap-2">
 <label class="font-label-sm text-label-sm text-body-gray">Email Address</label>
 <input id="custEmail" required class="bg-surface text-headline-white border border-border-subtle rounded-lg px-4 py-3 focus:border-construction-amber focus:ring-1 focus:ring-construction-amber outline-none transition-colors" placeholder="engineer@example.com" type="email"/>
 </div>
@@ -603,12 +599,12 @@
         errorDiv.classList.add("hidden");
         errorDiv.innerText = "";
         
-        const name = document.getElementById("custName").value.trim();
+        
         const email = document.getElementById("custEmail").value.trim();
         const phone = document.getElementById("custPhone").value.trim();
         const orderBump = document.getElementById("orderBump").checked;
         
-        if (!name || !email || !phone) {
+        if (!email || !phone) {
             errorDiv.innerText = "Please fill in all required contact details.";
             errorDiv.classList.remove("hidden");
             return;
@@ -622,7 +618,7 @@
             const response = await fetch("/api/create-order", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, email, phone, orderBump })
+                body: JSON.stringify({ email, phone, orderBump })
             });
 
             const data = await response.json();
