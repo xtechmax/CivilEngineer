@@ -305,7 +305,7 @@
             <span class="sale-badge">🇮🇳 15th August</span>
             <span class="sale-text">
                 <strong class="sale-heading">Independence Day Sale:</strong> 
-                Get <span class="discount-highlight">90% OFF</span> the Dark Construction Toolkit!
+                Get <span class="discount-highlight">90% OFF</span> the Construction Civil Engineering Toolkit!
             </span>
             <a href="#checkout" class="btn-sale">Grab Deal →</a>
         </div>
@@ -516,16 +516,54 @@
 <label class="font-label-sm text-xs text-body-gray">Phone Number</label>
 <input id="custPhone" required class="bg-surface text-headline-white border border-border-subtle rounded-lg px-3 py-2.5 text-sm focus:border-construction-amber focus:ring-1 focus:ring-construction-amber outline-none transition-colors" placeholder="9876543210" type="tel"/>
 </div>
-<!-- Order Bump -->
-<div class="mt-2 p-3 rounded-lg border border-construction-amber/40 bg-surface-container-high relative">
-<div class="absolute -top-2.5 left-3 bg-construction-amber text-black font-label-sm text-[9px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">One-Time Offer</div>
-<label class="flex items-start gap-2.5 cursor-pointer">
-<input id="orderBump" onchange="updateTotalDisplay()" class="mt-0.5 form-checkbox text-construction-amber border-border-subtle rounded bg-surface focus:ring-construction-amber" type="checkbox"/>
-<div class="flex flex-col">
-<span class="font-bold text-sm text-headline-white">Add Advanced Excel Macros</span>
-<span class="text-xs text-body-gray mt-0.5">Automate tedious tasks with our macro pack. Just +₹49.</span>
-</div>
-</label>
+<!-- One-Time Offer Card Redesign -->
+<div id="addonCard" class="mt-2 p-3.5 rounded-xl border border-construction-amber/40 bg-surface-container-high relative transition-all shadow-md">
+    <!-- Top Row: Badge & Save 84% -->
+    <div class="flex justify-between items-center mb-2.5">
+        <span class="inline-flex items-center gap-1.5 bg-amber-500/20 text-construction-amber text-[10px] font-bold px-2 py-0.5 rounded border border-amber-500/30">
+            <span class="w-3.5 h-3.5 rounded-full bg-construction-amber text-black text-[9px] font-extrabold flex items-center justify-center">2</span>
+            One-time offer
+        </span>
+        <span class="bg-gradient-to-r from-red-600 to-rose-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded shadow">
+            SAVE 84%
+        </span>
+    </div>
+
+    <!-- Product Image & Content Layout -->
+    <div class="flex gap-3 items-center">
+        <!-- Product Image Slot -->
+        <div class="w-16 h-20 flex-shrink-0 rounded-lg overflow-hidden border border-border-subtle bg-surface shadow-inner">
+            <img src="addon_offer.jpg" alt="Advanced Excel Macros" class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Product Details -->
+        <div class="flex flex-col justify-between flex-1">
+            <h4 class="font-bold text-xs text-headline-white leading-tight">Add Advanced Excel Macros</h4>
+            
+            <!-- Rating & Social Proof -->
+            <div class="flex items-center gap-1 mt-1 text-[10px] text-body-gray">
+                <span class="text-amber-400 text-[11px]">★★★★★</span>
+                <span class="font-semibold text-headline-white">4.9</span>
+                <span class="text-[9px] text-body-gray">(1,480+ bought)</span>
+            </div>
+
+            <!-- Price Row -->
+            <div class="flex items-center gap-1.5 mt-1.5">
+                <span class="font-extrabold text-sm text-construction-amber">+₹49</span>
+                <span class="text-[11px] text-body-gray line-through">₹299</span>
+                <span class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">84% OFF</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive CTA Add Button -->
+    <label class="mt-2.5 w-full cursor-pointer block">
+        <input id="orderBump" onchange="toggleAddonState()" class="hidden" type="checkbox"/>
+        <div id="addonCtaBtn" class="w-full bg-gradient-to-r from-construction-amber to-amber-500 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-xs py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 text-center">
+            <span class="material-symbols-outlined text-sm font-bold">add_circle</span>
+            <span id="addonCtaText">Click here to add (+₹49)</span>
+        </div>
+    </label>
 </div>
 <!-- Total -->
 <div class="border-t border-border-subtle pt-3 mt-1">
@@ -583,6 +621,26 @@
 </div>
 
 <script>
+    
+    function toggleAddonState() {
+        const bump = document.getElementById("orderBump");
+        const btn = document.getElementById("addonCtaBtn");
+        const text = document.getElementById("addonCtaText");
+        const card = document.getElementById("addonCard");
+
+        if (bump.checked) {
+            btn.className = "w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-md text-center";
+            text.innerText = "✓ Added to Order (+₹49)";
+            card.className = "mt-2 p-3.5 rounded-xl border-2 border-emerald-500 bg-surface-container-high relative transition-all shadow-lg ring-2 ring-emerald-500/20";
+        } else {
+            btn.className = "w-full bg-gradient-to-r from-construction-amber to-amber-500 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-xs py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 text-center";
+            text.innerText = "Click here to add (+₹49)";
+            card.className = "mt-2 p-3.5 rounded-xl border border-construction-amber/40 bg-surface-container-high relative transition-all shadow-md";
+        }
+
+        updateTotalDisplay();
+    }
+
     function updateTotalDisplay() {
         const isBump = document.getElementById("orderBump").checked;
         const total = isBump ? 248.00 : 199.00;
