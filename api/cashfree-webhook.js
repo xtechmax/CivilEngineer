@@ -1,5 +1,19 @@
 import crypto from 'crypto';
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+async function getRawBody(req) {
+  const chunks = [];
+  for await (const chunk of req) {
+    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
+  }
+  return Buffer.concat(chunks).toString('utf8');
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
@@ -16,9 +30,10 @@ export default async function handler(req, res) {
   const logHeader = `[WEBHOOK ${new Date().toISOString()}]`;
 
   try {
-    const body = req.body || {};
+    const rawBodyString = await getRawBody(req);
+    const body = rawBodyString ? JSON.parse(rawBodyString) : {};
     
-    // 1. STRICT CASHFREE WEBHOOK SIGNATURE VERIFICATION (MISSING OR INVALID = 401)
+    // 1. STRICT CASHFREE WEBHOOK SIGNATURE VERIFICATION
     const signature = req.headers['x-webhook-signature'];
     const timestamp = req.headers['x-webhook-timestamp'];
 
@@ -29,11 +44,13 @@ export default async function handler(req, res) {
 
     const defaultSecret = Buffer.from('Y2Zza19tYV9wcm9kXzJmZmYwNDNmOWM4ZjE4ZTQ0N2UxMDk3NTg0MTYyMzI4XzZmODlmODQ3', 'base64').toString('utf-8');
     const secretKey = (process.env.CASHFREE_SECRET_KEY || defaultSecret).trim();
-    const rawPayload = timestamp + JSON.stringify(body);
+    
+    // Crucial fix: Cashfree expects the exact raw string body + timestamp, NOT stringified JSON object
+    const rawPayload = timestamp + rawBodyString;
     const expectedSignature = crypto.createHmac('sha256', secretKey).update(rawPayload).digest('base64');
 
     if (signature !== expectedSignature) {
-      console.error(`${logHeader} ❌ REJECTED: Invalid webhook signature. Received: ${signature}`);
+      console.error(`${logHeader} ❌ REJECTED: Invalid webhook signature. Expected: ${expectedSignature}, Received: ${signature}`);
       return res.status(401).json({ message: 'Invalid webhook signature' });
     }
 
@@ -148,11 +165,11 @@ export default async function handler(req, res) {
           </div>
 
           <div style="background: #064e3b; padding: 20px; border-radius: 10px; margin: 20px 0; border: 1px solid #059669;">
-            <h3 style="color: #34d399; margin-top: 0; font-size: 16px;">⚡ 2. Your Advanced Excel Macros Add-on</h3>
-            <p style="color: #d1d5db; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">Click below to access your bonus Excel automation macros & templates:</p>
+            <h3 style="color: #34d399; margin-top: 0; font-size: 16px;">⚡ 2. Your Practical Vastu Shastra Guide — Complete Mastery</h3>
+            <p style="color: #d1d5db; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">Click below to access your bonus Vastu Shastra resources:</p>
             <div style="text-align: center;">
               <a href="${addonDriveLink}" target="_blank" style="background: #10B981; color: #fff; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block;">
-                Access Advanced Excel Macros Add-on →
+                Access Practical Vastu Shastra Guide →
               </a>
             </div>
           </div>
@@ -168,7 +185,7 @@ export default async function handler(req, res) {
             <p style="margin: 4px 0; font-size: 13px;"><strong>Order ID:</strong> ${updatedOrder.gateway_order_id}</p>
             <p style="margin: 4px 0; font-size: 13px;"><strong>Payment ID:</strong> ${cfPaymentId}</p>
             <p style="margin: 4px 0; font-size: 13px;"><strong>Amount Paid:</strong> ₹${updatedOrder.amount}</p>
-            <p style="margin: 4px 0; font-size: 13px;"><strong>Package Included:</strong> <span style="color: #FFB347; font-weight: bold;">${planType === 'normal_addon' ? 'Master Toolkit + Excel Macros Add-on' : 'Master Toolkit Package'}</span></p>
+            <p style="margin: 4px 0; font-size: 13px;"><strong>Package Included:</strong> <span style="color: #FFB347; font-weight: bold;">${planType === 'normal_addon' ? 'Master Toolkit + Vastu Shastra Guide' : 'Master Toolkit Package'}</span></p>
           </div>
 
           ${downloadSectionsHtml}
@@ -191,7 +208,7 @@ export default async function handler(req, res) {
           body: JSON.stringify({
             from: fromAddress,
             to: [updatedOrder.email],
-            subject: `🎉 Your Construction Toolkit Download (${planType === 'normal_addon' ? 'Toolkit + Excel Macros' : 'Master Toolkit'})`,
+            subject: `🎉 Your Construction Toolkit Download (${planType === 'normal_addon' ? 'Toolkit + Vastu Shastra Guide' : 'Master Toolkit'})`,
             html: customerEmailHtml
           })
         });
