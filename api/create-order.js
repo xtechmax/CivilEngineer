@@ -19,9 +19,9 @@ export default async function handler(req, res) {
     const orderId = 'order_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
 
     // Active Cashfree Production Credentials
-    const appId = (process.env.CASHFREE_APP_ID || '13542917e5845c6fd7a65ab0f621924531').trim();
+    const appId = '13542917e5845c6fd7a65ab0f621924531';
     const defaultSecret = Buffer.from('Y2Zza19tYV9wcm9kXzJmZmYwNDNmOWM4ZjE4ZTQ0N2UxMDk3NTg0MTYyMzI4XzZmODlmODQ3', 'base64').toString('utf-8');
-    const secretKey = (process.env.CASHFREE_SECRET_KEY || defaultSecret).trim();
+    const secretKey = defaultSecret;
 
     // Clean and validate phone number (must be 10 digits)
     let cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
@@ -67,8 +67,7 @@ export default async function handler(req, res) {
 
     // Save Order Record to Supabase
     const supabaseUrl = 'https://qqqhdzubrkzmecqpfuft.supabase.co';
-    const defaultAnonKey = Buffer.from('ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk6SW1GdWIyNGlMQ0pwWVhRaU9qRTNPRFl5TlRrMk9EbGRMQ0psY0HHaU9qSXhNREU0TXpVMU9EbG5mUS42QU9YenpwYU9XV3hxTmhoR1pTa2RhY2lRRFpXUVVWZFQwWEE4NjRF', 'base64').toString('utf-8');
-    const supabaseServiceKey = (process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxcWhkenVicmt6bWVjcXBmdWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyNTk2ODksImV4cCI6MjEwMTgzNTY4OX0.6AOXzjpaOOWX_qnhG_6ZLSkdaciQDZWqUVd0X2A864E').trim();
+    const supabaseServiceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxcWhkenVicmt6bWVjcXBmdWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyNTk2ODksImV4cCI6MjEwMTgzNTY4OX0.6AOXzjpaOOWX_qnhG_6ZLSkdaciQDZWqUVd0X2A864E';
 
     const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 

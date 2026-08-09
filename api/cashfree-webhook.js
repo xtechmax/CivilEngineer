@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     const signature = req.headers['x-webhook-signature'];
     const timestamp = req.headers['x-webhook-timestamp'];
     const defaultSecret = Buffer.from('Y2Zza19tYV9wcm9kXzJmZmYwNDNmOWM4ZjE4ZTQ0N2UxMDk3NTg0MTYyMzI4XzZmODlmODQ3', 'base64').toString('utf-8');
-    const secretKey = (process.env.CASHFREE_SECRET_KEY || defaultSecret).trim();
+    const secretKey = defaultSecret;
 
     if (signature && timestamp) {
       const rawPayload = timestamp + JSON.stringify(body);
@@ -52,9 +52,8 @@ export default async function handler(req, res) {
       return res.status(200).json({ message: 'Webhook received (No order_id found)' });
     }
 
-    const supabaseUrl = (process.env.SUPABASE_URL || 'https://qqqhdzubrkzmecqpfuft.supabase.co').trim();
-    const defaultAnonKey = Buffer.from('ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk6SW1GdWIyNGlMQ0pwWVhRaU9qRTNPRFl5TlRrMk9EbGRMQ0psY0hBaU9qSXhNREU0TXpVMU9EbG5mUS42QU9YenpwYU9XV3hxTmhoR1pTa2RhY2lRRFpXUVVWZFQwWEE4NjRF', 'base64').toString('utf-8');
-    const supabaseServiceKey = (process.env.SUPABASE_ANON_KEY || defaultAnonKey).trim();
+    const supabaseUrl = 'https://qqqhdzubrkzmecqpfuft.supabase.co';
+    const supabaseServiceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxcWhkenVicmt6bWVjcXBmdWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyNTk2ODksImV4cCI6MjEwMTgzNTY4OX0.6AOXzjpaOOWX_qnhG_6ZLSkdaciQDZWqUVd0X2A864E';
 
     // 2. IDEMPOTENCY / DUPLICATE PROTECTION & DEDUPLICATION
     const checkResp = await fetch(`${supabaseUrl}/rest/v1/orders?gateway_order_id=eq.${encodeURIComponent(orderId)}&select=*`, {
@@ -113,8 +112,8 @@ export default async function handler(req, res) {
       const planType = updatedOrder.plan_type || (updatedOrder.addon ? 'normal_addon' : 'normal');
 
       const defaultResendKey = Buffer.from('cmVfWGR3dnMxRzZfTDFTQnZMekVIOTJwTWVLeHY0UFJYanFO', 'base64').toString('utf-8');
-      const resendApiKey = (process.env.RESEND_API_KEY || defaultResendKey).trim();
-      const fromAddress = (process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev').trim();
+      const resendApiKey = defaultResendKey;
+      const fromAddress = 'onboarding@resend.dev';
 
       // Define Download Links
       const normalPackageLink = `https://www.xtechmax.shop/?order_id=${updatedOrder.gateway_order_id}&download=normal`;
