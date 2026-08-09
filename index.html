@@ -181,60 +181,33 @@
         }
     
 /* ==========================================
-   Independence Day Sale Banner
+   Independence Day Sale Banner (Compact Bar)
    ========================================== */
 .india-sale-banner {
     position: relative;
     overflow: hidden;
-    padding: 3rem 0;
+    padding: 0.65rem 1rem;
     text-align: center;
     background: #0a0a0c;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 60;
 }
 .flag-stripe {
     position: absolute;
     left: 0;
     right: 0;
-    height: 6px;
+    height: 3px;
     z-index: 2;
 }
 .flag-saffron {
     top: 0;
     background: linear-gradient(90deg, transparent 0%, #FF9933 20%, #FF9933 80%, transparent 100%);
-    box-shadow: 0 0 20px rgba(255, 153, 51, 0.6), 0 0 40px rgba(255, 153, 51, 0.3);
-}
-.flag-white {
-    top: 50%;
-    transform: translateY(-50%);
-    height: 6px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 20%, rgba(255,255,255,0.8) 80%, transparent 100%);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.ashoka-chakra {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0.08;
-    animation: spinChakra 30s linear infinite;
-    z-index: 1;
-}
-.ashoka-chakra svg {
-    width: 300px;
-    height: 300px;
-}
-@keyframes spinChakra {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
+    box-shadow: 0 0 10px rgba(255, 153, 51, 0.6);
 }
 .flag-green {
     bottom: 0;
     background: linear-gradient(90deg, transparent 0%, #138808 20%, #138808 80%, transparent 100%);
-    box-shadow: 0 0 20px rgba(19, 136, 8, 0.6), 0 0 40px rgba(19, 136, 8, 0.3);
+    box-shadow: 0 0 10px rgba(19, 136, 8, 0.6);
 }
 .light-sweep {
     position: absolute;
@@ -245,9 +218,9 @@
     background: linear-gradient(
         105deg,
         transparent 30%,
-        rgba(255, 153, 51, 0.04) 40%,
-        rgba(255, 255, 255, 0.08) 50%,
-        rgba(19, 136, 8, 0.04) 60%,
+        rgba(255, 153, 51, 0.08) 40%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(19, 136, 8, 0.08) 60%,
         transparent 70%
     );
     animation: lightSweep 4s ease-in-out infinite;
@@ -261,152 +234,82 @@
 .sale-content {
     position: relative;
     z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+    color: #e4e4e7;
 }
 .sale-badge {
-    display: inline-block;
-    padding: 0.4rem 1.2rem;
-    background: rgba(255, 153, 51, 0.12);
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.65rem;
+    background: rgba(255, 153, 51, 0.15);
     border: 1px solid rgba(255, 153, 51, 0.3);
     border-radius: 99px;
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-size: 0.75rem;
+    font-weight: 700;
     color: #FF9933;
-    margin-bottom: 1.25rem;
     letter-spacing: 0.02em;
 }
 .sale-heading {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    margin-bottom: 1rem;
     background: linear-gradient(135deg, #FF9933 0%, #ffffff 50%, #138808 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: tricolorShift 5s ease-in-out infinite;
+    font-weight: 800;
 }
 @keyframes tricolorShift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
 }
-.sale-discount {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-}
-.discount-number {
-    font-size: clamp(5rem, 12vw, 8rem);
-    font-weight: 800;
-    line-height: 1;
-    color: #ffffff;
-    text-shadow:
-        0 0 30px rgba(255, 153, 51, 0.5),
-        0 0 60px rgba(255, 153, 51, 0.3),
-        0 0 100px rgba(19, 136, 8, 0.2);
-    animation: pulseGlow 3s ease-in-out infinite;
-}
-@keyframes pulseGlow {
-    0%, 100% {
-        text-shadow:
-            0 0 30px rgba(255, 153, 51, 0.5),
-            0 0 60px rgba(255, 153, 51, 0.3),
-            0 0 100px rgba(19, 136, 8, 0.2);
-    }
-    50% {
-        text-shadow:
-            0 0 40px rgba(255, 153, 51, 0.7),
-            0 0 80px rgba(255, 153, 51, 0.5),
-            0 0 120px rgba(19, 136, 8, 0.4);
-    }
-}
-.percent {
-    font-size: 0.5em;
+.discount-highlight {
     color: #FF9933;
-}
-.discount-label {
-    font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 800;
-    color: #138808;
-    text-shadow: 0 0 30px rgba(19, 136, 8, 0.5);
-}
-.sale-subtext {
-    font-size: 1.125rem;
-    color: #a1a1aa;
-    margin-bottom: 2rem;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+    text-shadow: 0 0 12px rgba(255, 153, 51, 0.6);
 }
 .btn-sale {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem 2.5rem;
-    font-size: 1.125rem;
+    padding: 0.35rem 0.9rem;
+    font-size: 0.8rem;
     font-weight: 700;
     text-decoration: none;
     border: none;
-    border-radius: 8px;
+    border-radius: 99px;
     cursor: pointer;
     color: #000;
     background: linear-gradient(135deg, #FF9933, #f59e0b);
-    box-shadow:
-        0 0 20px rgba(255, 153, 51, 0.4),
-        0 0 40px rgba(255, 153, 51, 0.2);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 0 12px rgba(255, 153, 51, 0.4);
+    transition: all 0.2s ease;
 }
 .btn-sale:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow:
-        0 0 30px rgba(255, 153, 51, 0.6),
-        0 0 60px rgba(255, 153, 51, 0.3);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 153, 51, 0.7);
 }
-
 </style>
 </head>
 <body class="font-body-md antialiased selection:bg-construction-amber selection:text-black">
 
     <!-- Independence Day Sale Banner -->
-    <section class="india-sale-banner">
+    <div class="india-sale-banner">
         <div class="flag-stripe flag-saffron"></div>
-        <div class="flag-stripe flag-white">
-            <div class="ashoka-chakra">
-                <svg viewBox="0 0 100 100" width="48" height="48">
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="#000080" stroke-width="3"/>
-                    <circle cx="50" cy="50" r="8" fill="#000080"/>
-                    <g stroke="#000080" stroke-width="1.5">
-                        <line x1="50" y1="5" x2="50" y2="95"/>
-                        <line x1="5" y1="50" x2="95" y2="50"/>
-                        <line x1="17" y1="17" x2="83" y2="83"/>
-                        <line x1="83" y1="17" x2="17" y2="83"/>
-                        <line x1="50" y1="5" x2="50" y2="95" transform="rotate(22.5 50 50)"/>
-                        <line x1="50" y1="5" x2="50" y2="95" transform="rotate(45 50 50)"/>
-                        <line x1="50" y1="5" x2="50" y2="95" transform="rotate(67.5 50 50)"/>
-                        <line x1="50" y1="5" x2="50" y2="95" transform="rotate(112.5 50 50)"/>
-                        <line x1="50" y1="5" x2="50" y2="95" transform="rotate(135 50 50)"/>
-                        <line x1="50" y1="5" x2="50" y2="95" transform="rotate(157.5 50 50)"/>
-                    </g>
-                </svg>
-            </div>
-        </div>
         <div class="flag-stripe flag-green"></div>
         <div class="sale-content">
             <div class="light-sweep"></div>
             <span class="sale-badge">🇮🇳 15th August</span>
-            <h2 class="sale-heading">Independence Day Sale</h2>
-            <div class="sale-discount">
-                <span class="discount-number">90<span class="percent">%</span></span>
-                <span class="discount-label">OFF</span>
-            </div>
-            <p class="sale-subtext">Celebrate freedom with 90% OFF the Dark Construction Toolkit!</p>
-            <a href="#buy" class="btn-sale">Grab the Deal Now →</a>
+            <span class="sale-text">
+                <strong class="sale-heading">Independence Day Sale:</strong> 
+                Get <span class="discount-highlight">90% OFF</span> the Dark Construction Toolkit!
+            </span>
+            <a href="#checkout" class="btn-sale">Grab Deal →</a>
         </div>
-    </section>
+    </div>
 
 <!-- TopAppBar -->
 <header class="bg-glass-surface dark:bg-glass-surface docked full-width top-0 sticky backdrop-blur-xl border-b border-border-subtle z-50">
