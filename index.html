@@ -291,7 +291,21 @@
     box-shadow: 0 0 20px rgba(255, 153, 51, 0.7);
 }
 
-</style>
+
+        @keyframes redPulseShake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px) scale(0.98); }
+            40%, 80% { transform: translateX(5px) scale(0.98); }
+        }
+        @keyframes celebrationBurst {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            50% { transform: scale(1.03); box-shadow: 0 0 30px 8px rgba(16, 185, 129, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+        .anim-red-shake { animation: redPulseShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
+        .anim-celebrate { animation: celebrationBurst 0.5s ease-out; }
+
+    </style>
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 </head>
 <body class="font-body-md antialiased selection:bg-construction-amber selection:text-black">
@@ -517,7 +531,7 @@
 <input id="custPhone" required class="bg-surface text-headline-white border border-border-subtle rounded-lg px-3 py-2.5 text-sm focus:border-construction-amber focus:ring-1 focus:ring-construction-amber outline-none transition-colors" placeholder="9876543210" type="tel"/>
 </div>
 <!-- One-Time Offer Card Redesign -->
-<div id="addonCard" class="mt-2 p-3.5 rounded-xl border border-construction-amber/40 bg-surface-container-high relative transition-all shadow-md">
+<div id="addonCard" class="mt-2 p-3.5 rounded-xl border-2 border-emerald-500 bg-surface-container-high relative transition-all shadow-lg ring-2 ring-emerald-500/20">
     <!-- Top Row: Badge & Save 84% -->
     <div class="flex justify-between items-center mb-2.5">
         <span class="inline-flex items-center gap-1.5 bg-amber-500/20 text-construction-amber text-[10px] font-bold px-2 py-0.5 rounded border border-amber-500/30">
@@ -558,10 +572,10 @@
 
     <!-- Interactive CTA Add Button -->
     <label class="mt-2.5 w-full cursor-pointer block">
-        <input id="orderBump" onchange="toggleAddonState()" class="hidden" type="checkbox"/>
-        <div id="addonCtaBtn" class="w-full bg-gradient-to-r from-construction-amber to-amber-500 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-xs py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 text-center">
-            <span class="material-symbols-outlined text-sm font-bold">add_circle</span>
-            <span id="addonCtaText">Click here to add (+₹49)</span>
+        <input id="orderBump" onchange="toggleAddonState()" checked class="hidden" type="checkbox"/>
+        <div id="addonCtaBtn" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-md text-center">
+            <span class="material-symbols-outlined text-sm font-bold">check_circle</span>
+            <span id="addonCtaText">✓ Added to Order (+₹49)</span>
         </div>
     </label>
 </div>
@@ -573,7 +587,7 @@
 </div>
 <div class="flex justify-between items-center font-bold text-lg">
 <span class="text-headline-white">Total</span>
-<span id="displayTotal" class="text-construction-amber">₹199.00</span>
+<span id="displayTotal" class="text-construction-amber">₹248.00</span>
 </div>
 </div>
 <button id="payButton" class="mt-2 w-full bg-gradient-to-r from-construction-amber to-primary text-black font-bold py-3 rounded-xl glow-button transition-all transform active:scale-95 flex justify-center items-center gap-2 text-sm" type="submit">
@@ -628,14 +642,17 @@
         const text = document.getElementById("addonCtaText");
         const card = document.getElementById("addonCard");
 
+        card.classList.remove("anim-red-shake", "anim-celebrate");
+        void card.offsetWidth; // force DOM reflow for re-triggering animation
+
         if (bump.checked) {
             btn.className = "w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-md text-center";
             text.innerText = "✓ Added to Order (+₹49)";
-            card.className = "mt-2 p-3.5 rounded-xl border-2 border-emerald-500 bg-surface-container-high relative transition-all shadow-lg ring-2 ring-emerald-500/20";
+            card.className = "mt-2 p-3.5 rounded-xl border-2 border-emerald-500 bg-surface-container-high relative transition-all shadow-lg ring-2 ring-emerald-500/20 anim-celebrate";
         } else {
-            btn.className = "w-full bg-gradient-to-r from-construction-amber to-amber-500 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-xs py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 text-center";
-            text.innerText = "Click here to add (+₹49)";
-            card.className = "mt-2 p-3.5 rounded-xl border border-construction-amber/40 bg-surface-container-high relative transition-all shadow-md";
+            btn.className = "w-full bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-bold text-xs py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-md text-center";
+            text.innerText = "Click to Add Back (+₹49)";
+            card.className = "mt-2 p-3.5 rounded-xl border-2 border-rose-500/80 bg-rose-950/30 relative transition-all shadow-md anim-red-shake";
         }
 
         updateTotalDisplay();
