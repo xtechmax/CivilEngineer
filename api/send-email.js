@@ -18,8 +18,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Missing "to" or "subject" parameters' });
     }
 
-    const defaultResendKey = Buffer.from('cmVfWGR3dnMxRzZfTDFTQnZMekVIOTJwTWVLeHY0UFJYanFO', 'base64').toString('utf-8');
-    const resendApiKey = process.env.RESEND_API_KEY || defaultResendKey;
+    const rawKey = process.env.RESEND_API_KEY || Buffer.from('cmVfWGR3dnMxRzZfTDFTQnZMekVIOTJwTWVLeHY0UFJYanFO', 'base64').toString('utf-8');
+    const resendApiKey = rawKey.trim();
 
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         'User-Agent': 'ResendNode/2.0.0'
       },
       body: JSON.stringify({
-        from: 'Construction Toolkit <onboarding@resend.dev>',
+        from: 'onboarding@resend.dev',
         to: Array.isArray(to) ? to : [to],
         subject: subject,
         html: html || `<p>${text || ''}</p>`
