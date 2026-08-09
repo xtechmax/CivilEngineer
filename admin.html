@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConstructionToolkit Admin</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: "#FFB347",
+                        "brand-dark": "#0a0a0c"
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts & Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+    <!-- React 18 & Babel Standalone -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Recharts CDN -->
+    <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body { font-family: "Inter", sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .font-mono { font-family: "JetBrains Mono", monospace; }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased min-h-screen">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+
+        // Recharts Components
+        const RechartsObj = window.Recharts || {};
+        const { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } = RechartsObj;
+
+        // Initial Seed Data matching reference screenshots
+        const INITIAL_ORDERS = [
+            { id: "1", date: "09 Aug 2026, 9:02 AM", isoDate: "2026-08-09T09:02:00", email: "sunilbaby389@gmail.com", phone: "+919902011600", amount: 248, addon: "Advanced Macros", status: "paid", gateway_order_id: "order_1786246346879_50e7", payment_id: "6197626271", followup_status: "Not Contacted", followup_note: "" },
+            { id: "2", date: "09 Aug 2026, 9:01 AM", isoDate: "2026-08-09T09:01:00", email: "sunilbaby389@gmail.com", phone: "+919902011600", amount: 248, addon: "Advanced Macros", status: "pending", gateway_order_id: "order_1786246297442_f9ad", payment_id: "—", followup_status: "Not Contacted", followup_note: "" },
+            { id: "3", date: "08 Aug 2026, 8:12 AM", isoDate: "2026-08-08T08:12:00", email: "anjuk4585@gmail.com", phone: "+918446709220", amount: 248, addon: "Advanced Macros", status: "paid", gateway_order_id: "order_1786156978143_fb56", payment_id: "6189611475", followup_status: "Not Contacted", followup_note: "" },
+            { id: "4", date: "08 Aug 2026, 8:11 AM", isoDate: "2026-08-08T08:11:00", email: "anjuk4585@gmail.com", phone: "+918446709220", amount: 248, addon: "Advanced Macros", status: "pending", gateway_order_id: "order_1786156913595_9aa4", payment_id: "—", followup_status: "Interested", followup_note: "" },
+            { id: "5", date: "08 Aug 2026, 5:51 AM", isoDate: "2026-08-08T05:51:00", email: "shraboni197310@gmail.com", phone: "+91919733978092", amount: 248, addon: "Advanced Macros", status: "pending", gateway_order_id: "order_1786148516241_c692", payment_id: "—", followup_status: "Other Issue", followup_note: "Asked for manual UPI payment option." },
+            { id: "6", date: "07 Aug 2026, 12:31 PM", isoDate: "2026-08-07T12:31:00", email: "dowluriharika@gmail.com", phone: "+919494843693", amount: 199, addon: null, status: "paid", gateway_order_id: "order_1786086096322_5cd9", payment_id: "6182946574", followup_status: "Not Contacted", followup_note: "" },
+            { id: "7", date: "07 Aug 2026, 11:14 AM", isoDate: "2026-08-07T11:14:00", email: "navu.sehgal@gmail.com", phone: "+918800155895", amount: 199, addon: null, status: "pending", gateway_order_id: "order_1786081456650_f11c", payment_id: "—", followup_status: "Interested", followup_note: "" },
+            { id: "8", date: "07 Aug 2026, 9:02 AM", isoDate: "2026-08-07T09:02:00", email: "amar76bong@gmail.com", phone: "+917042193494", amount: 248, addon: "Advanced Macros", status: "paid", gateway_order_id: "order_1786073575553_1050", payment_id: "6181960226", followup_status: "Not Contacted", followup_note: "" },
+            { id: "9", date: "07 Aug 2026, 12:46 AM", isoDate: "2026-08-07T00:46:00", email: "devarashettysaisree9@gmail.com", phone: "+919100014355", amount: 248, addon: "Advanced Macros", status: "paid", gateway_order_id: "order_1786043796919_3a57", payment_id: "6179136019", followup_status: "Not Contacted", followup_note: "" },
+            { id: "10", date: "07 Aug 2026, 12:46 AM", isoDate: "2026-08-07T00:46:00", email: "devarashettysaisree9@gmail.com", phone: "+919100014355", amount: 248, addon: "Advanced Macros", status: "pending", gateway_order_id: "order_1786043767270_b916", payment_id: "—", followup_status: "Not Contacted", followup_note: "" }
+        ];
+
+        const INITIAL_CONTACT_REQUESTS = [
+            { id: "1", date: "09 Aug 2026, 11:30 AM", name: "Rahul Verma", email: "rahul.verma@example.com", subject: "Macro Compatibility", message: "Can I run these Excel templates on Excel 2019 and Google Sheets?" },
+            { id: "2", date: "08 Aug 2026, 4:15 PM", name: "Priya Sundaram", email: "priya.qs@gmail.com", subject: "Bulk License Inquiry", message: "Interested in buying 5 licenses for our civil engineering consultancy team." }
+        ];
+
+        function AdminApp() {
+            const [activeTab, setActiveTab] = useState("orders");
+            const [orders, setOrders] = useState(() => {
+                const saved = localStorage.getItem("admin_orders");
+                return saved ? JSON.parse(saved) : INITIAL_ORDERS;
+            });
+            const [contactRequests, setContactRequests] = useState(() => {
+                const saved = localStorage.getItem("admin_contact_requests");
+                return saved ? JSON.parse(saved) : INITIAL_CONTACT_REQUESTS;
+            });
+
+            // Filters
+            const [statusFilter, setStatusFilter] = useState("all");
+            const [searchQuery, setSearchQuery] = useState("");
+            const [rangePreset, setRangePreset] = useState("Last 7 Days");
+            const [startDate, setStartDate] = useState("");
+            const [endDate, setEndDate] = useState("");
+            const [chartMetric, setChartMetric] = useState("revenue");
+            const [selectedRows, setSelectedRows] = useState({});
+
+            // Save to LocalStorage
+            useEffect(() => {
+                localStorage.setItem("admin_orders", JSON.stringify(orders));
+            }, [orders]);
+
+            useEffect(() => {
+                localStorage.setItem("admin_contact_requests", JSON.stringify(contactRequests));
+            }, [contactRequests]);
+
+            // Analytics Calculations
+            const analytics = useMemo(() => {
+                const totalRev = orders.reduce((sum, o) => o.status === "paid" ? sum + o.amount : sum, 0);
+                const totalOrd = orders.length;
+                const paidOrd = orders.filter(o => o.status === "paid").length;
+                const convRate = totalOrd > 0 ? ((paidOrd / totalOrd) * 100).toFixed(1) : "0.0";
+                
+                // Today (09 Aug 2026)
+                const todayOrders = orders.filter(o => o.date.includes("09 Aug 2026"));
+                const todayRev = todayOrders.reduce((sum, o) => o.status === "paid" ? sum + o.amount : sum, 0);
+                
+                // Yesterday (08 Aug 2026)
+                const yestOrders = orders.filter(o => o.date.includes("08 Aug 2026"));
+                const yestRev = yestOrders.reduce((sum, o) => o.status === "paid" ? sum + o.amount : sum, 0);
+                
+                const deltaRev = yestRev > 0 ? (((todayRev - yestRev) / yestRev) * 100).toFixed(1) : "0.0";
+
+                return {
+                    totalRevenue: totalRev,
+                    totalOrders: totalOrd,
+                    paidOrders: paidOrd,
+                    conversionRate: convRate,
+                    todayRevenue: todayRev,
+                    todayOrdersCount: todayOrders.length,
+                    todayDelta: deltaRev
+                };
+            }, [orders]);
+
+            // Chart Data Generation
+            const chartData = useMemo(() => {
+                const dates = ["03 Aug", "04 Aug", "05 Aug", "06 Aug", "07 Aug", "08 Aug", "09 Aug"];
+                const revenueMap = { "03 Aug": 850, "04 Aug": 850, "05 Aug": 600, "06 Aug": 400, "07 Aug": 794, "08 Aug": 296, "09 Aug": 137 };
+                const ordersMap = { "03 Aug": 4, "04 Aug": 4, "05 Aug": 3, "06 Aug": 2, "07 Aug": 4, "08 Aug": 3, "09 Aug": 2 };
+
+                return dates.map(d => ({
+                    date: d,
+                    Revenue: revenueMap[d] || 0,
+                    Orders: ordersMap[d] || 0
+                }));
+            }, [rangePreset, startDate, endDate]);
+
+            // Daily Breakdown Table Data
+            const dailyBreakdown = useMemo(() => {
+                return [
+                    { date: "07 Aug 2026", orders: 4, paid: 3, revenue: 695, conv: "75.0%" },
+                    { date: "08 Aug 2026", orders: 3, paid: 1, revenue: 248, conv: "33.3%" },
+                    { date: "09 Aug 2026", orders: 2, paid: 1, revenue: 248, conv: "50.0%" }
+                ];
+            }, []);
+
+            // Filtered Orders
+            const filteredOrders = useMemo(() => {
+                return orders.filter(o => {
+                    const matchesStatus = statusFilter === "all" || o.status === statusFilter;
+                    const matchesSearch = !searchQuery || 
+                        o.email.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                        o.phone.includes(searchQuery);
+                    return matchesStatus && matchesSearch;
+                });
+            }, [orders, statusFilter, searchQuery]);
+
+            // Handlers
+            const handleFollowupChange = (id, newStatus) => {
+                setOrders(prev => prev.map(o => o.id === id ? { ...o, followup_status: newStatus } : o));
+            };
+
+            const handleNoteChange = (id, newNote) => {
+                setOrders(prev => prev.map(o => o.id === id ? { ...o, followup_note: newNote } : o));
+            };
+
+            const toggleSelectAll = (e) => {
+                if (e.target.checked) {
+                    const allSelected = {};
+                    filteredOrders.forEach(o => allSelected[o.id] = true);
+                    setSelectedRows(allSelected);
+                } else {
+                    setSelectedRows({});
+                }
+            };
+
+            const toggleSelectRow = (id) => {
+                setSelectedRows(prev => ({ ...prev, [id]: !prev[id] }));
+            };
+
+            return (
+                <div className="flex min-h-screen">
+                    {/* Fixed Left Sidebar (~280px wide) */}
+                    <aside className="w-[280px] bg-white border-r border-slate-200 p-6 flex flex-col justify-between fixed top-0 bottom-0 left-0 z-40">
+                        <div>
+                            <div className="flex items-center gap-3 mb-8">
+                                <span className="material-symbols-outlined text-amber-500 text-3xl">construction</span>
+                                <h1 className="text-xl font-bold tracking-tight text-slate-900">ConstructionToolkit Admin</h1>
+                            </div>
+
+                            <nav className="space-y-1.5">
+                                {[
+                                    { id: "orders", label: "Orders", icon: "shopping_cart" },
+                                    { id: "contact", label: "Contact Requests", icon: "mail" },
+                                    { id: "images", label: "Images", icon: "image" },
+                                    { id: "manual", label: "Manual Send", icon: "send" },
+                                    { id: "carousels", label: "Worksheet Carousels", icon: "view_carousel" }
+                                ].map(item => (
+                                    <button
+                                        key={item.id}
+                                        onClick={() => setActiveTab(item.id)}
+                                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                                            activeTab === item.id
+                                                ? "bg-slate-100 text-slate-900 font-semibold"
+                                                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                                        }`}
+                                    >
+                                        <span className="material-symbols-outlined text-lg">{item.icon}</span>
+                                        {item.label}
+                                    </button>
+                                ))}
+                            </nav>
+                        </div>
+
+                        <div className="pt-6 border-t border-slate-100 text-xs text-slate-400">
+                            <div>© 2026 ConstructionToolkit Admin</div>
+                            <div>Operated by MD Jedan Hossain</div>
+                        </div>
+                    </aside>
+
+                    {/* Main Content Area */}
+                    <main className="flex-1 ml-[280px] p-8 max-w-[1400px]">
+                        {activeTab === "orders" && (
+                            <div className="space-y-8">
+                                {/* Page Header & Contact Reminders Panel */}
+                                <div>
+                                    <h1 className="text-3xl font-bold text-slate-900 mb-6">Orders</h1>
+                                    
+                                    <div className="bg-white border border-slate-200 rounded-xl p-5 flex justify-between items-center shadow-sm">
+                                        <div>
+                                            <div className="flex items-center gap-2 text-sm font-bold text-slate-800">
+                                                <span>Contact reminders</span>
+                                                <span className="bg-emerald-100 text-emerald-700 text-xs px-2 py-0.5 rounded font-medium">Informational</span>
+                                            </div>
+                                            <p className="text-sm text-slate-500 mt-1">
+                                                Follow up with pending orders older than 10 minutes that haven't been messaged yet.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Sales Analytics - 6 Stat Cards */}
+                                <div>
+                                    <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Sales analytics</h2>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                                            <div className="text-xs text-slate-500 font-medium">Total Revenue</div>
+                                            <div className="text-2xl font-bold text-slate-900 mt-1">₹{analytics.totalRevenue.toLocaleString()}</div>
+                                        </div>
+
+                                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                                            <div className="text-xs text-slate-500 font-medium">Total Orders</div>
+                                            <div className="text-2xl font-bold text-slate-900 mt-1">{analytics.totalOrders}</div>
+                                        </div>
+
+                                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                                            <div className="text-xs text-slate-500 font-medium">Paid Orders</div>
+                                            <div className="text-2xl font-bold text-slate-900 mt-1">{analytics.paidOrders}</div>
+                                        </div>
+
+                                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                                            <div className="text-xs text-slate-500 font-medium">Conversion Rate</div>
+                                            <div className="text-2xl font-bold text-slate-900 mt-1">{analytics.conversionRate}%</div>
+                                        </div>
+
+                                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                                            <div className="text-xs text-slate-500 font-medium">Today's Revenue</div>
+                                            <div className="text-2xl font-bold text-slate-900 mt-1">₹{analytics.todayRevenue}</div>
+                                            <div className="text-[11px] font-semibold text-rose-600 mt-1 flex items-center gap-0.5">
+                                                <span>▼ {analytics.todayDelta}%</span> vs yesterday
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                                            <div className="text-xs text-slate-500 font-medium">Today's Orders</div>
+                                            <div className="text-2xl font-bold text-slate-900 mt-1">{analytics.todayOrdersCount}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Revenue/Orders Trend Chart */}
+                                <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                                    <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
+                                        {/* Date Range Presets */}
+                                        <div className="flex items-center gap-1.5 flex-wrap">
+                                            {["Today", "Last 7 Days", "Last 30 Days", "This Month", "All Time"].map(preset => (
+                                                <button
+                                                    key={preset}
+                                                    onClick={() => { setRangePreset(preset); setStartDate(""); setEndDate(""); }}
+                                                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                                                        rangePreset === preset && !startDate
+                                                            ? "bg-slate-900 text-white"
+                                                            : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
+                                                    }`}
+                                                >
+                                                    {preset}
+                                                </button>
+                                            ))}
+                                        </div>
+
+                                        {/* Custom Date Inputs & Metric Toggle */}
+                                        <div className="flex items-center gap-4 flex-wrap">
+                                            <div className="flex items-center gap-2 text-xs">
+                                                <input
+                                                    type="date"
+                                                    value={startDate}
+                                                    onChange={e => setStartDate(e.target.value)}
+                                                    className="border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-600 outline-none"
+                                                />
+                                                <span className="text-slate-400">→</span>
+                                                <input
+                                                    type="date"
+                                                    value={endDate}
+                                                    onChange={e => setEndDate(e.target.value)}
+                                                    className="border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-600 outline-none"
+                                                />
+                                            </div>
+
+                                            {/* Segmented Control */}
+                                            <div className="bg-slate-100 p-1 rounded-lg flex items-center text-xs font-medium">
+                                                <button
+                                                    onClick={() => setChartMetric("revenue")}
+                                                    className={`px-3 py-1 rounded-md transition-all ${chartMetric === "revenue" ? "bg-white text-slate-900 shadow-sm font-semibold" : "text-slate-500"}`}
+                                                >
+                                                    Revenue
+                                                </button>
+                                                <button
+                                                    onClick={() => setChartMetric("orders")}
+                                                    className={`px-3 py-1 rounded-md transition-all ${chartMetric === "orders" ? "bg-white text-slate-900 shadow-sm font-semibold" : "text-slate-500"}`}
+                                                >
+                                                    Orders
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Big Total Figure Above Chart */}
+                                    <div className="mb-4">
+                                        <div className="text-3xl font-bold text-slate-900">
+                                            {chartMetric === "revenue" ? "₹3,871" : "15 Orders"}
+                                        </div>
+                                        <div className="text-xs font-semibold text-rose-600 mt-0.5">
+                                            ▼ 48.9% vs previous period
+                                        </div>
+                                    </div>
+
+                                    {/* Recharts LineChart */}
+                                    <div className="h-64 w-full mt-4">
+                                        {ResponsiveContainer ? (
+                                            <ResponsiveContainer width="100%" height="100%">
+                                                <LineChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                                                    <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
+                                                    <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
+                                                    <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', border: 'none', color: '#fff' }} />
+                                                    <Line
+                                                        type="monotone"
+                                                        dataKey={chartMetric === "revenue" ? "Revenue" : "Orders"}
+                                                        stroke="#0f172a"
+                                                        strokeWidth={2}
+                                                        dot={false}
+                                                    />
+                                                </LineChart>
+                                            </ResponsiveContainer>
+                                        ) : (
+                                            <div className="h-full bg-slate-50 rounded-lg flex items-center justify-center text-slate-400 text-sm">
+                                                Chart rendering...
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Daily Breakdown Table */}
+                                <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                                    <div className="px-6 py-4 border-b border-slate-100 font-semibold text-slate-800 text-sm">
+                                        Daily breakdown
+                                    </div>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-left text-sm text-slate-600">
+                                            <thead className="bg-slate-50 text-slate-400 font-medium text-xs uppercase border-b border-slate-100">
+                                                <tr>
+                                                    <th className="py-3 px-6">Date</th>
+                                                    <th className="py-3 px-6">Orders</th>
+                                                    <th className="py-3 px-6">Paid</th>
+                                                    <th className="py-3 px-6">Revenue</th>
+                                                    <th className="py-3 px-6">Conversion Rate</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-100">
+                                                {dailyBreakdown.map((row, idx) => (
+                                                    <tr key={idx} className="hover:bg-slate-50/50">
+                                                        <td className="py-3.5 px-6 font-medium text-slate-900">{row.date}</td>
+                                                        <td className="py-3.5 px-6">{row.orders}</td>
+                                                        <td className="py-3.5 px-6">{row.paid}</td>
+                                                        <td className="py-3.5 px-6 font-semibold text-slate-900">₹{row.revenue}</td>
+                                                        <td className="py-3.5 px-6">{row.conv}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {/* Main Orders Table & Controls */}
+                                <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
+                                    {/* Tabs & Search Input */}
+                                    <div className="flex flex-wrap justify-between items-center gap-4">
+                                        <div className="flex items-center gap-2">
+                                            {["all", "pending", "paid", "failed"].map(status => (
+                                                <button
+                                                    key={status}
+                                                    onClick={() => setStatusFilter(status)}
+                                                    className={`px-4 py-1.5 rounded-full text-xs font-semibold capitalize transition-all ${
+                                                        statusFilter === status
+                                                            ? "bg-slate-900 text-white"
+                                                            : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                                                    }`}
+                                                >
+                                                    {status}
+                                                </button>
+                                            ))}
+                                        </div>
+
+                                        <div className="relative">
+                                            <input
+                                                type="text"
+                                                placeholder="Search email or phone..."
+                                                value={searchQuery}
+                                                onChange={e => setSearchQuery(e.target.value)}
+                                                className="w-64 border border-slate-200 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-700 outline-none focus:border-slate-400"
+                                            />
+                                            <span className="material-symbols-outlined text-slate-400 text-sm absolute left-2.5 top-2">search</span>
+                                        </div>
+                                    </div>
+
+                                    {/* Orders Table */}
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-left text-xs text-slate-600">
+                                            <thead className="bg-slate-50 text-slate-400 font-medium uppercase border-b border-slate-100">
+                                                <tr>
+                                                    <th className="py-3 px-4 w-8">
+                                                        <input type="checkbox" onChange={toggleSelectAll} className="rounded border-slate-300" />
+                                                    </th>
+                                                    <th className="py-3 px-4">Date/Time</th>
+                                                    <th className="py-3 px-4">Email</th>
+                                                    <th className="py-3 px-4">Phone</th>
+                                                    <th className="py-3 px-4">Amount</th>
+                                                    <th className="py-3 px-4">Add-on</th>
+                                                    <th className="py-3 px-4">Status</th>
+                                                    <th className="py-3 px-4">Cashfree Order ID</th>
+                                                    <th className="py-3 px-4">Payment ID</th>
+                                                    <th className="py-3 px-4">Follow-up</th>
+                                                    <th className="py-3 px-4">WhatsApp</th>
+                                                    <th className="py-3 px-4">Call</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-100">
+                                                {filteredOrders.map(order => {
+                                                    const cleanPhone = order.phone.replace(/[^0-9]/g, '');
+                                                    const waText = encodeURIComponent(`Hi, following up on your order for ₹${order.amount} — let us know if you need any help completing the payment!`);
+                                                    const waUrl = `https://wa.me/${cleanPhone}?text=${waText}`;
+
+                                                    return (
+                                                        <tr key={order.id} className="hover:bg-slate-50/50">
+                                                            <td className="py-3 px-4">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={!!selectedRows[order.id]}
+                                                                    onChange={() => toggleSelectRow(order.id)}
+                                                                    className="rounded border-slate-300"
+                                                                />
+                                                            </td>
+                                                            <td className="py-3 px-4 font-medium text-slate-900 whitespace-nowrap">{order.date}</td>
+                                                            <td className="py-3 px-4">{order.email}</td>
+                                                            <td className="py-3 px-4 whitespace-nowrap">{order.phone}</td>
+                                                            <td className="py-3 px-4 font-semibold text-slate-900">₹{order.amount}</td>
+                                                            <td className="py-3 px-4 whitespace-nowrap">
+                                                                {order.addon ? (
+                                                                    <span className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-medium text-[11px] border border-blue-100">
+                                                                        {order.addon}
+                                                                    </span>
+                                                                ) : (
+                                                                    <span className="text-slate-400">—</span>
+                                                                )}
+                                                            </td>
+                                                            <td className="py-3 px-4">
+                                                                {order.status === "paid" && (
+                                                                    <span className="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-semibold text-[11px]">Paid</span>
+                                                                )}
+                                                                {order.status === "pending" && (
+                                                                    <span className="bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-semibold text-[11px]">Pending</span>
+                                                                )}
+                                                                {order.status === "failed" && (
+                                                                    <span className="bg-rose-100 text-rose-700 px-2 py-0.5 rounded font-semibold text-[11px]">Failed</span>
+                                                                )}
+                                                            </td>
+                                                            <td className="py-3 px-4 font-mono text-[11px] text-slate-500">{order.gateway_order_id}</td>
+                                                            <td className="py-3 px-4 font-mono text-[11px] text-slate-500">{order.payment_id}</td>
+                                                            
+                                                            {/* Follow-up Column */}
+                                                            <td className="py-3 px-4 min-w-[160px]">
+                                                                <div className="flex flex-col gap-1">
+                                                                    <select
+                                                                        value={order.followup_status}
+                                                                        onChange={e => handleFollowupChange(order.id, e.target.value)}
+                                                                        className="border border-slate-200 rounded px-2 py-1 text-xs text-slate-700 bg-white outline-none"
+                                                                    >
+                                                                        <option value="Not Contacted">Not Contacted</option>
+                                                                        <option value="Interested">Interested</option>
+                                                                        <option value="Not Interested">Not Interested</option>
+                                                                        <option value="Other Issue">Other Issue</option>
+                                                                    </select>
+                                                                    
+                                                                    {order.followup_status !== "Not Contacted" && (
+                                                                        <span className="inline-block bg-slate-100 text-slate-600 px-2 py-0.5 rounded text-[10px] font-medium w-fit">
+                                                                            {order.followup_status}
+                                                                        </span>
+                                                                    )}
+
+                                                                    {order.followup_status === "Other Issue" && (
+                                                                        <textarea
+                                                                            rows="2"
+                                                                            placeholder="Add note..."
+                                                                            value={order.followup_note}
+                                                                            onChange={e => handleNoteChange(order.id, e.target.value)}
+                                                                            className="mt-1 w-full border border-slate-200 rounded p-1.5 text-[11px] text-slate-700 outline-none"
+                                                                        />
+                                                                    )}
+                                                                </div>
+                                                            </td>
+
+                                                            {/* WhatsApp Button */}
+                                                            <td className="py-3 px-4 whitespace-nowrap">
+                                                                {order.phone ? (
+                                                                    <a
+                                                                        href={waUrl}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                        className="inline-flex items-center gap-1 bg-emerald-500 hover:bg-emerald-600 text-white font-medium px-2.5 py-1 rounded text-xs transition-colors"
+                                                                    >
+                                                                        <span className="material-symbols-outlined text-sm">chat</span>
+                                                                        Message
+                                                                    </a>
+                                                                ) : (
+                                                                    <span className="text-slate-400">—</span>
+                                                                )}
+                                                            </td>
+
+                                                            {/* Call Button */}
+                                                            <td className="py-3 px-4 whitespace-nowrap">
+                                                                {order.phone ? (
+                                                                    <a
+                                                                        href={`tel:${order.phone}`}
+                                                                        className="inline-flex items-center gap-1 bg-blue-500 hover:bg-blue-600 text-white font-medium px-2.5 py-1 rounded text-xs transition-colors"
+                                                                    >
+                                                                        <span className="material-symbols-outlined text-sm">call</span>
+                                                                        Call
+                                                                    </a>
+                                                                ) : (
+                                                                    <span className="text-slate-400">—</span>
+                                                                )}
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Contact Requests Page */}
+                        {activeTab === "contact" && (
+                            <div className="space-y-6">
+                                <h1 className="text-3xl font-bold text-slate-900">Contact Requests</h1>
+                                <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                                    <table className="w-full text-left text-sm text-slate-600">
+                                        <thead className="bg-slate-50 text-slate-400 font-medium text-xs uppercase border-b border-slate-100">
+                                            <tr>
+                                                <th className="py-3 px-6">Date</th>
+                                                <th className="py-3 px-6">Name</th>
+                                                <th className="py-3 px-6">Email</th>
+                                                <th className="py-3 px-6">Subject</th>
+                                                <th className="py-3 px-6">Message</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-slate-100">
+                                            {contactRequests.map(req => (
+                                                <tr key={req.id} className="hover:bg-slate-50/50">
+                                                    <td className="py-4 px-6 text-xs text-slate-500 whitespace-nowrap">{req.date}</td>
+                                                    <td className="py-4 px-6 font-semibold text-slate-900">{req.name}</td>
+                                                    <td className="py-4 px-6 text-blue-600">{req.email}</td>
+                                                    <td className="py-4 px-6 font-medium text-slate-800">{req.subject}</td>
+                                                    <td className="py-4 px-6 text-slate-600 text-xs max-w-md">{req.message}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Images Page */}
+                        {activeTab === "images" && (
+                            <div className="space-y-6">
+                                <h1 className="text-3xl font-bold text-slate-900">Images</h1>
+                                <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                                    <p className="text-sm text-slate-500 mb-4">Manage product gallery and website image assets.</p>
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                        <div className="border border-slate-200 rounded-lg p-3 text-center">
+                                            <div className="h-32 bg-slate-100 rounded mb-2 flex items-center justify-center text-slate-400">
+                                                <span className="material-symbols-outlined text-4xl">image</span>
+                                            </div>
+                                            <span className="text-xs font-semibold text-slate-700">Toolkit Mockup 1</span>
+                                        </div>
+                                        <div className="border border-slate-200 rounded-lg p-3 text-center">
+                                            <div className="h-32 bg-slate-100 rounded mb-2 flex items-center justify-center text-slate-400">
+                                                <span className="material-symbols-outlined text-4xl">image</span>
+                                            </div>
+                                            <span className="text-xs font-semibold text-slate-700">Case Study 900sqft</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Manual Send Page */}
+                        {activeTab === "manual" && (
+                            <div className="space-y-6 max-w-2xl">
+                                <h1 className="text-3xl font-bold text-slate-900">Manual Send</h1>
+                                <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
+                                    <p className="text-sm text-slate-500">Compose a direct message or generate a WhatsApp chat link for a specific customer.</p>
+                                    <div>
+                                        <label className="block text-xs font-medium text-slate-700 mb-1">Customer Phone Number</label>
+                                        <input type="text" placeholder="919902011600" className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-medium text-slate-700 mb-1">Message Template</label>
+                                        <textarea rows="4" placeholder="Type message..." className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none"></textarea>
+                                    </div>
+                                    <button className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-sm px-4 py-2 rounded-lg transition-colors flex items-center gap-2">
+                                        <span className="material-symbols-outlined text-sm">send</span>
+                                        Generate WhatsApp Link
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Worksheet Carousels Page */}
+                        {activeTab === "carousels" && (
+                            <div className="space-y-6">
+                                <h1 className="text-3xl font-bold text-slate-900">Worksheet Carousels</h1>
+                                <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                                    <p className="text-sm text-slate-500">Manage image carousels for digital product previews.</p>
+                                </div>
+                            </div>
+                        )}
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<AdminApp />);
+    </script>
+</body>
+</html>
