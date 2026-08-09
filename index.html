@@ -542,7 +542,7 @@
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">lock</span>
                         <span id="payButtonText">Complete Purchase</span>
 </button>
-<div id="paymentError" class="hidden p-3 rounded-lg bg-red-950/80 border border-red-500/40 text-red-300 text-xs mt-2"></div>
+<div id="paymentError" class="hidden p-4 rounded-xl bg-red-950/90 border border-red-500 text-red-200 text-xs mt-3 leading-relaxed shadow-lg"></div>
 <p class="text-center font-label-sm text-label-sm text-body-gray mt-2">Instant digital delivery. Lifetime access.</p>
 </form>
 </div>
@@ -636,7 +636,11 @@
 
         } catch (err) {
             console.error("Payment error:", err);
-            errorDiv.innerText = err.message || "An unexpected error occurred. Please try again.";
+            let msg = err.message || "An unexpected error occurred. Please try again.";
+            if (msg.includes("transactions are not enabled")) {
+                msg = "⚠️ Cashfree Merchant Notice: Transactions are currently pending activation in your Cashfree Dashboard. Since compliance pages (Terms, Refunds, Contact) are now live, please click \"Activate Account\" or submit https://www.xtechmax.shop/ to Cashfree Support to enable live payments.";
+            }
+            errorDiv.innerHTML = "<strong>Payment Error:</strong> " + msg;
             errorDiv.classList.remove("hidden");
             payButton.disabled = false;
             payButtonText.innerText = "Complete Purchase";
