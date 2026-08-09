@@ -316,6 +316,217 @@ p {
     font-weight: bold;
 }
 
+/* ==========================================
+   Independence Day Sale Banner
+   ========================================== */
+.india-sale-banner {
+    position: relative;
+    overflow: hidden;
+    padding: 4rem 0;
+    text-align: center;
+    background: #0a0a0c;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Indian Flag Stripes */
+.flag-stripe {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 6px;
+    z-index: 2;
+}
+
+.flag-saffron {
+    top: 0;
+    background: linear-gradient(90deg, transparent 0%, #FF9933 20%, #FF9933 80%, transparent 100%);
+    box-shadow: 0 0 20px rgba(255, 153, 51, 0.6), 0 0 40px rgba(255, 153, 51, 0.3);
+}
+
+.flag-white {
+    top: 50%;
+    transform: translateY(-50%);
+    height: 6px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 20%, rgba(255,255,255,0.8) 80%, transparent 100%);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ashoka-chakra {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.08;
+    animation: spinChakra 30s linear infinite;
+    z-index: 1;
+}
+
+.ashoka-chakra svg {
+    width: 300px;
+    height: 300px;
+}
+
+@keyframes spinChakra {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.flag-green {
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, #138808 20%, #138808 80%, transparent 100%);
+    box-shadow: 0 0 20px rgba(19, 136, 8, 0.6), 0 0 40px rgba(19, 136, 8, 0.3);
+}
+
+/* Light Sweep Effect */
+.light-sweep {
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+        105deg,
+        transparent 30%,
+        rgba(255, 153, 51, 0.04) 40%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(19, 136, 8, 0.04) 60%,
+        transparent 70%
+    );
+    animation: lightSweep 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes lightSweep {
+    0% { left: -100%; }
+    100% { left: 200%; }
+}
+
+/* Sale Content */
+.sale-content {
+    position: relative;
+    z-index: 3;
+}
+
+.sale-badge {
+    display: inline-block;
+    padding: 0.4rem 1.2rem;
+    background: rgba(255, 153, 51, 0.12);
+    border: 1px solid rgba(255, 153, 51, 0.3);
+    border-radius: 99px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #FF9933;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.02em;
+}
+
+.sale-heading {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #FF9933 0%, #ffffff 50%, #138808 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: tricolorShift 5s ease-in-out infinite;
+}
+
+@keyframes tricolorShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.sale-discount {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.discount-number {
+    font-size: clamp(5rem, 12vw, 8rem);
+    font-weight: 800;
+    line-height: 1;
+    color: #ffffff;
+    text-shadow:
+        0 0 30px rgba(255, 153, 51, 0.5),
+        0 0 60px rgba(255, 153, 51, 0.3),
+        0 0 100px rgba(19, 136, 8, 0.2);
+    animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        text-shadow:
+            0 0 30px rgba(255, 153, 51, 0.5),
+            0 0 60px rgba(255, 153, 51, 0.3),
+            0 0 100px rgba(19, 136, 8, 0.2);
+    }
+    50% {
+        text-shadow:
+            0 0 40px rgba(255, 153, 51, 0.7),
+            0 0 80px rgba(255, 153, 51, 0.5),
+            0 0 120px rgba(19, 136, 8, 0.4);
+    }
+}
+
+.percent {
+    font-size: 0.5em;
+    color: #FF9933;
+}
+
+.discount-label {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    color: #138808;
+    text-shadow: 0 0 30px rgba(19, 136, 8, 0.5);
+}
+
+.sale-subtext {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-sale {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2.5rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #000;
+    background: linear-gradient(135deg, #FF9933, #f59e0b);
+    box-shadow:
+        0 0 20px rgba(255, 153, 51, 0.4),
+        0 0 40px rgba(255, 153, 51, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-sale:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:
+        0 0 30px rgba(255, 153, 51, 0.6),
+        0 0 60px rgba(255, 153, 51, 0.3);
+}
+
 /* Footer */
 footer {
     padding: 3rem 0;
