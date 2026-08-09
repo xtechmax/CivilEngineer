@@ -59,6 +59,99 @@
         const SUPABASE_URL = "https://qqqhdzubrkzmecqpfuft.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxcWhkenVicmt6bWVjcXBmdWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyNTk2ODksImV4cCI6MjEwMTgzNTY4OX0.6AOXzjpaOOWX_qnhG_6ZLSkdaciQDZWqUVd0X2A864E";
 
+        function ManualSendView() {
+            const [email, setEmail] = useState("");
+            const [phone, setPhone] = useState("");
+            const [subject, setSubject] = useState("Construction Estimation Master Toolkit - Information");
+            const [message, setMessage] = useState("");
+            const [sending, setSending] = useState(false);
+            const [feedback, setFeedback] = useState(null);
+
+            const handleSendEmail = async () => {
+                if (!email || !message) {
+                    setFeedback({ type: "error", msg: "Please provide an email address and message body." });
+                    return;
+                }
+                setSending(true);
+                setFeedback(null);
+                try {
+                    const resp = await fetch("/api/send-email", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ to: email, subject: subject, html: `<div style="font-family: Arial, sans-serif; padding: 20px; color: #111;">${message}</div>` })
+                    });
+                    const resData = await resp.json();
+                    if (resp.ok) {
+                        setFeedback({ type: "success", msg: "✅ Email delivered successfully via Resend API!" });
+                        setMessage("");
+                    } else {
+                        throw new Error(resData.message || "Failed to send email.");
+                    }
+                } catch(e) {
+                    setFeedback({ type: "error", msg: "Error: " + e.message });
+                } finally {
+                    setSending(false);
+                }
+            };
+
+            const handleWhatsApp = () => {
+                if (!phone) {
+                    setFeedback({ type: "error", msg: "Please enter a customer phone number." });
+                    return;
+                }
+                const clean = phone.replace(/[^0-9]/g, "");
+                const waUrl = `https://wa.me/${clean}?text=${encodeURIComponent(message)}`;
+                window.open(waUrl, "_blank");
+            };
+
+            return (
+                <div className="space-y-6 max-w-2xl">
+                    <h1 className="text-3xl font-bold text-slate-900">Manual Send</h1>
+                    <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
+                        <p className="text-sm text-slate-500">Send transactional emails via Resend API or generate a direct WhatsApp link.</p>
+                        
+                        {feedback && (
+                            <div className={`p-3 rounded-lg text-xs ${feedback.type === "success" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : "bg-rose-50 text-rose-700 border border-rose-200"}`}>
+                                {feedback.msg}
+                            </div>
+                        )}
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-xs font-medium text-slate-700 mb-1">Customer Email</label>
+                                <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="customer@example.com" className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-slate-400" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-slate-700 mb-1">Customer Phone</label>
+                                <input type="text" value={phone} onChange={e => setPhone(e.target.value)} placeholder="919902011600" className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-slate-400" />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-medium text-slate-700 mb-1">Subject (for Email)</label>
+                            <input type="text" value={subject} onChange={e => setSubject(e.target.value)} className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-slate-400" />
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-medium text-slate-700 mb-1">Message Body</label>
+                            <textarea rows="5" value={message} onChange={e => setMessage(e.target.value)} placeholder="Type your email or WhatsApp message..." className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-slate-400"></textarea>
+                        </div>
+
+                        <div className="flex gap-3 pt-2">
+                            <button onClick={handleSendEmail} disabled={sending} className="bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm px-4 py-2 rounded-lg transition-colors flex items-center gap-2">
+                                <span className="material-symbols-outlined text-sm">mail</span>
+                                {sending ? "Sending Email..." : "Send Email via Resend"}
+                            </button>
+                            <button onClick={handleWhatsApp} className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-sm px-4 py-2 rounded-lg transition-colors flex items-center gap-2">
+                                <span className="material-symbols-outlined text-sm">chat</span>
+                                Open WhatsApp Chat
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
         function AdminApp() {
             const [activeTab, setActiveTab] = useState("orders");
             
@@ -712,24 +805,7 @@
 
                         {/* Manual Send Page */}
                         {activeTab === "manual" && (
-                            <div className="space-y-6 max-w-2xl">
-                                <h1 className="text-3xl font-bold text-slate-900">Manual Send</h1>
-                                <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
-                                    <p className="text-sm text-slate-500">Compose a direct message or generate a WhatsApp chat link for a specific customer.</p>
-                                    <div>
-                                        <label className="block text-xs font-medium text-slate-700 mb-1">Customer Phone Number</label>
-                                        <input type="text" placeholder="919902011600" className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-xs font-medium text-slate-700 mb-1">Message Template</label>
-                                        <textarea rows="4" placeholder="Type message..." className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm outline-none"></textarea>
-                                    </div>
-                                    <button className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-sm px-4 py-2 rounded-lg transition-colors flex items-center gap-2">
-                                        <span className="material-symbols-outlined text-sm">send</span>
-                                        Generate WhatsApp Link
-                                    </button>
-                                </div>
-                            </div>
+                            <ManualSendView />
                         )}
                     </main>
                 </div>

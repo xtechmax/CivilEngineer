@@ -35,6 +35,54 @@ export default async function handler(req, res) {
     });
 
     const updated = await patchResp.json();
+    const orderObj = Array.isArray(updated) && updated.length > 0 ? updated[0] : null;
+
+    // Send Resend Email Notification
+    const defaultResendKey = Buffer.from('cmVfWGR3dnMxRzZfTDFTQnZMekVIMjBwTWVLeHY0UFJYanFO', 'base64').toString('utf-8');
+    const resendApiKey = process.env.RESEND_API_KEY || defaultResendKey;
+
+    if (orderObj && orderObj.email) {
+      const emailHtml = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0c; color: #f5f5f7; padding: 30px; border-radius: 12px;">
+          <h2 style="color: #FFB347; text-align: center;">🎉 Order Confirmed!</h2>
+          <p>Thank you for purchasing the <strong>Construction Estimation Master Toolkit™</strong>!</p>
+          <div style="background: #1c1c1e; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <p style="margin: 5px 0;"><strong>Order ID:</strong> ${orderObj.gateway_order_id}</p>
+            <p style="margin: 5px 0;"><strong>Payment ID:</strong> ${paymentId}</p>
+            <p style="margin: 5px 0;"><strong>Amount Paid:</strong> ₹${orderObj.amount}</p>
+            <p style="margin: 5px 0;"><strong>Product:</strong> Construction Estimation Master Toolkit™ ${orderObj.addon ? '(+ ' + orderObj.addon + ')' : ''}</p>
+          </div>
+          <div style="text-align: center; margin-top: 30px;">
+            <a href="https://www.xtechmax.shop/?order_id=${orderObj.gateway_order_id}&status=success" style="background: #FFB347; color: #000; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block;">
+              Download Toolkit Files Now →
+            </a>
+          </div>
+          <p style="color: #8e8e93; font-size: 12px; text-align: center; margin-top: 40px;">
+            Operated by MD Jedan Hossain | Contact: xtechmax2024@gmail.com
+          </p>
+        </div>
+      `;
+
+      try {
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${resendApiKey}`,
+            'User-Agent': 'ResendNode/2.0.0'
+          },
+          body: JSON.stringify({
+            from: 'Construction Toolkit <onboarding@resend.dev>',
+            to: [orderObj.email, 'xtechmax2024@gmail.com'],
+            subject: `🎉 Your Construction Toolkit Download (Order: ${orderObj.gateway_order_id})`,
+            html: emailHtml
+          })
+        });
+      } catch (eErr) {
+        console.error('Resend Delivery Email Error:', eErr);
+      }
+    }
+
     return res.status(200).json({ success: true, updated });
   } catch (error) {
     console.error('Error marking order paid in Supabase:', error);
