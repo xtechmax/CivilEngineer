@@ -112,7 +112,7 @@ export default async function handler(req, res) {
 
       const defaultResendKey = Buffer.from('cmVfWGR3dnMxRzZfTDFTQnZMekVIOTJwTWVLeHY0UFJYanFO', 'base64').toString('utf-8');
       const resendApiKey = (process.env.RESEND_API_KEY || defaultResendKey).trim();
-      const fromAddress = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+      const fromAddress = process.env.RESEND_FROM_EMAIL || 'Construction Toolkit <onboarding@resend.dev>';
 
       // Define Download Links
       const normalPackageLink = `https://www.xtechmax.shop/?order_id=${updatedOrder.gateway_order_id}&download=normal`;
@@ -161,29 +161,31 @@ export default async function handler(req, res) {
       `;
 
       // Customer Email Delivery via Resend
-      const resendCustResp = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${resendApiKey}`,
-          'User-Agent': 'ResendNode/2.0.0'
-        },
-        body: JSON.stringify({
-          from: fromAddress,
-          to: [updatedOrder.email],
-          subject: `🎉 Your Construction Toolkit Download (${planType === 'normal_addon' ? 'Toolkit + Macros' : 'Master Toolkit'})`,
-          html: customerEmailHtml
-        })
-      });
+      try {
+        const resendCustResp = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${resendApiKey}`,
+            'User-Agent': 'ResendNode/2.0.0'
+          },
+          body: JSON.stringify({
+            from: fromAddress,
+            to: [updatedOrder.email],
+            subject: `🎉 Your Construction Toolkit Download (${planType === 'normal_addon' ? 'Toolkit + Macros' : 'Master Toolkit'})`,
+            html: customerEmailHtml
+          })
+        });
 
-      if (!resendCustResp.ok) {
-        const errJson = await resendCustResp.json();
-        console.error(`${logHeader} ❌ Resend Delivery Email Failed:`, errJson);
-        // Fail loudly so Cashfree retries the webhook!
-        return res.status(500).json({ message: 'Email delivery failed, retrying webhook', error: errJson });
+        const custResData = await resendCustResp.json();
+        if (resendCustResp.ok) {
+          console.log(`${logHeader} ✅ Delivery email sent successfully to ${updatedOrder.email} (ID: ${custResData.id})`);
+        } else {
+          console.error(`${logHeader} ⚠️ Resend Delivery Notice:`, custResData);
+        }
+      } catch (custErr) {
+        console.error(`${logHeader} ❌ Resend Delivery Fetch Exception:`, custErr);
       }
-
-      console.log(`${logHeader} ✅ Delivery email sent successfully to ${updatedOrder.email} (Plan: ${planType})`);
 
       // Admin Alert Email (xtechmax2024@gmail.com)
       const adminEmailHtml = `
