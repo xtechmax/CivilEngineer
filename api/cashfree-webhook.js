@@ -116,8 +116,8 @@ export default async function handler(req, res) {
       const planType = (updatedOrder.addon || updatedOrder.amount > 200) ? 'normal_addon' : 'normal';
 
       const defaultResendKey = Buffer.from('cmVfWGR3dnMxRzZfTDFTQnZMekVIOTJwTWVLeHY0UFJYanFO', 'base64').toString('utf-8');
-      const resendApiKey = defaultResendKey;
-      const fromAddress = 'onboarding@resend.dev';
+      const resendApiKey = (process.env.RESEND_API_KEY || defaultResendKey).trim();
+      const fromAddress = (process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev').trim();
 
       // Define Download Links
       const normalPackageLink = `https://www.xtechmax.shop/?order_id=${updatedOrder.gateway_order_id}&download=normal`;
