@@ -153,6 +153,28 @@
         }
 
         function AdminApp() {
+            const [isAuthenticated, setIsAuthenticated] = useState(() => {
+                return localStorage.getItem("admin_authenticated") === "true";
+            });
+            const [loginEmail, setLoginEmail] = useState("");
+            const [loginPass, setLoginPass] = useState("");
+            const [loginError, setLoginError] = useState("");
+
+            const handleLogin = (e) => {
+                e.preventDefault();
+                if (loginEmail === "zulak.ns@gmail.com" && loginPass === "@Xtechmax.com1") {
+                    localStorage.setItem("admin_authenticated", "true");
+                    setIsAuthenticated(true);
+                } else {
+                    setLoginError("Invalid credentials");
+                }
+            };
+
+            const handleLogout = () => {
+                localStorage.removeItem("admin_authenticated");
+                setIsAuthenticated(false);
+            };
+
             const [activeTab, setActiveTab] = useState("orders");
             
             const [orders, setOrders] = useState(() => {
@@ -385,6 +407,39 @@
                 }
             };
 
+            if (!isAuthenticated) {
+                return (
+                    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+                        <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+                            <span className="material-symbols-outlined text-amber-500 text-5xl mb-4">construction</span>
+                            <h2 className="text-center text-3xl font-bold tracking-tight text-slate-900">Admin Panel</h2>
+                        </div>
+                        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                            <div className="bg-white py-8 px-4 shadow-sm sm:rounded-xl sm:px-10 border border-slate-200">
+                                <form className="space-y-6" onSubmit={handleLogin}>
+                                    <div>
+                                        <label className="block text-sm font-medium leading-6 text-slate-900">Email address</label>
+                                        <div className="mt-2">
+                                            <input type="email" required value={loginEmail} onChange={e => setLoginEmail(e.target.value)} className="block w-full rounded-lg border-0 py-2 px-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-slate-900 sm:text-sm" placeholder="admin@example.com" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium leading-6 text-slate-900">Password</label>
+                                        <div className="mt-2">
+                                            <input type="password" required value={loginPass} onChange={e => setLoginPass(e.target.value)} className="block w-full rounded-lg border-0 py-2 px-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-slate-900 sm:text-sm" placeholder="••••••••" />
+                                        </div>
+                                    </div>
+                                    {loginError && <p className="text-sm text-red-600 font-medium">{loginError}</p>}
+                                    <div>
+                                        <button type="submit" className="flex w-full justify-center rounded-lg bg-slate-900 px-3 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition-colors">Sign in</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
             return (
                 <div className="flex min-h-screen">
                     {/* Fixed Left Sidebar (~280px wide) */}
@@ -417,12 +472,15 @@
                             </nav>
                         </div>
 
-                        <div className="pt-6 border-t border-slate-100 text-xs text-slate-400 space-y-2">
+                        <div className="pt-6 border-t border-slate-100 text-xs text-slate-400 space-y-3">
                             <div className="flex items-center gap-1.5 font-medium text-emerald-600">
                                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                                 {supabaseStatus}
                             </div>
-                            <div>© 2026 ConstructionToolkit Admin</div>
+                            <div>
+                                <button onClick={handleLogout} className="text-slate-500 hover:text-slate-700 underline font-medium">Log out</button>
+                            </div>
+                            <div className="pt-2">© 2026 ConstructionToolkit Admin</div>
                             <div>Operated by MD Jedan Hossain</div>
                         </div>
                     </aside>
