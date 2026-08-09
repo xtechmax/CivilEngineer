@@ -53,8 +53,8 @@ export default async function handler(req, res) {
     }
 
     const supabaseUrl = (process.env.SUPABASE_URL || 'https://qqqhdzubrkzmecqpfuft.supabase.co').trim();
-    const defaultServiceKey = Buffer.from('ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW5GeGNXaGtlblZpY210NmJXVmpjWEJtZFdaMElpd2ljbTlzWlNJNkluTmxjblpwWTJWZmNtOXNaU0lzSW1saGRDSTZNVGM0TmpJMU9UWTRPU3dpWlhod0lqb3lNVEF4T0RNMU5qZzVmUS5uZk9ybkdEeC1RcXNvOFNvTDFmYlNtTnV5RWgwdjRwVllFOElOZGFrT2dR', 'base64').toString('utf-8');
-    const supabaseServiceKey = defaultServiceKey;
+    const defaultAnonKey = Buffer.from('ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk6SW1GdWIyNGlMQ0pwWVhRaU9qRTNPRFl5TlRrMk9EbGRMQ0psY0hBaU9qSXhNREU0TXpVMU9EbG5mUS42QU9YenpwYU9XV3hxTmhoR1pTa2RhY2lRRFpXUVVWZFQwWEE4NjRF', 'base64').toString('utf-8');
+    const supabaseServiceKey = (process.env.SUPABASE_ANON_KEY || defaultAnonKey).trim();
 
     // 2. IDEMPOTENCY / DUPLICATE PROTECTION & DEDUPLICATION
     const checkResp = await fetch(`${supabaseUrl}/rest/v1/orders?gateway_order_id=eq.${encodeURIComponent(orderId)}&select=*`, {

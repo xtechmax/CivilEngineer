@@ -67,7 +67,8 @@ export default async function handler(req, res) {
 
     // Save Order Record to Supabase
     const supabaseUrl = 'https://qqqhdzubrkzmecqpfuft.supabase.co';
-    const supabaseServiceKey = Buffer.from('ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW5GeGNXaGtlblZpY210NmJXVmpjWEJtZFdaMElpd2ljbTlzWlNJNkluTmxjblpwWTJWZmNtOXNaU0lzSW1saGRDSTZNVGM0TmpJMU9UWTRPU3dpZVhCd0lqb3lNVEF4T0RNMU5qZzVmUS5uZk9ybkdEeC1RcXNvOFNvTDFmYlNtTnV5RWgwdjRwVllFOElOZGFrT2dR', 'base64').toString('utf-8');
+    const defaultAnonKey = Buffer.from('ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk6SW1GdWIyNGlMQ0pwWVhRaU9qRTNPRFl5TlRrMk9EbGRMQ0psY0HHaU9qSXhNREU0TXpVMU9EbG5mUS42QU9YenpwYU9XV3hxTmhoR1pTa2RhY2lRRFpXUVVWZFQwWEE4NjRF', 'base64').toString('utf-8');
+    const supabaseServiceKey = (process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxcWhkenVicmt6bWVjcXBmdWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyNTk2ODksImV4cCI6MjEwMTgzNTY4OX0.6AOXzjpaOOWX_qnhG_6ZLSkdaciQDZWqUVd0X2A864E').trim();
 
     const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
