@@ -3,137 +3,182 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>The Astro Temple — Advanced Vastu Sastra Combo</title>
+<title>Construction Estimation Master Toolkit™</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "primary-container": "#3395ff",
-                        "surface-container-high": "#262a37",
-                        "outline-variant": "#404753",
-                        "on-surface-variant": "#c0c7d5",
-                        "error-container": "#93000a",
-                        "surface-dim": "#0f131f",
-                        "surface-tint": "#a5c8ff",
-                        "on-error": "#690005",
-                        "on-secondary-container": "#c7d9ff",
-                        "secondary-fixed-dim": "#abc7ff",
-                        "on-primary-fixed-variant": "#004785",
-                        "inverse-surface": "#dfe2f3",
-                        "surface": "#0f131f",
-                        "on-tertiary-fixed": "#001b3b",
-                        "on-primary": "#00315e",
-                        "surface-container": "#1b1f2c",
-                        "on-tertiary-container": "#002c59",
-                        "inverse-primary": "#005faf",
-                        "error": "#ffb4ab",
-                        "on-surface": "#dfe2f3",
-                        "on-primary-container": "#002d58",
-                        "surface-container-low": "#171b28",
-                        "primary": "#a5c8ff",
-                        "tertiary-container": "#7195cd",
-                        "on-error-container": "#ffdad6",
-                        "outline": "#8a919e",
-                        "surface-container-lowest": "#0a0e1a",
-                        "secondary": "#abc7ff",
-                        "surface-variant": "#313442",
-                        "secondary-container": "#035cba",
-                        "secondary-fixed": "#d7e3ff",
-                        "on-secondary": "#002f66",
-                        "on-tertiary-fixed-variant": "#1f477a",
-                        "on-background": "#dfe2f3",
-                        "on-primary-fixed": "#001c3a",
-                        "tertiary-fixed": "#d5e3ff",
-                        "on-secondary-fixed": "#001b3f",
-                        "on-tertiary": "#003060",
-                        "tertiary": "#a7c8ff",
-                        "surface-container-highest": "#313442",
-                        "inverse-on-surface": "#2c303d",
-                        "on-secondary-fixed-variant": "#00458f",
-                        "primary-fixed-dim": "#a5c8ff",
-                        "surface-bright": "#353946",
-                        "background": "#0f131f",
-                        "primary-fixed": "#d4e3ff",
-                        "tertiary-fixed-dim": "#a7c8ff"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "xs": "4px",
-                        "gutter": "24px",
-                        "lg": "48px",
-                        "margin-mobile": "16px",
-                        "md": "24px",
-                        "margin-desktop": "64px",
-                        "sm": "12px",
-                        "base": "8px",
-                        "xl": "80px"
-                    },
-                    "fontFamily": {
-                        "body-md": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "display-lg": ["Inter"],
-                        "label-caps": ["JetBrains Mono"],
-                        "headline-lg-mobile": ["Inter"],
-                        "headline-md": ["Inter"]
-                    },
-                    "fontSize": {
-                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "headline-lg": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
-                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "500" }],
-                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
-                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "500" }]
-                    }
-                },
-            },
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "body-gray": "#A1A1A6",
+                      "primary-fixed": "#ffdcbf",
+                      "primary": "#ffbd7f",
+                      "surface": "#131313",
+                      "glass-surface": "rgba(28, 28, 30, 0.7)",
+                      "surface-bright": "#393939",
+                      "outline": "#a38d7a",
+                      "surface-container-low": "#1b1b1b",
+                      "inverse-primary": "#8c5000",
+                      "surface-tint": "#ffb874",
+                      "on-tertiary": "#00344a",
+                      "on-background": "#e2e2e2",
+                      "on-secondary-container": "#6e5700",
+                      "tertiary": "#8ad3ff",
+                      "secondary-fixed": "#ffe08b",
+                      "on-primary-fixed": "#2d1600",
+                      "on-secondary-fixed": "#241a00",
+                      "surface-container-lowest": "#0e0e0e",
+                      "surface-variant": "#353535",
+                      "on-secondary-fixed-variant": "#584400",
+                      "on-tertiary-fixed-variant": "#004c6a",
+                      "secondary-container": "#fecb00",
+                      "surface-container-highest": "#353535",
+                      "on-primary": "#4b2800",
+                      "on-error": "#690005",
+                      "on-primary-container": "#643700",
+                      "tertiary-container": "#00bbfe",
+                      "construction-amber": "#FFB347",
+                      "secondary-fixed-dim": "#f1c100",
+                      "surface-container": "#1f1f1f",
+                      "tertiary-fixed-dim": "#7fd0ff",
+                      "on-error-container": "#ffdad6",
+                      "on-primary-fixed-variant": "#6a3b00",
+                      "on-tertiary-fixed": "#001e2d",
+                      "error-container": "#93000a",
+                      "on-surface-variant": "#dbc2ad",
+                      "surface-dim": "#131313",
+                      "outline-variant": "#554334",
+                      "primary-fixed-dim": "#ffb874",
+                      "headline-white": "#F5F5F7",
+                      "on-tertiary-container": "#004764",
+                      "tertiary-fixed": "#c5e7ff",
+                      "inverse-surface": "#e2e2e2",
+                      "primary-container": "#ff9500",
+                      "on-surface": "#e2e2e2",
+                      "error": "#ffb4ab",
+                      "background": "#131313",
+                      "surface-container-high": "#2a2a2a",
+                      "on-secondary": "#3d2f00",
+                      "border-subtle": "rgba(255, 255, 255, 0.08)",
+                      "inverse-on-surface": "#303030",
+                      "secondary": "#ffecc0"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "2xl": "1.5rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "1.5rem",
+                      "safe-margin": "2rem",
+                      "stack-md": "1.5rem",
+                      "section-gap": "8rem",
+                      "stack-sm": "0.5rem"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "headline-xl": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "17px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "80px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-xl": [
+                              "56px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
         }
-    </script>
+      </script>
 <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        body {
+            background-color: #000000;
+            color: #F5F5F7;
         }
-        .glass {
-            background: rgba(18, 24, 38, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(51, 149, 255, 0.15);
+        .glass-panel {
+            background: rgba(28, 28, 30, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .glow-border:hover {
-            border-color: rgba(51, 149, 255, 0.5);
-            box-shadow: 0 0 30px rgba(51, 149, 255, 0.15);
+        .glow-button {
+            box-shadow: 0 0 40px 0 rgba(255, 179, 71, 0.15);
         }
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 10px rgba(51, 149, 255, 0.4); }
-            50% { box-shadow: 0 0 25px rgba(51, 149, 255, 0.8); }
+        .glow-button:hover {
+            box-shadow: 0 0 60px 0 rgba(255, 179, 71, 0.25);
         }
-        .pulse-primary {
-            animation: pulse-glow 2s infinite ease-in-out;
-        }
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        .scroll-reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a0e1a; }
-        ::-webkit-scrollbar-thumb { background: #1b1f2c; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #262a37; }
     
 /* ==========================================
    Independence Day Sale Banner
@@ -141,8 +186,7 @@
 .india-sale-banner {
     position: relative;
     overflow: hidden;
-    padding: 4rem 0;
-    margin-top: 5rem;
+    padding: 3rem 0;
     text-align: center;
     background: #0a0a0c;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -325,25 +369,7 @@
 
 </style>
 </head>
-<body class="bg-surface-container-lowest text-on-surface font-body-md overflow-x-hidden selection:bg-primary-container selection:text-white">
-<!-- TopNavBar -->
-<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
-<div class="flex justify-between items-center h-20 px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
-<div class="flex items-center gap-base">
-<img alt="The Astro Temple Logo" class="h-10 w-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9UvM2Gv3_LZRmAzyfbE3RIqKxtPInY2uR8C43WCa42bidsto4YWK9glxE4rCO3MO8K-CBYnIpnNVu71ah1J-t4sGiJOg0xkD4lqC8WDuH4FHrJsslYWXrnThlFIevx3ejNFmE1HjUWF-9hHlPaFytbetCPOr8qJXyYa8LooElRlw36hcFLeleZ6WYqQThj8Po29x_aMV-gjiQ3_nKZCrTmc5zq7nPDHMsYxS8f_5Y7la47ZVh9IE8"/>
-<span class="font-headline-md text-headline-md font-bold text-primary tracking-tighter">The Astro Temple</span>
-</div>
-<div class="hidden md:flex gap-lg">
-<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#principles">Vastu Principles</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#features">Combo Features</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#reviews">Reviews</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#faqs">FAQs</a>
-</div>
-<button class="bg-primary text-on-primary px-gutter py-base rounded-lg font-bold Active:scale-95 transition-transform hover:opacity-90">
-                Get Started
-            </button>
-</div>
-</nav>
+<body class="font-body-md antialiased selection:bg-construction-amber selection:text-black">
 
     <!-- Independence Day Sale Banner -->
     <section class="india-sale-banner">
@@ -377,433 +403,187 @@
                 <span class="discount-number">90<span class="percent">%</span></span>
                 <span class="discount-label">OFF</span>
             </div>
-            <p class="sale-subtext">Celebrate freedom with massive savings on the entire Vastu Master Bundle!</p>
-            <a href="#countdown" class="btn-sale">Grab the Deal Now →</a>
+            <p class="sale-subtext">Celebrate freedom with 90% OFF the Dark Construction Toolkit!</p>
+            <a href="#buy" class="btn-sale">Grab the Deal Now →</a>
         </div>
     </section>
 
-<!-- Hero Section -->
-<header class="relative min-h-screen flex items-center pt-24 overflow-hidden">
-<!-- STITCH_SHADER_START:ANIMATION_1 class="absolute inset-0 w-full h-full opacity-60" -->
-<div class="absolute inset-0 w-full h-full opacity-60" style="display:block;">
-<canvas id="shader-canvas-ANIMATION_1" style="display:block;width:100%;height:100%"></canvas>
-<script>
-(function() {
-  const canvas = document.getElementById('shader-canvas-ANIMATION_1');
-
-  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
-  // This fires on initial layout and whenever the element is resized.
-  function syncSize() {
-    const w = canvas.clientWidth  || 1280;
-    const h = canvas.clientHeight || 720;
-    if (canvas.width !== w || canvas.height !== h) {
-      canvas.width  = w;
-      canvas.height = h;
-    }
-  }
-  if (typeof ResizeObserver !== 'undefined') {
-    new ResizeObserver(syncSize).observe(canvas);
-  }
-  syncSize();
-
-  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-  if (!gl) return;
-  const vs = `attribute vec2 a_position;
-varying vec2 v_texCoord;
-void main() {
-  v_texCoord = a_position * 0.5 + 0.5;
-  gl_Position = vec4(a_position, 0.0, 1.0);
-}`;
-  const fs = `precision highp float;
-varying vec2 v_texCoord;
-uniform float u_time;
-uniform vec2 u_resolution;
-
-void main() {
-    vec2 uv = v_texCoord;
-    vec2 p = -1.0 + 2.0 * uv;
-    p.x *= u_resolution.x / u_resolution.y;
-
-    float t = u_time * 0.2;
-    
-    // Create slow drifting blobs
-    vec3 color = vec3(0.04, 0.05, 0.1); // Base dark navy
-    
-    // Blue blob 1
-    float d1 = length(p - vec2(0.7 * sin(t), 0.5 * cos(t * 0.8)));
-    color += vec3(0.2, 0.58, 1.0) * (0.15 / (d1 + 0.5)) * 0.4;
-    
-    // Blue blob 2
-    float d2 = length(p - vec2(-0.8 * cos(t * 0.7), -0.4 * sin(t * 1.2)));
-    color += vec3(0.32, 0.56, 0.94) * (0.12 / (d2 + 0.6)) * 0.3;
-
-    // Subtle noise/grain
-    float noise = fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453);
-    color += noise * 0.01;
-
-    gl_FragColor = vec4(color, 1.0);
-}`;
-  function cs(type, src) {
-    const s = gl.createShader(type);
-    gl.shaderSource(s, src);
-    gl.compileShader(s);
-    return s;
-  }
-  const prog = gl.createProgram();
-  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
-  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
-  gl.linkProgram(prog);
-  gl.useProgram(prog);
-  const buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
-  const pos = gl.getAttribLocation(prog, 'a_position');
-  gl.enableVertexAttribArray(pos);
-  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
-  const uTime = gl.getUniformLocation(prog, 'u_time');
-  const uRes = gl.getUniformLocation(prog, 'u_resolution');
-  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
-
-  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
-  // Shaders that need normalized coords should use: u_mouse / u_resolution.
-  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
-  window.addEventListener('mousemove', (event) => {
-    const rect = canvas.getBoundingClientRect();
-    if (rect.width && rect.height) {
-      const nx = (event.clientX - rect.left) / rect.width;
-      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
-      mouse.x = nx * canvas.width;
-      mouse.y = ny * canvas.height;
-    }
-  });
-
-  function render(t) {
-    if (typeof ResizeObserver === 'undefined') syncSize();
-    gl.viewport(0, 0, canvas.width, canvas.height);
-    if (uTime) gl.uniform1f(uTime, t * 0.001);
-    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
-    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    requestAnimationFrame(render);
-  }
-  render(0);
-})();
-</script>
+<!-- TopAppBar -->
+<header class="bg-glass-surface dark:bg-glass-surface docked full-width top-0 sticky backdrop-blur-xl border-b border-border-subtle z-50">
+<div class="flex justify-between items-center w-full px-gutter py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary dark:text-primary">construction</span>
+<span class="font-headline-lg text-headline-lg font-bold text-headline-white tracking-tight">Estimation Master Toolkit™</span>
 </div>
-<!-- STITCH_SHADER_END:ANIMATION_1 -->
-<div class="relative z-10 max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 lg:grid-cols-2 gap-xl items-center">
-<div class="scroll-reveal active">
-<div class="inline-flex items-center gap-base px-sm py-xs glass rounded-full mb-md">
-<span class="material-symbols-outlined text-primary text-[18px]">bolt</span>
-<span class="text-label-caps font-label-caps uppercase tracking-widest text-primary">Limited Time Offer — 92% OFF</span>
-</div>
-<h1 class="font-display-lg text-[48px] md:text-display-lg leading-tight mb-md">
-                    Master the Energy <br/> of <span class="text-primary">Your Home</span>
-</h1>
-<p class="text-body-lg text-on-surface-variant mb-lg max-w-lg">
-                    Unlock the ancient wisdom of Vastu Sastra with our exclusive 4-eBook bundle. From architectural balance to cosmic harmony, transform your living space into a sanctuary of success.
-                </p>
-<!-- Pricing & Timer -->
-<div class="flex flex-col gap-md mb-lg">
-<div class="flex items-center gap-md">
-<span class="text-display-lg text-primary font-bold">₹299</span>
-<span class="text-headline-md text-on-surface-variant line-through opacity-50">₹3,796</span>
-</div>
-<div class="flex gap-sm" id="countdown">
-<div class="glass p-base rounded text-center min-w-[60px]">
-<span class="block font-bold text-headline-md" id="hours">02</span>
-<span class="text-[10px] uppercase font-label-caps opacity-60">Hours</span>
-</div>
-<div class="glass p-base rounded text-center min-w-[60px]">
-<span class="block font-bold text-headline-md" id="minutes">45</span>
-<span class="text-[10px] uppercase font-label-caps opacity-60">Mins</span>
-</div>
-<div class="glass p-base rounded text-center min-w-[60px]">
-<span class="block font-bold text-headline-md" id="seconds">12</span>
-<span class="text-[10px] uppercase font-label-caps opacity-60">Secs</span>
-</div>
-</div>
-</div>
-<button class="bg-primary-container text-white px-xl py-md rounded-xl font-bold text-body-lg pulse-primary hover:scale-[1.02] transition-transform flex items-center gap-base">
-                    Claim Your Bundle Now
-                    <span class="material-symbols-outlined">arrow_forward</span>
-</button>
-</div>
-<div class="relative scroll-reveal active">
-<div class="absolute -inset-10 bg-primary/20 blur-[120px] rounded-full"></div>
-<img alt="Vastu Sastra Ebook Bundle" class="relative z-10 w-full drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transform hover:-translate-y-2 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiZ1ML4x4wla2NORANSRNm1lqC0vTZraYeZNUaXDmHMxTicGm2NcQf7DkCnXiYLMUuiSct7mbe789_gDf88n0FbrATpSfy92CUkwUrZ27agvAQhJ1rfoJaUqgraBhIWlh6XTxt59VaDdhOkW0lNkmkQ2soRxF5EedGbC2TaSfjv6hxSwoOolQXyfuK2m_z-nWgo5MkDG2iPWdLbrgOe5yZ1MLmiVBFr89d_0WpT89PGiUUZCnED6EJ"/>
+<div>
+<a class="text-primary font-bold hover:opacity-80 scale-95 transition-all" href="#checkout">Get Started</a>
 </div>
 </div>
 </header>
-<!-- Why Vastu -->
-<section class="py-xl max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop" id="principles">
-<div class="text-center mb-xl">
-<h2 class="font-headline-lg text-headline-lg mb-base">Why Vastu Matters?</h2>
-<p class="text-on-surface-variant max-w-2xl mx-auto">Ancient science reveals that the orientation and layout of your space directly influence your health, wealth, and mental peace.</p>
+<main class="max-w-7xl mx-auto px-gutter py-section-gap flex flex-col lg:flex-row gap-12 relative">
+<!-- Left Content Column -->
+<div class="w-full lg:w-[calc(100%-400px)] flex flex-col gap-section-gap">
+<!-- Hero Section -->
+<section class="flex flex-col gap-stack-md">
+<div class="inline-block bg-surface-container-high px-4 py-2 rounded-full border border-border-subtle w-max mb-4">
+<span class="font-label-sm text-label-sm text-construction-amber uppercase tracking-wider">Special Limited Time Offer</span>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
-<div class="glass p-lg rounded-xl glow-border scroll-reveal">
-<span class="material-symbols-outlined text-[48px] text-primary mb-md">eco</span>
-<h3 class="font-headline-md text-headline-md mb-base">Natural Harmony</h3>
-<p class="text-on-surface-variant">Align your surroundings with the five basic elements of nature: Earth, Water, Fire, Air, and Space.</p>
+<h1 class="font-display-lg text-display-lg text-headline-white">Master Construction Estimation with Precision.</h1>
+<p class="font-body-lg text-body-lg text-body-gray max-w-2xl">The complete system to generate accurate BOQs, Rate Analysis, and Billing seamlessly.</p>
+<div class="rounded-2xl overflow-hidden mt-8 border border-border-subtle relative group">
+<img class="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105" data-alt="A premium 3D render of a thick construction estimation handbook standing upright on a minimalist dark architectural desk. The book cover is deep navy blue with bold yellow typography reading 'The Complete Construction Estimation System'. Architectural blueprints, a drafting compass, and a sleek metallic scale ruler lay scattered around the base. The lighting is dramatic, highlighting the texture of the paper and the metallic tools, creating a professional, high-end engineering atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqd8lZoxK7-jdwMr4mdRyp_fsACVI-W-pzSRUl7jU1xI5OlArR9FfK8hf57uIbLgLnYOJPpbKhlvQb5D8gKQHbSTvvC335edy1STbEUhK0vCvA9iu-RfKwp-6hdDuA8YLUzBlDVazDupfslyF3MmQbmOu6Dbc8Oo7zm5dy0Gdtkq0goCM_4yCa6BiqvFsoercapIw47LvZtuiQ8gHMrY2a_4nvlVe_GmabHaSx8JftaJmYsGpbMdQC_45O6EG2d6CBYQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 </div>
-<div class="glass p-lg rounded-xl glow-border scroll-reveal">
-<span class="material-symbols-outlined text-[48px] text-primary mb-md">account_balance</span>
-<h3 class="font-headline-md text-headline-md mb-base">Cosmic Balance</h3>
-<p class="text-on-surface-variant">Optimize the flow of cosmic energy (Prana) to remove blockages in your professional and personal growth.</p>
-</div>
-<div class="glass p-lg rounded-xl glow-border scroll-reveal">
-<span class="material-symbols-outlined text-[48px] text-primary mb-md">psychology</span>
-<h3 class="font-headline-md text-headline-md mb-base">Mental Clarity</h3>
-<p class="text-on-surface-variant">A Vastu-compliant home reduces stress and fosters an environment of clarity and focused creative energy.</p>
+<div class="flex items-center gap-6 mt-6 opacity-60 grayscale filter">
+<span class="font-label-sm text-label-sm text-body-gray uppercase">Trusted Payments</span>
+<!-- Placeholder logos -->
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-3xl">credit_card</span>
+<span class="material-symbols-outlined text-3xl">account_balance</span>
+<span class="material-symbols-outlined text-3xl">payments</span>
 </div>
 </div>
 </section>
-<!-- What's Inside (Bento Style Cards) -->
-<section class="py-xl bg-surface-container-low" id="features">
-<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
-<div class="text-center mb-xl">
-<h2 class="font-headline-lg text-headline-lg mb-base">What's Inside the Bundle?</h2>
-<p class="text-on-surface-variant">Four master-crafted guides to revolutionize your understanding of space.</p>
+<!-- Agitation Section -->
+<section class="glass-panel p-10 rounded-2xl">
+<h2 class="font-headline-xl text-headline-xl text-headline-white mb-6">Stop Making Costly Estimation Mistakes!</h2>
+<ul class="space-y-4 font-body-md text-body-md text-body-gray">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-error mt-1">cancel</span>
+<span>Losing tenders due to inaccurate material calculations and flawed BOQs.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-error mt-1">cancel</span>
+<span>Wasting hours creating custom Excel sheets from scratch for every new project.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-error mt-1">cancel</span>
+<span>Struggling to track real-time rate analysis leading to unpredictable profit margins.</span>
+</li>
+</ul>
+</section>
+<!-- Feature Blocks -->
+<section class="flex flex-col gap-24">
+<!-- BOQ -->
+<div class="flex flex-col md:flex-row gap-10 items-center">
+<div class="w-full md:w-1/2 rounded-2xl overflow-hidden border border-border-subtle">
+<img class="w-full h-auto object-cover" data-alt="A modern laptop screen displaying a complex Bill of Quantities (BOQ) spreadsheet. The spreadsheet features clean, high-contrast rows with alternating dark and light backgrounds, highlighting numerical data and material descriptions. The laptop sits on a sleek, dark desk environment with subtle architectural plans slightly out of focus in the background. The lighting is cool and technical, emphasizing the digital precision of the software." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaM4UhUjxv-evgyJv2IMgVWjBvvNJkFNO6QihUDU9IKt14Po3dFWxvVAhj-1xJJ_-AZf7T0nnxcN6RWkr-bolB66wpli2f9hjWuEoPQ6iBOBh0QDLenpNS-1RuvywbuTzt4U4NkgB5CavsBeoivNcm0bq9INx2M_GvbePN2OXgLR5-xJjbxIJfWC-Do72mtS5H3sSJQaRqxute-lqSyilDlFzCK8wSY8ErliQnndxitQK5yspdNkNo-dcr3OgeqA0VKw"/>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
-<!-- Book 1 -->
-<div class="glass rounded-xl overflow-hidden scroll-reveal flex flex-col">
-<div class="h-64 bg-surface-container-high relative overflow-hidden group">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A premium 3D render of an eBook cover titled 'Vastu Sastra: Modern Harmony' featuring golden mandalas and sacred geometry on a deep navy blue background. The lighting is dramatic and cinematic, highlighting the intricate gold textures. Minimalist and luxurious aesthetic matching 'The Astro Temple' brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBkUK2UkM8NNjvsvRzHSlbrY30eoIpnTizRm-85S1RYgfwt9cSmLcoZubAgMPPySNdxdUNVVolCkVN9JLPqF8--QW94hX06Ut5NU0jmRSmwyuwTIDawoLMUImtc3yjr4OWtHDic9gwf6gochqyZ_81L5O42YHBNH9Sjzqqu5cp-QVIrckFO56_awfWlJMwbGo7Iuc5IBdEp8NBic5dSsaMpPqQKdbYSVeSJN0r7lr9cbnGtFOpSgZc"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent"></div>
-</div>
-<div class="p-md flex-grow">
-<h4 class="font-headline-md text-headline-md mb-sm text-primary">Modern Harmony</h4>
-<ul class="space-y-base text-on-surface-variant text-sm">
-<li class="flex items-start gap-xs"><span class="material-symbols-outlined text-primary text-[18px]">check</span> Apartment &amp; Villa layout</li>
-<li class="flex items-start gap-xs"><span class="material-symbols-outlined text-primary text-[18px]">check</span> Urban space optimization</li>
-<li class="flex items-start gap-xs"><span class="material-symbols-outlined text-primary text-[18px]">check</span> Color therapy basics</li>
+<div class="w-full md:w-1/2 flex flex-col gap-4">
+<h3 class="font-headline-lg text-headline-lg text-headline-white">Step-by-Step BOQ Preparation</h3>
+<p class="font-body-md text-body-md text-body-gray">Generate comprehensive Bills of Quantities with our structured, error-free templates.</p>
+<ul class="space-y-2 mt-4 text-body-gray">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> Automated totals and summaries.</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> Standardized formatting for professional submissions.</li>
 </ul>
 </div>
 </div>
-<!-- Book 2 -->
-<div class="glass rounded-xl overflow-hidden scroll-reveal flex flex-col">
-<div class="h-64 bg-surface-container-high relative overflow-hidden group">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A premium 3D render of an eBook cover titled 'Sacred Spaces' featuring a minimalist white and gold aesthetic with subtle glowing geometric patterns. High-key lighting, soft shadows, and clean elegant typography. The mood is pure, airy, and sophisticated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgU5GjbkE_ABBQsUqr28kGKyXTgsTwUpAFy2Mc-vhQAegzQ-bvyuFkuWAV7gpB6tWMlUZLA3pR2R383lLy3CHq8fwJ7GDRpnbKPGpity_0cI9yfyVETaGNGowatE5dqfQhRWT_M0o2co7iLfBVti6UnhQYKJjfy4yIvQPaaEi4pF0GtFiFKo257Plsd9YhTp2Cv7KCMIdtJe0THF3JioG1c3tQypRvdrrfoXwx3nnmxDoBc8-i4Jai"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent"></div>
+<!-- Rate Analysis -->
+<div class="flex flex-col md:flex-row-reverse gap-10 items-center">
+<div class="w-full md:w-1/2 rounded-2xl overflow-hidden border border-border-subtle">
+<img class="w-full h-auto object-cover" data-alt="A close-up view of a digital rate analysis dashboard on a high-resolution monitor. The screen displays dynamic charts, graphs, and detailed tables breaking down labor, material, and equipment costs. The color palette of the UI is dark mode with glowing amber and blue accents. The surrounding environment is a modern, dimly lit office space, conveying a sense of focused analytical work." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOtZWbJJ5B4if2l3rNu1HkRmcz9spJIrlgsWOwF4Xpjyb7uIWSUmENPAWu0MZmXkMkw2yiHrOsirVO_8aRBHa6bdhWqCh63EJCaCyGvWy4560RIn99hcEQO7ofZR-jkg-d5FOFXz4wrOGNMvTLwlGgDXnRZ1JS6tvTQk1BPsm925NOASGtpBCRt3jMY2Kg7y4tVGNhGjzhCOHh2_4V2qoSxdDsM-XvsV7llI9CFgWaxKR7yytsJbF6NlQl8Vfz5-Cm0w"/>
 </div>
-<div class="p-md flex-grow">
-<h4 class="font-headline-md text-headline-md mb-sm text-primary">Sacred Spaces</h4>
-<ul class="space-y-base text-on-surface-variant text-sm">
-<li class="flex items-start gap-xs"><span class="material-symbols-outlined text-primary text-[18px]">check</span> Temple zone placement</li>
-<li class="flex items-start gap-xs"><span class="material-symbols-outlined text-primary text-[18px]">check</span> Geometry of meditation</li>
-<li class="flex items-start gap-xs"><span class="material-symbols-outlined text-primary text-[18px]">check</span> Ritual area energy</li>
+<div class="w-full md:w-1/2 flex flex-col gap-4">
+<h3 class="font-headline-lg text-headline-lg text-headline-white">Rate Analysis with Real Calculations</h3>
+<p class="font-body-md text-body-md text-body-gray">Ensure profitable margins by accurately breaking down costs with our pre-built analysis models.</p>
+<ul class="space-y-2 mt-4 text-body-gray">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> Built-in formulas for material and labor.</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> Easy adjustment for regional price variations.</li>
 </ul>
 </div>
 </div>
-<!-- Book 3 -->
-<div class="glass rounded-xl overflow-hidden scroll-reveal flex flex-col">
-<div class="h-64 bg-surface-container-high relative overflow-hidden group">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A premium 3D render of an eBook cover titled 'Living Energy' with vibrant electric blue lighting effects and flowing organic shapes representing energy flow. Dark mode aesthetic with high contrast and glowing digital accents. Atmospheric and powerful." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyrvct56A6jpCfzlU4Ni32KziStR6Vi--QeVvNleXXG17u_M4dMAyFxAz4RZmdQ6DQISTixteaiwsmeTcn_BBRB7tuGi2L2Bb72roOdL_QujGT1nPX7JOart3lbldQqyqUB86zVnhtwXTdHJwQcrL8gASfRLmZYdtC9By8wQOMZJGCwcGTsy1hxE6P2aiyZMB62O8WhyuPco2D5gv4IzrEBiDERZ92QuL9JF1Q3bmIdMBqKPaj67_j"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent"></div>
+<!-- Estimation & Billing -->
+<div class="flex flex-col md:flex-row gap-10 items-center">
+<div class="w-full md:w-1/2 rounded-2xl overflow-hidden border border-border-subtle">
+<img class="w-full h-auto object-cover" data-alt="A digital tablet displaying an estimation and billing interface. The screen shows a clean, modern layout with invoice generation features, progress billing tracking, and payment status indicators. The tablet is resting on a dark concrete surface next to a sleek black stylus and a pair of safety glasses, hinting at a seamless transition from site to office." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAsGr41mky7-5BaPU4jftY2DV_oU-Dyc5Grd9yj4qxXWfAx6ahUxc7cCAJrxMH160oMbKkJCW8uUc79L3eY0LHgmwZMUroLN9tmGRdCQmTyQnabKVRafekr051shzb9ufBbSCJ94ytLEh2ZAWIhoQXMWKuFANRbIHFbeR5aH8oclWTfSpN3ml25vHmDbfI-6h4JytG4JsrkZpcRPMSYs_9GfbxW9b-20-C6YYf_1MpTqFC_5i1E4JJ79LFdgf7pR_5qw"/>
 </div>
-<div class="p-md flex-grow">
-<h4 class="font-headline-md text-headline-md mb-sm text-primary">Living Energy</h4>
-<ul class="space-y-base text-on-surface-variant text-sm">
-<li class="flex items-start gap-xs"><span class="material-symbols-outlined text-primary text-[18px]">check</span> Remedial Vastu tips</li>
-<li class="flex items-start gap-xs"><span class="material-symbols-outlined text-primary text-[18px]">check</span> Living room vibrations</li>
-<li class="flex items-start gap-xs"><span class="material-symbols-outlined text-primary text-[18px]">check</span> Entrance door secrets</li>
+<div class="w-full md:w-1/2 flex flex-col gap-4">
+<h3 class="font-headline-lg text-headline-lg text-headline-white">Estimation &amp; Billing Methods</h3>
+<p class="font-body-md text-body-md text-body-gray">Streamline your invoicing with standardized billing formats used by top contractors.</p>
+<ul class="space-y-2 mt-4 text-body-gray">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> RA Bill generation templates.</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> Clear progress tracking sheets.</li>
 </ul>
 </div>
 </div>
-<!-- Book 4 -->
-<div class="glass rounded-xl overflow-hidden scroll-reveal flex flex-col">
-<div class="h-64 bg-surface-container-high relative overflow-hidden group">
-<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A premium 3D render of an eBook cover titled 'Architectural Balance' showcasing technical blueprints integrated with celestial maps. Graphite grey and gold color palette, meticulous detailing, and a scholarly, authoritative feel. Deep shadows and focused light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnsOjWNlUpazGIGCM2UiNy_2_ASm-1Z1YNFDOufjbN4B_Zs10NZf7uVWRkQ8o14cVU4-tTC1NYPmptxsw5vUINvjME7QexdO0yaHWj_Id2Ij6jOvzHC-1FoB1d14CzGzB9PyMQWyDz7IZJMzqUiuoNlFZOYpJb0o165MQM7_7HZ0AXwTYp2AtJB-QRsNvoLZWaYuEOqkXiT2mbaFjYgqUOcIohLX-latAxNDcdw5YIeusBwz9Uh7n9"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 to-transparent"></div>
+</section>
+<!-- Bonus Section -->
+<section class="glass-panel p-10 rounded-2xl border border-construction-amber/30 relative overflow-hidden mt-12">
+<div class="absolute top-0 right-0 bg-construction-amber text-black font-label-sm text-label-sm px-6 py-2 rounded-bl-xl font-bold">FREE BONUS</div>
+<div class="flex flex-col md:flex-row gap-8 items-center">
+<div class="w-full md:w-1/3">
+<img class="w-full h-auto object-cover rounded-xl shadow-2xl" data-alt="A promotional graphic for a bonus product titled 'Complete Residential Project Estimation Case Study'. The visual features a stylized, wireframe-to-realistic transition of a modern two-story residential building. The text '900 sq.ft | G+0 | 2BHK' is prominently displayed in bold yellow typography against a textured, blueprint-style dark blue background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCapLaFcCnuCaYqtUvTWVJEL64J5cRVxKeUb_L5JZmL8yYTdB8VlhN7CFTWrOXMctePDGPeOjuPOGirA8T3Saxn_Mi2y9_6S21QhWdATs5-y9b6OhwLYTrp2E0R8KClYIum30ga9uN8pbHToOd9vSNmK0KUf4h7zRErIzspDkwPiTEtue1nj0fz5MxqXvifAfn4J8WugTBWOg-q79pSnGscb5z26bEPF_u5RkqodhrjgRHJFtUsTXidLuoQtkby9s5Fcg"/>
 </div>
-<div class="p-md flex-grow">
-<h4 class="font-headline-md text-headline-md mb-sm text-primary">Architectural Balance</h4>
-<ul class="space-y-base text-on-surface-variant text-sm">
-<li class="flex items-start gap-xs"><span class="material-symbols-outlined text-primary text-[18px]">check</span> Commercial Vastu guide</li>
-<li class="flex items-start gap-xs"><span class="material-symbols-outlined text-primary text-[18px]">check</span> Office cabin orientation</li>
-<li class="flex items-start gap-xs"><span class="material-symbols-outlined text-primary text-[18px]">check</span> Financial growth layout</li>
+<div class="w-full md:w-2/3 flex flex-col gap-4">
+<h3 class="font-headline-lg text-headline-lg text-headline-white">Complete Residential Project Case Study</h3>
+<p class="font-body-md text-body-md text-body-gray">Get a real-world, fully worked out example of a 900 sq.ft 2BHK residential building estimation from start to finish.</p>
+<ul class="space-y-2 mt-2 text-headline-white">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-construction-amber">redeem</span> Actual project drawings included.</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-construction-amber">redeem</span> Step-by-step calculation walkthrough.</li>
 </ul>
 </div>
 </div>
-</div>
-</div>
 </section>
-<!-- Who is this for? -->
-<section class="py-xl max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop">
-<h2 class="font-headline-lg text-headline-lg text-center mb-xl">Who Is This For?</h2>
-<div class="flex flex-wrap justify-center gap-md">
-<div class="px-gutter py-base glass rounded-full text-on-surface hover:bg-primary-container hover:text-white transition-all cursor-default scroll-reveal">Architects &amp; Designers</div>
-<div class="px-gutter py-base glass rounded-full text-on-surface hover:bg-primary-container hover:text-white transition-all cursor-default scroll-reveal">New Home Buyers</div>
-<div class="px-gutter py-base glass rounded-full text-on-surface hover:bg-primary-container hover:text-white transition-all cursor-default scroll-reveal">Spiritual Seekers</div>
-<div class="px-gutter py-base glass rounded-full text-on-surface hover:bg-primary-container hover:text-white transition-all cursor-default scroll-reveal">Real Estate Developers</div>
-<div class="px-gutter py-base glass rounded-full text-on-surface hover:bg-primary-container hover:text-white transition-all cursor-default scroll-reveal">Astrology Enthusiasts</div>
-<div class="px-gutter py-base glass rounded-full text-on-surface hover:bg-primary-container hover:text-white transition-all cursor-default scroll-reveal">Office Managers</div>
 </div>
-</section>
-<!-- Comparison Table -->
-<section class="py-xl bg-surface-container">
-<div class="max-w-5xl mx-auto px-margin-mobile md:px-margin-desktop">
-<h2 class="font-headline-lg text-headline-lg text-center mb-xl">Why Our Master Bundle?</h2>
-<div class="overflow-x-auto">
-<table class="w-full glass rounded-xl border-separate border-spacing-0 overflow-hidden">
-<thead>
-<tr>
-<th class="p-lg text-left bg-surface-container-high border-b border-outline-variant/20">Features</th>
-<th class="p-lg text-center bg-surface-container-high border-b border-outline-variant/20 opacity-60">Traditional Books</th>
-<th class="p-lg text-center bg-surface-container-high border-b border-primary/40 text-primary">Master Bundle</th>
-</tr>
-</thead>
-<tbody class="text-on-surface-variant">
-<tr>
-<td class="p-md border-b border-outline-variant/10">Practical Checklists</td>
-<td class="p-md text-center border-b border-outline-variant/10">—</td>
-<td class="p-md text-center border-b border-outline-variant/10"><span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span></td>
-</tr>
-<tr>
-<td class="p-md border-b border-outline-variant/10">Modern Remedies</td>
-<td class="p-md text-center border-b border-outline-variant/10">Limited</td>
-<td class="p-md text-center border-b border-outline-variant/10"><span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span></td>
-</tr>
-<tr>
-<td class="p-md border-b border-outline-variant/10">High-Res Diagrams</td>
-<td class="p-md text-center border-b border-outline-variant/10">—</td>
-<td class="p-md text-center border-b border-outline-variant/10"><span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span></td>
-</tr>
-<tr>
-<td class="p-md border-b border-outline-variant/10">Step-by-Step Guide</td>
-<td class="p-md text-center border-b border-outline-variant/10">Generic</td>
-<td class="p-md text-center border-b border-outline-variant/10"><span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span></td>
-</tr>
-</tbody>
-</table>
+<!-- Right Sticky Checkout Column -->
+<aside class="w-full lg:w-[400px] relative">
+<div class="sticky top-32 glass-panel p-8 rounded-2xl flex flex-col gap-6" id="checkout">
+<div class="flex justify-between items-center border-b border-border-subtle pb-4">
+<h3 class="font-headline-lg text-headline-lg text-headline-white">Complete Order</h3>
+<span class="font-label-sm text-label-sm bg-surface-container-high px-3 py-1 rounded text-body-gray">Secure SSL</span>
+</div>
+<form class="flex flex-col gap-4">
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm text-body-gray">Email Address</label>
+<input class="bg-surface text-headline-white border border-border-subtle rounded-lg px-4 py-3 focus:border-construction-amber focus:ring-1 focus:ring-construction-amber outline-none transition-colors" placeholder="engineer@example.com" type="email"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm text-body-gray">Phone Number</label>
+<input class="bg-surface text-headline-white border border-border-subtle rounded-lg px-4 py-3 focus:border-construction-amber focus:ring-1 focus:ring-construction-amber outline-none transition-colors" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+<!-- Order Bump -->
+<div class="mt-4 p-4 rounded-xl border border-construction-amber/40 bg-surface-container-high relative">
+<div class="absolute -top-3 left-4 bg-construction-amber text-black font-label-sm text-[10px] px-2 py-0.5 rounded font-bold uppercase">One-Time Offer</div>
+<label class="flex items-start gap-3 cursor-pointer">
+<input class="mt-1 form-checkbox text-construction-amber border-border-subtle rounded bg-surface focus:ring-construction-amber" type="checkbox"/>
+<div class="flex flex-col">
+<span class="font-bold text-headline-white">Add Advanced Excel Macros</span>
+<span class="font-body-md text-sm text-body-gray mt-1">Automate tedious tasks with our premium macro pack. Just +$29.</span>
+</div>
+</label>
+</div>
+<!-- Total -->
+<div class="border-t border-border-subtle pt-4 mt-2">
+<div class="flex justify-between items-center mb-2">
+<span class="text-body-gray">Subtotal</span>
+<span class="text-headline-white">$149.00</span>
+</div>
+<div class="flex justify-between items-center font-bold text-xl">
+<span class="text-headline-white">Total</span>
+<span class="text-construction-amber">$149.00</span>
 </div>
 </div>
-</section>
-<!-- Testimonials -->
-<section class="py-xl max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop" id="reviews">
-<h2 class="font-headline-lg text-headline-lg text-center mb-xl">Trusted by 10,000+ Readers</h2>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
-<div class="glass p-lg rounded-xl scroll-reveal">
-<div class="flex gap-xs text-primary mb-md">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<button class="mt-4 w-full bg-gradient-to-r from-construction-amber to-primary text-black font-bold font-body-lg py-4 rounded-xl glow-button transition-all transform active:scale-95 flex justify-center items-center gap-2" type="button">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">lock</span>
+                        Complete Purchase
+                    </button>
+<p class="text-center font-label-sm text-label-sm text-body-gray mt-2">Instant digital delivery. Lifetime access.</p>
+</form>
 </div>
-<p class="text-body-lg mb-md italic">"The Modern Harmony book alone changed how I look at my home office. Within a month of rearranging, I felt a significant shift in my productivity."</p>
-<div class="font-bold text-primary">— Rajesh K., Architect</div>
-</div>
-<div class="glass p-lg rounded-xl scroll-reveal">
-<div class="flex gap-xs text-primary mb-md">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-</div>
-<p class="text-body-lg mb-md italic">"Best investment for my new apartment. The checklists are so easy to follow, even for someone who knows nothing about Vastu."</p>
-<div class="font-bold text-primary">— Priya S., Homeowner</div>
-</div>
-</div>
-</section>
-<!-- Final CTA & Checkout -->
-<section class="py-xl bg-primary-container/10">
-<div class="max-w-3xl mx-auto px-margin-mobile text-center scroll-reveal">
-<h2 class="font-display-lg text-headline-lg md:text-[48px] mb-md">Secure Your Future Wealth &amp; Peace</h2>
-<p class="text-body-lg text-on-surface-variant mb-xl">Instant Download. Lifetime Access. No Recurring Fees.</p>
-<div class="glass p-lg rounded-2xl mb-xl text-left border-primary/30">
-<div class="flex justify-between items-center mb-md pb-md border-b border-outline-variant/20">
-<span class="font-bold">Order Summary</span>
-<span class="text-primary font-bold">Offer Active</span>
-</div>
-<div class="space-y-sm mb-lg">
-<div class="flex justify-between">
-<span class="text-on-surface-variant">4-eBook Vastu Master Bundle</span>
-<span>₹3,796</span>
-</div>
-<div class="flex justify-between text-primary">
-<span>Limited Time Discount</span>
-<span>-₹3,497</span>
-</div>
-</div>
-<div class="flex justify-between items-end mb-lg">
-<span class="font-bold text-headline-md">Total</span>
-<span class="font-bold text-headline-lg text-primary">₹299</span>
-</div>
-<button class="w-full bg-primary text-on-primary py-md rounded-xl font-bold text-headline-md pulse-primary Active:scale-[0.98] transition-all">
-                    Complete Secure Payment
-                </button>
-<div class="mt-md flex justify-center items-center gap-md opacity-60">
-<span class="material-symbols-outlined">lock</span>
-<span class="text-label-caps font-label-caps">256-BIT SSL SECURE CHECKOUT</span>
-</div>
-</div>
-</div>
-</section>
+</aside>
+</main>
 <!-- Footer -->
-<footer class="bg-surface-container-lowest border-t border-outline-variant/10 py-xl">
-<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-base">
-<div class="flex items-center gap-base">
-<img alt="The Astro Temple Logo" class="h-8 w-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9UvM2Gv3_LZRmAzyfbE3RIqKxtPInY2uR8C43WCa42bidsto4YWK9glxE4rCO3MO8K-CBYnIpnNVu71ah1J-t4sGiJOg0xkD4lqC8WDuH4FHrJsslYWXrnThlFIevx3ejNFmE1HjUWF-9hHlPaFytbetCPOr8qJXyYa8LooElRlw36hcFLeleZ6WYqQThj8Po29x_aMV-gjiQ3_nKZCrTmc5zq7nPDHMsYxS8f_5Y7la47ZVh9IE8"/>
-<span class="font-headline-md text-headline-md font-bold text-primary">The Astro Temple</span>
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest full-width p-gutter border-t border-border-subtle mt-24">
+<div class="w-full flex flex-col md:flex-row justify-between items-center gap-stack-md py-section-gap max-w-7xl mx-auto">
+<div class="text-headline-white font-bold">
+                © 2024 Construction Estimation Master Toolkit™. Engineered for Precision.
+            </div>
+<div class="flex gap-6 font-body-md text-body-md text-body-gray">
+<a class="text-body-gray hover:text-headline-white underline transition-all" href="#">Terms of Service</a>
+<a class="text-body-gray hover:text-headline-white underline transition-all" href="#">Privacy Policy</a>
+<a class="text-body-gray hover:text-headline-white underline transition-all" href="#">Refund Policy</a>
+<a class="text-body-gray hover:text-headline-white underline transition-all" href="#">Contact Support</a>
 </div>
-<div class="flex flex-wrap justify-center gap-lg">
-<a class="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#">Privacy Policy</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#">Terms of Service</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors text-body-md" href="#">Contact Us</a>
-<a class="text-on-surface-variant/40 hover:text-primary transition-colors text-xs uppercase tracking-tighter self-center" href="#">Admin Login</a>
-</div>
-<p class="text-on-surface-variant text-body-md opacity-60">© 2024 The Astro Temple. All rights reserved.</p>
 </div>
 </footer>
-<script>
-        // Countdown Timer Logic
-        function updateTimer() {
-            const hoursEl = document.getElementById('hours');
-            const minsEl = document.getElementById('minutes');
-            const secsEl = document.getElementById('seconds');
-            
-            let h = parseInt(hoursEl.innerText);
-            let m = parseInt(minsEl.innerText);
-            let s = parseInt(secsEl.innerText);
-
-            s--;
-            if (s < 0) { s = 59; m--; }
-            if (m < 0) { m = 59; h--; }
-            if (h < 0) { h = 2; m = 45; s = 12; } // Reset for demo
-
-            hoursEl.innerText = h.toString().padStart(2, '0');
-            minsEl.innerText = m.toString().padStart(2, '0');
-            secsEl.innerText = s.toString().padStart(2, '0');
-        }
-        setInterval(updateTimer, 1000);
-
-        // Scroll Reveal Logic
-        const observerOptions = {
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
-
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
 </body></html>
