@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contact Us — Construction Estimation Master Toolkit™</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "body-gray": "#A1A1A6",
+                      "primary-fixed": "#ffdcbf",
+                      "primary": "#ffbd7f",
+                      "surface": "#131313",
+                      "glass-surface": "rgba(28, 28, 30, 0.7)",
+                      "surface-bright": "#393939",
+                      "outline": "#a38d7a",
+                      "surface-container-low": "#1b1b1b",
+                      "inverse-primary": "#8c5000",
+                      "surface-tint": "#ffb874",
+                      "on-tertiary": "#00344a",
+                      "on-background": "#e2e2e2",
+                      "on-secondary-container": "#6e5700",
+                      "tertiary": "#8ad3ff",
+                      "secondary-fixed": "#ffe08b",
+                      "on-primary-fixed": "#2d1600",
+                      "on-secondary-fixed": "#241a00",
+                      "surface-container-lowest": "#0e0e0e",
+                      "surface-variant": "#353535",
+                      "on-secondary-fixed-variant": "#584400",
+                      "on-tertiary-fixed-variant": "#004c6a",
+                      "secondary-container": "#fecb00",
+                      "surface-container-highest": "#353535",
+                      "on-primary": "#4b2800",
+                      "on-error": "#690005",
+                      "on-primary-container": "#643700",
+                      "tertiary-container": "#00bbfe",
+                      "construction-amber": "#FFB347",
+                      "secondary-fixed-dim": "#f1c100",
+                      "surface-container": "#1f1f1f",
+                      "tertiary-fixed-dim": "#7fd0ff",
+                      "on-error-container": "#ffdad6",
+                      "on-primary-fixed-variant": "#6a3b00",
+                      "on-tertiary-fixed": "#001e2d",
+                      "error-container": "#93000a",
+                      "on-surface-variant": "#dbc2ad",
+                      "surface-dim": "#131313",
+                      "outline-variant": "#554334",
+                      "primary-fixed-dim": "#ffb874",
+                      "headline-white": "#F5F5F7",
+                      "on-tertiary-container": "#004764",
+                      "tertiary-fixed": "#c5e7ff",
+                      "inverse-surface": "#e2e2e2",
+                      "primary-container": "#ff9500",
+                      "on-surface": "#e2e2e2",
+                      "error": "#ffb4ab",
+                      "background": "#131313",
+                      "surface-container-high": "#2a2a2a",
+                      "on-secondary": "#3d2f00",
+                      "border-subtle": "rgba(255, 255, 255, 0.08)",
+                      "inverse-on-surface": "#303030",
+                      "secondary": "#ffecc0"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "2xl": "1.5rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "1.5rem",
+                      "safe-margin": "2rem",
+                      "stack-md": "1.5rem",
+                      "section-gap": "8rem",
+                      "stack-sm": "0.5rem"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Inter"],
+                      "label-sm": ["JetBrains Mono"],
+                      "headline-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "body-lg": ["Inter"]
+              }
+            }
+          }
+        }
+</script>
+<style>
+        body { background-color: #000000; color: #F5F5F7; }
+        .glass-panel { background: rgba(28, 28, 30, 0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .glow-button { box-shadow: 0 0 40px 0 rgba(255, 179, 71, 0.15); }
+        .glow-button:hover { box-shadow: 0 0 60px 0 rgba(255, 179, 71, 0.25); }
+</style>
+</head>
+<body class="font-body-md antialiased selection:bg-construction-amber selection:text-black min-h-screen flex flex-col justify-between">
+
+    <!-- TopAppBar -->
+    <header class="bg-glass-surface dark:bg-glass-surface docked full-width top-0 sticky backdrop-blur-xl border-b border-border-subtle z-50">
+        <div class="flex justify-between items-center w-full px-gutter py-4 max-w-7xl mx-auto">
+            <a href="index.html" class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary dark:text-primary">construction</span>
+                <span class="font-headline-lg text-headline-lg font-bold text-headline-white tracking-tight">Estimation Master Toolkit™</span>
+            </a>
+            <div>
+                <a class="text-primary font-bold hover:opacity-80 transition-all" href="index.html#checkout">Get Started</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full max-w-7xl mx-auto px-gutter py-12 flex-grow">
+        <div class="mb-10 text-center">
+            <span class="text-construction-amber font-label-sm text-sm uppercase tracking-wider">Get in Touch</span>
+            <h1 class="text-3xl md:text-5xl font-bold text-headline-white mt-2">Contact Us</h1>
+            <p class="text-body-gray max-w-2xl mx-auto mt-3">Have questions about the Construction Estimation Master Toolkit™ or need assistance with your order? Reach out to us below.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Business Info Card -->
+            <div class="glass-panel p-8 rounded-2xl flex flex-col justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-headline-white mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-construction-amber">business</span>
+                        Business Information
+                    </h2>
+                    
+                    <div class="space-y-6 text-body-gray">
+                        <div>
+                            <span class="block font-label-sm text-xs text-construction-amber uppercase">Business / Owner Name</span>
+                            <span class="text-lg font-semibold text-headline-white">MD Jedan Hossain</span>
+                        </div>
+
+                        <div>
+                            <span class="block font-label-sm text-xs text-construction-amber uppercase">Brand / Product</span>
+                            <span class="text-lg font-semibold text-headline-white">Construction Estimation Master Toolkit™</span>
+                        </div>
+
+                        <div>
+                            <span class="block font-label-sm text-xs text-construction-amber uppercase">Support Email</span>
+                            <a href="mailto:xtechmax2024@gmail.com" class="text-lg font-semibold text-construction-amber hover:underline">xtechmax2024@gmail.com</a>
+                        </div>
+
+                        <div>
+                            <span class="block font-label-sm text-xs text-construction-amber uppercase">Support Hours</span>
+                            <span class="text-headline-white font-medium">Monday – Saturday: 9:00 AM – 7:00 PM IST</span>
+                            <span class="block text-sm text-body-gray mt-1">Typical response time: 24 to 48 business hours.</span>
+                        </div>
+
+                        <div>
+                            <span class="block font-label-sm text-xs text-construction-amber uppercase">Operating Country</span>
+                            <span class="text-headline-white font-medium">India 🇮🇳</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 p-4 rounded-xl border border-border-subtle bg-surface-container-low text-sm text-body-gray">
+                    💡 For urgent order-related issues or invoice requests, please mention your <strong>Order ID</strong> or registered email address in your message.
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="glass-panel p-8 rounded-2xl">
+                <h2 class="text-2xl font-bold text-headline-white mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-construction-amber">mail</span>
+                    Send Us a Message
+                </h2>
+                
+                <form id="contactForm" onsubmit="handleFormSubmit(event)" class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-2">
+                        <label class="font-label-sm text-label-sm text-body-gray">Your Name</label>
+                        <input required class="bg-surface text-headline-white border border-border-subtle rounded-lg px-4 py-3 focus:border-construction-amber focus:ring-1 focus:ring-construction-amber outline-none transition-colors" placeholder="e.g. Rahul Sharma" type="text" id="senderName"/>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label class="font-label-sm text-label-sm text-body-gray">Your Email</label>
+                        <input required class="bg-surface text-headline-white border border-border-subtle rounded-lg px-4 py-3 focus:border-construction-amber focus:ring-1 focus:ring-construction-amber outline-none transition-colors" placeholder="engineer@example.com" type="email" id="senderEmail"/>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label class="font-label-sm text-label-sm text-body-gray">Subject</label>
+                        <input required class="bg-surface text-headline-white border border-border-subtle rounded-lg px-4 py-3 focus:border-construction-amber focus:ring-1 focus:ring-construction-amber outline-none transition-colors" placeholder="Pre-sale question / Order inquiry" type="text" id="subject"/>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label class="font-label-sm text-label-sm text-body-gray">Message</label>
+                        <textarea required rows="4" class="bg-surface text-headline-white border border-border-subtle rounded-lg px-4 py-3 focus:border-construction-amber focus:ring-1 focus:ring-construction-amber outline-none transition-colors" placeholder="How can we help you?" id="message"></textarea>
+                    </div>
+
+                    <button class="mt-2 w-full bg-gradient-to-r from-construction-amber to-primary text-black font-bold font-body-lg py-4 rounded-xl glow-button transition-all transform active:scale-95 flex justify-center items-center gap-2" type="submit">
+                        <span class="material-symbols-outlined">send</span>
+                        Send Message
+                    </button>
+                    <div id="formFeedback" class="hidden p-4 rounded-xl bg-green-950/60 border border-green-500/40 text-green-300 text-sm mt-2">
+                        ✅ Thank you! Your message has been received. We will respond to your email (xtechmax2024@gmail.com) within 24-48 business hours.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest dark:bg-surface-container-lowest full-width p-gutter border-t border-border-subtle mt-16">
+        <div class="w-full flex flex-col md:flex-row justify-between items-center gap-stack-md py-6 max-w-7xl mx-auto">
+            <div class="text-body-gray text-sm font-medium">
+                © 2026 Construction Estimation Master Toolkit™, operated by MD Jedan Hossain. All rights reserved.
+            </div>
+            <div class="flex flex-wrap gap-6 font-body-md text-body-md text-body-gray">
+                <a class="text-body-gray hover:text-headline-white underline transition-all" href="terms.html">Terms of Service</a>
+                <a class="text-body-gray hover:text-headline-white underline transition-all" href="privacy.html">Privacy Policy</a>
+                <a class="text-body-gray hover:text-headline-white underline transition-all" href="refunds.html">Refund Policy</a>
+                <a class="text-body-gray hover:text-headline-white underline transition-all" href="contact.html">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            document.getElementById("formFeedback").classList.remove("hidden");
+            document.getElementById("contactForm").reset();
+        }
+    </script>
+</body>
+</html>
