@@ -15,13 +15,11 @@ export default async function handler(req, res) {
     const { name, email, phone, orderBump } = req.body || {};
 
     const amount = orderBump ? 248.00 : 199.00;
-    const planType = orderBump ? 'normal_addon' : 'normal';
     const orderId = 'order_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
 
     // Active Cashfree Production Credentials
     const appId = '13542917e5845c6fd7a65ab0f621924531';
-    const defaultSecret = Buffer.from('Y2Zza19tYV9wcm9kXzJmZmYwNDNmOWM4ZjE4ZTQ0N2UxMDk3NTg0MTYyMzI4XzZmODlmODQ3', 'base64').toString('utf-8');
-    const secretKey = defaultSecret;
+    const secretKey = Buffer.from('Y2Zza19tYV9wcm9kXzJmZmYwNDNmOWM4ZjE4ZTQ0N2UxMDk3NTg0MTYyMzI4XzZmODlmODQ3', 'base64').toString('utf-8');
 
     // Clean and validate phone number (must be 10 digits)
     let cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
@@ -72,7 +70,7 @@ export default async function handler(req, res) {
     const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
     try {
-      await fetch(`${supabaseUrl}/rest/v1/orders`, {
+      const supaResp = await fetch(`${supabaseUrl}/rest/v1/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,7 +84,6 @@ export default async function handler(req, res) {
           phone: phone || '',
           amount: amount,
           addon: orderBump ? 'Advanced Macros' : null,
-          plan_type: planType,
           status: 'pending',
           gateway_order_id: orderId,
           payment_id: '—',
@@ -94,8 +91,12 @@ export default async function handler(req, res) {
           followup_note: ''
         })
       });
+
+      if (!supaResp.ok) {
+        console.error('Supabase Save HTTP Error:', supaResp.status, await supaResp.text());
+      }
     } catch (supaErr) {
-      console.error('Supabase Save Error (non-blocking):', supaErr);
+      console.error('Supabase Save Exception:', supaErr);
     }
 
     return res.status(200).json({
