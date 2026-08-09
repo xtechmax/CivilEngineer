@@ -19,9 +19,9 @@ export default async function handler(req, res) {
     const orderId = 'order_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
 
     // Active Cashfree Production Credentials
-    const appId = process.env.CASHFREE_APP_ID || '13542917e5845c6fd7a65ab0f621924531';
+    const appId = (process.env.CASHFREE_APP_ID || '13542917e5845c6fd7a65ab0f621924531').trim();
     const defaultSecret = Buffer.from('Y2Zza19tYV9wcm9kXzJmZmYwNDNmOWM4ZjE4ZTQ0N2UxMDk3NTg0MTYyMzI4XzZmODlmODQ3', 'base64').toString('utf-8');
-    const secretKey = process.env.CASHFREE_SECRET_KEY || defaultSecret;
+    const secretKey = (process.env.CASHFREE_SECRET_KEY || defaultSecret).trim();
 
     // Clean and validate phone number (must be 10 digits)
     let cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
@@ -66,9 +66,9 @@ export default async function handler(req, res) {
     }
 
     // Save Order Record to Supabase
-    const supabaseUrl = process.env.SUPABASE_URL || 'https://qqqhdzubrkzmecqpfuft.supabase.co';
-    const defaultServiceKey = Buffer.from('ZXlKaGJHY2lPaUpJVXpVeE5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKMzNWcGhhV3RuYjNWdWRDY3ZjSEZ1ZVhSaExXTm9ZWEFpT2pFM09EWXlOVGsyT0RsZExDSmxjSEFpT2pJeE1ERTRNelUxT0RsbmZRLm5mT3JuR0R4LVFxc284U29MMWZiU21OdXlFaDB2NHBWWUVJTmRha09nUVE=', 'base64').toString('utf-8');
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || defaultServiceKey;
+    const supabaseUrl = (process.env.SUPABASE_URL || 'https://qqqhdzubrkzmecqpfuft.supabase.co').trim();
+    const defaultServiceKey = Buffer.from('ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW5GeGNXaGtlblZpY210NmJXVmpjWEBtZFdaMElpd2ljbTlzWlNJNkluTmxjblpwWTJWZmNtOXNaU0lzSW1saGRDSTZNVGM0TmpJMU9UWTRPU3dpWlhod0lqb3lNVEF4T0RNMU5qZzVmUS5uZk9ybkdEeC1RcXNvOFNvTDFmYlNtTnV5RWgwdjRwVllFOElOZGFrT2dR', 'base64').toString('utf-8');
+    const supabaseServiceKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || defaultServiceKey).trim();
 
     const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
