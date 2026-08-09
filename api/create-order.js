@@ -17,12 +17,21 @@ export default async function handler(req, res) {
     const amount = orderBump ? 248.00 : 199.00;
     const orderId = 'order_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
 
-    // Cashfree Production Credentials
-    const appId = process.env.CASHFREE_APP_ID || '13353358f182ad598bef2fd076b5335331';
-    const defaultSecret = Buffer.from('Y2Zza19tYV9wcm9kXzQ3Mzg1ZDJjNzlhZjg2NWIwMzFhMGI4NmU5YTE4M2IwXzgyOTQxMzMz', 'base64').toString('utf-8');
+    // Active Cashfree Production Credentials
+    const appId = process.env.CASHFREE_APP_ID || '13542917e5845c6fd7a65ab0f621924531';
+    const defaultSecret = Buffer.from('Y2Zza19tYV9wcm9kXzJmZmYwNDNmOWM4ZjE4ZTQ0N2UxMDk3NTg0MTYyMzI4XzZmODlmODQ3', 'base64').toString('utf-8');
     const secretKey = process.env.CASHFREE_SECRET_KEY || defaultSecret;
 
-    // Create order with Cashfree API
+    // Clean and validate phone number (must be 10 digits)
+    let cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
+    if (cleanPhone.length > 10) {
+      cleanPhone = cleanPhone.slice(-10);
+    }
+    if (cleanPhone.length < 10) {
+      cleanPhone = '9999999999';
+    }
+
+    // Create order with Cashfree Production API
     const response = await fetch('https://api.cashfree.com/pg/orders', {
       method: 'POST',
       headers: {
@@ -39,7 +48,7 @@ export default async function handler(req, res) {
           customer_id: 'cust_' + Date.now(),
           customer_name: name || (email ? email.split('@')[0] : 'Customer'),
           customer_email: email || 'customer@example.com',
-          customer_phone: phone ? phone.replace(/[^0-9]/g, '').slice(-10) : '9999999999',
+          customer_phone: cleanPhone,
         },
         order_meta: {
           return_url: 'https://www.xtechmax.shop/?order_id={order_id}&status=success',
