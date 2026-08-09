@@ -18,7 +18,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Missing "to" or "subject" parameters' });
     }
 
-    const defaultResendKey = Buffer.from('cmVfWGR3dnMxRzZfTDFTQnZMekVIMjBwTWVLeHY0UFJYanFO', 'base64').toString('utf-8');
+    const defaultResendKey = Buffer.from('cmVfWGR3dnMxRzZfTDFTQnZMekVIOTJwTWVLeHY0UFJYanFO', 'base64').toString('utf-8');
     const resendApiKey = process.env.RESEND_API_KEY || defaultResendKey;
 
     const response = await fetch('https://api.resend.com/emails', {

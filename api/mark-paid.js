@@ -38,7 +38,7 @@ export default async function handler(req, res) {
     const orderObj = Array.isArray(updated) && updated.length > 0 ? updated[0] : null;
 
     // Send Resend Email Notification
-    const defaultResendKey = Buffer.from('cmVfWGR3dnMxRzZfTDFTQnZMekVIMjBwTWVLeHY0UFJYanFO', 'base64').toString('utf-8');
+    const defaultResendKey = Buffer.from('cmVfWGR3dnMxRzZfTDFTQnZMekVIOTJwTWVLeHY0UFJYanFO', 'base64').toString('utf-8');
     const resendApiKey = process.env.RESEND_API_KEY || defaultResendKey;
 
     if (orderObj && orderObj.email) {
