@@ -621,21 +621,31 @@
 
 <!-- Success Modal -->
 <div id="successModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
-    <div class="glass-panel p-8 rounded-2xl max-w-md w-full text-center border-green-500/40">
-        <div class="w-16 h-16 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-500/30">
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl max-w-md w-full text-center border-green-500/40 shadow-2xl">
+        <div class="w-14 h-14 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center mx-auto mb-3 border border-green-500/30">
             <span class="material-symbols-outlined text-3xl">check_circle</span>
         </div>
-        <h2 class="text-2xl font-bold text-headline-white mb-2">Payment Successful!</h2>
-        <p class="text-body-gray text-sm mb-4">Thank you for your purchase. Your payment has been verified via Cashfree.</p>
-        <div class="p-3 bg-surface-container-low rounded-xl text-left text-xs space-y-1 mb-6 border border-border-subtle">
-            <div><span class="text-body-gray">Order Reference:</span> <span id="successOrderId" class="text-construction-amber font-mono"></span></div>
-            <div><span class="text-body-gray">Product:</span> <span class="text-headline-white font-medium">Construction Estimation Master Toolkit™</span></div>
-            <div><span class="text-body-gray">Delivery:</span> <span class="text-headline-white font-medium">Instant Digital Download</span></div>
+        <h2 class="text-2xl font-bold text-headline-white mb-1">Payment Successful!</h2>
+        <p class="text-body-gray text-xs mb-4">Thank you for your purchase! Your files are ready for instant download below.</p>
+        
+        <div class="p-3 bg-surface-container-low rounded-xl text-left text-xs space-y-1 mb-5 border border-border-subtle">
+            <div><span class="text-body-gray">Order Reference:</span> <span id="successOrderId" class="text-construction-amber font-mono font-bold"></span></div>
+            <div><span class="text-body-gray">Product Package:</span> <span id="successPackageName" class="text-headline-white font-semibold">Construction Estimation Master Toolkit™</span></div>
+            <div><span class="text-body-gray">Delivery Method:</span> <span class="text-emerald-400 font-medium">Instant Google Drive Download</span></div>
         </div>
-        <a href="https://drive.google.com" target="_blank" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-construction-amber to-primary text-black font-bold py-3 px-6 rounded-xl glow-button hover:opacity-90 transition-all">
-            <span class="material-symbols-outlined">download</span>
-            Download Toolkit Now
-        </a>
+
+        <div id="successDownloadButtons" class="space-y-3">
+            <a id="successMainLink" href="https://drive.google.com/drive/folders/1uK7PjLxCI7Gjb9vosRZ5MohPLqwIuKaO?usp=sharing" target="_blank" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-construction-amber to-amber-500 text-black font-bold py-3 px-5 rounded-xl shadow-lg hover:brightness-110 transition-all text-xs sm:text-sm">
+                <span class="material-symbols-outlined text-lg">folder_zip</span>
+                📦 Download Master Construction Toolkit
+            </a>
+            <div id="successAddonContainer" class="hidden">
+                <a id="successAddonLink" href="https://drive.google.com/drive/folders/1mKZykJegBX1QnFZRNS3e5BnjEme6Nu5O?usp=sharing" target="_blank" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-3 px-5 rounded-xl shadow-lg hover:brightness-110 transition-all text-xs sm:text-sm">
+                    <span class="material-symbols-outlined text-lg">description</span>
+                    ⚡ Download Advanced Excel Macros Add-on
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -728,7 +738,7 @@
     }
 
     // Check if user returned from payment gateway with success status
-    window.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener("DOMContentLoaded", async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const orderId = urlParams.get("order_id");
         const status = urlParams.get("status");
@@ -736,6 +746,28 @@
         if (orderId && status === "success") {
             document.getElementById("successOrderId").innerText = orderId;
             document.getElementById("successModal").classList.remove("hidden");
+
+            // Fetch order package state from Supabase
+            try {
+                const supaUrl = "https://qqqhdzubrkzmecqpfuft.supabase.co/rest/v1/orders?gateway_order_id=eq." + encodeURIComponent(orderId) + "&select=*";
+                const anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxcWhkenVicmt6bWVjcXBmdWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyNTk2ODksImV4cCI6MjEwMTgzNTY4OX0.6AOXzjpaOOWX_qnhG_6ZLSkdaciQDZWqUVd0X2A864E";
+                const res = await fetch(supaUrl, {
+                    headers: { "apikey": anonKey, "Authorization": "Bearer " + anonKey }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        const order = data[0];
+                        const hasAddon = order.addon || (order.amount > 200);
+                        if (hasAddon) {
+                            document.getElementById("successPackageName").innerText = "Master Toolkit + Excel Macros Add-on";
+                            document.getElementById("successAddonContainer").classList.remove("hidden");
+                        }
+                    }
+                }
+            } catch (err) {
+                console.warn("Order package state fetch error:", err);
+            }
         }
     });
 
