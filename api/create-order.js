@@ -15,6 +15,7 @@ export default async function handler(req, res) {
     const { name, email, phone, orderBump } = req.body || {};
 
     const amount = orderBump ? 248.00 : 199.00;
+    const planType = orderBump ? 'normal_addon' : 'normal';
     const orderId = 'order_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
 
     // Active Cashfree Production Credentials
@@ -86,6 +87,7 @@ export default async function handler(req, res) {
           phone: phone || '',
           amount: amount,
           addon: orderBump ? 'Advanced Macros' : null,
+          plan_type: planType,
           status: 'pending',
           gateway_order_id: orderId,
           payment_id: '—',

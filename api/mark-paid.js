@@ -35,30 +35,69 @@ export default async function handler(req, res) {
     });
 
     const updated = await patchResp.json();
-    const orderObj = Array.isArray(updated) && updated.length > 0 ? updated[0] : null;
+    let updatedOrder = Array.isArray(updated) && updated.length > 0 ? updated[0] : null;
 
-    // Send Resend Email Notification
-    const defaultResendKey = Buffer.from('cmVfWGR3dnMxRzZfTDFTQnZMekVIOTJwTWVLeHY0UFJYanFO', 'base64').toString('utf-8');
-    const resendApiKey = process.env.RESEND_API_KEY || defaultResendKey;
+    if (!updatedOrder) {
+      const getResp = await fetch(`${supabaseUrl}/rest/v1/orders?gateway_order_id=eq.${encodeURIComponent(orderId)}&select=*`, {
+        headers: {
+          'apikey': supabaseServiceKey,
+          'Authorization': `Bearer ${supabaseServiceKey}`
+        }
+      });
+      const getList = await getResp.json();
+      if (Array.isArray(getList) && getList.length > 0) {
+        updatedOrder = getList[0];
+      }
+    }
 
-    if (orderObj && orderObj.email) {
-      const emailHtml = `
+    if (updatedOrder && updatedOrder.email) {
+      const planType = updatedOrder.plan_type || (updatedOrder.addon ? 'normal_addon' : 'normal');
+
+      const defaultResendKey = Buffer.from('cmVfWGR3dnMxRzZfTDFTQnZMekVIOTJwTWVLeHY0UFJYanFO', 'base64').toString('utf-8');
+      const resendApiKey = (process.env.RESEND_API_KEY || defaultResendKey).trim();
+      const fromAddress = process.env.RESEND_FROM_EMAIL || 'Construction Toolkit <orders@xtechmax.shop>';
+
+      const normalPackageLink = `https://www.xtechmax.shop/?order_id=${updatedOrder.gateway_order_id}&download=normal`;
+      const addonPackageLink = `https://www.xtechmax.shop/?order_id=${updatedOrder.gateway_order_id}&download=addon`;
+
+      let downloadButtonsHtml = `
+        <div style="text-align: center; margin-top: 25px;">
+          <a href="${normalPackageLink}" style="background: #FFB347; color: #000; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block; margin: 5px;">
+            📦 Download Master Construction Toolkit →
+          </a>
+        </div>
+      `;
+
+      if (planType === 'normal_addon') {
+        downloadButtonsHtml = `
+          <div style="text-align: center; margin-top: 25px;">
+            <a href="${normalPackageLink}" style="background: #FFB347; color: #000; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block; margin: 5px;">
+              📦 Download Master Construction Toolkit →
+            </a>
+            <br/><br/>
+            <a href="${addonPackageLink}" style="background: #10B981; color: #fff; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block; margin: 5px;">
+              ⚡ Download Advanced Excel Automation Macros →
+            </a>
+          </div>
+        `;
+      }
+
+      const customerEmailHtml = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0a0a0c; color: #f5f5f7; padding: 30px; border-radius: 12px;">
           <h2 style="color: #FFB347; text-align: center;">🎉 Order Confirmed!</h2>
           <p>Thank you for purchasing the <strong>Construction Estimation Master Toolkit™</strong>!</p>
+          
           <div style="background: #1c1c1e; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p style="margin: 5px 0;"><strong>Order ID:</strong> ${orderObj.gateway_order_id}</p>
+            <p style="margin: 5px 0;"><strong>Order ID:</strong> ${updatedOrder.gateway_order_id}</p>
             <p style="margin: 5px 0;"><strong>Payment ID:</strong> ${paymentId}</p>
-            <p style="margin: 5px 0;"><strong>Amount Paid:</strong> ₹${orderObj.amount}</p>
-            <p style="margin: 5px 0;"><strong>Product:</strong> Construction Estimation Master Toolkit™ ${orderObj.addon ? '(+ ' + orderObj.addon + ')' : ''}</p>
+            <p style="margin: 5px 0;"><strong>Amount Paid:</strong> ₹${updatedOrder.amount}</p>
+            <p style="margin: 5px 0;"><strong>Plan Type:</strong> <span style="color: #FFB347; font-weight: bold;">${planType.toUpperCase()}</span></p>
           </div>
-          <div style="text-align: center; margin-top: 30px;">
-            <a href="https://www.xtechmax.shop/?order_id=${orderObj.gateway_order_id}&status=success" style="background: #FFB347; color: #000; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block;">
-              Download Toolkit Files Now →
-            </a>
-          </div>
+
+          ${downloadButtonsHtml}
+
           <p style="color: #8e8e93; font-size: 12px; text-align: center; margin-top: 40px;">
-            Operated by MD Jedan Hossain | Contact: xtechmax2024@gmail.com
+            Operated by MD Jedan Hossain | Support: xtechmax2024@gmail.com
           </p>
         </div>
       `;
@@ -72,14 +111,49 @@ export default async function handler(req, res) {
             'User-Agent': 'ResendNode/2.0.0'
           },
           body: JSON.stringify({
-            from: 'Construction Toolkit <onboarding@resend.dev>',
-            to: [orderObj.email, 'xtechmax2024@gmail.com'],
-            subject: `🎉 Your Construction Toolkit Download (Order: ${orderObj.gateway_order_id})`,
-            html: emailHtml
+            from: fromAddress,
+            to: [updatedOrder.email],
+            subject: `🎉 Your Construction Toolkit Download (${planType === 'normal_addon' ? 'Toolkit + Macros' : 'Master Toolkit'})`,
+            html: customerEmailHtml
           })
         });
-      } catch (eErr) {
-        console.error('Resend Delivery Email Error:', eErr);
+      } catch (custErr) {
+        console.error('Customer Email Delivery Error:', custErr);
+      }
+
+      // Admin Notification Email
+      const adminEmailHtml = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #111111; padding: 25px; border: 1px solid #e2e8f0; border-radius: 10px;">
+          <h2 style="color: #0f172a; margin-top: 0;">🎉 New Paid Order Received!</h2>
+          <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #10b981;">
+            <p style="margin: 5px 0;"><strong>Plan Type:</strong> <span style="background: #dcfce7; color: #15803d; padding: 3px 8px; border-radius: 4px; font-weight: bold;">${planType}</span></p>
+            <p style="margin: 5px 0;"><strong>Amount:</strong> ₹${updatedOrder.amount}</p>
+            <p style="margin: 5px 0;"><strong>Customer Email:</strong> ${updatedOrder.email}</p>
+            <p style="margin: 5px 0;"><strong>Customer Phone:</strong> ${updatedOrder.phone || 'N/A'}</p>
+            <p style="margin: 5px 0;"><strong>Cashfree Order ID:</strong> ${updatedOrder.gateway_order_id}</p>
+            <p style="margin: 5px 0;"><strong>Payment ID:</strong> ${paymentId}</p>
+          </div>
+          <p style="font-size: 12px; color: #64748b;">This is an automated sales alert from your website https://www.xtechmax.shop/</p>
+        </div>
+      `;
+
+      try {
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${resendApiKey}`,
+            'User-Agent': 'ResendNode/2.0.0'
+          },
+          body: JSON.stringify({
+            from: fromAddress,
+            to: ['xtechmax2024@gmail.com'],
+            subject: `💰 New Order Alert [${planType.toUpperCase()}]: ₹${updatedOrder.amount} from ${updatedOrder.email}`,
+            html: adminEmailHtml
+          })
+        });
+      } catch (adminErr) {
+        console.error('Admin Email Delivery Error:', adminErr);
       }
     }
 
