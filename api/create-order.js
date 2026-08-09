@@ -52,6 +52,7 @@ export default async function handler(req, res) {
         },
         order_meta: {
           return_url: 'https://www.xtechmax.shop/?order_id={order_id}&status=success',
+          notify_url: 'https://www.xtechmax.shop/api/cashfree-webhook',
         },
       }),
     });
