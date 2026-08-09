@@ -306,7 +306,23 @@
         .anim-celebrate { animation: celebrationBurst 0.5s ease-out; }
 
     </style>
-<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1032162379606085');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 </head>
 <body class="font-body-md antialiased selection:bg-construction-amber selection:text-black">
 <!-- TopAppBar -->
@@ -760,8 +776,13 @@
                         const order = data[0];
                         const hasAddon = order.addon || (order.amount > 200);
                         if (hasAddon) {
-                            document.getElementById("successPackageName").innerText = "Master Toolkit + Excel Macros Add-on";
+                            document.getElementById("successPackageName").innerText = "Master Toolkit + Vastu Shastra Guide";
                             document.getElementById("successAddonContainer").classList.remove("hidden");
+                        }
+
+                        // Track Purchase with Meta Pixel
+                        if (typeof fbq === 'function') {
+                            fbq('track', 'Purchase', { value: order.amount, currency: 'INR' });
                         }
                     }
                 }
