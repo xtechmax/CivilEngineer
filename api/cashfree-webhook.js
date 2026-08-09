@@ -18,22 +18,26 @@ export default async function handler(req, res) {
   try {
     const body = req.body || {};
     
-    // 1. CASHFREE WEBHOOK SIGNATURE VERIFICATION
+    // 1. STRICT CASHFREE WEBHOOK SIGNATURE VERIFICATION (MISSING OR INVALID = 401)
     const signature = req.headers['x-webhook-signature'];
     const timestamp = req.headers['x-webhook-timestamp'];
-    const defaultSecret = Buffer.from('Y2Zza19tYV9wcm9kXzJmZmYwNDNmOWM4ZjE4ZTQ0N2UxMDk3NTg0MTYyMzI4XzZmODlmODQ3', 'base64').toString('utf-8');
-    const secretKey = defaultSecret;
 
-    if (signature && timestamp) {
-      const rawPayload = timestamp + JSON.stringify(body);
-      const expectedSignature = crypto.createHmac('sha256', secretKey).update(rawPayload).digest('base64');
-
-      if (signature !== expectedSignature) {
-        console.error(`${logHeader} ❌ SIGNATURE VERIFICATION FAILED. Received: ${signature}`);
-        return res.status(401).json({ message: 'Invalid webhook signature' });
-      }
-      console.log(`${logHeader} ✅ Webhook signature verified successfully.`);
+    if (!signature || !timestamp) {
+      console.error(`${logHeader} ❌ REJECTED: Missing x-webhook-signature or x-webhook-timestamp headers.`);
+      return res.status(401).json({ message: 'Missing required webhook security headers' });
     }
+
+    const defaultSecret = Buffer.from('Y2Zza19tYV9wcm9kXzJmZmYwNDNmOWM4ZjE4ZTQ0N2UxMDk3NTg0MTYyMzI4XzZmODlmODQ3', 'base64').toString('utf-8');
+    const secretKey = (process.env.CASHFREE_SECRET_KEY || defaultSecret).trim();
+    const rawPayload = timestamp + JSON.stringify(body);
+    const expectedSignature = crypto.createHmac('sha256', secretKey).update(rawPayload).digest('base64');
+
+    if (signature !== expectedSignature) {
+      console.error(`${logHeader} ❌ REJECTED: Invalid webhook signature. Received: ${signature}`);
+      return res.status(401).json({ message: 'Invalid webhook signature' });
+    }
+
+    console.log(`${logHeader} ✅ Webhook signature verified successfully.`);
 
     // Extract Payload Data
     const dataObj = body.data || {};
