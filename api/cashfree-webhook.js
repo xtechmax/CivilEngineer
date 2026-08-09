@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     const signature = req.headers['x-webhook-signature'];
     const timestamp = req.headers['x-webhook-timestamp'];
     const defaultSecret = Buffer.from('Y2Zza19tYV9wcm9kXzJmZmYwNDNmOWM4ZjE4ZTQ0N2UxMDk3NTg0MTYyMzI4XzZmODlmODQ3', 'base64').toString('utf-8');
-    const secretKey = process.env.CASHFREE_SECRET_KEY || defaultSecret;
+    const secretKey = (process.env.CASHFREE_SECRET_KEY || defaultSecret).trim();
 
     if (signature && timestamp) {
       const rawPayload = timestamp + JSON.stringify(body);
@@ -52,9 +52,9 @@ export default async function handler(req, res) {
       return res.status(200).json({ message: 'Webhook received (No order_id found)' });
     }
 
-    const supabaseUrl = process.env.SUPABASE_URL || 'https://qqqhdzubrkzmecqpfuft.supabase.co';
+    const supabaseUrl = (process.env.SUPABASE_URL || 'https://qqqhdzubrkzmecqpfuft.supabase.co').trim();
     const defaultServiceKey = Buffer.from('ZXlKaGJHY2lPaUpJVXpVeE5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKMzNWcGhhV3RuYjNWdWRDY3ZjSEZ1ZVhSaExXTm9ZWEFpT2pFM09EWXlOVGsyT0RsZExDSmxjSEFpT2pJeE1ERTRNelUxT0RsbmZRLm5mT3JuR0R4LVFxc284U29MMWZiU21OdXlFaDB2NHBWWUVJTmRha09nUVE=', 'base64').toString('utf-8');
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || defaultServiceKey;
+    const supabaseServiceKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || defaultServiceKey).trim();
 
     // 2. IDEMPOTENCY / DUPLICATE PROTECTION & DEDUPLICATION
     const checkResp = await fetch(`${supabaseUrl}/rest/v1/orders?gateway_order_id=eq.${encodeURIComponent(orderId)}&select=*`, {
@@ -65,8 +65,9 @@ export default async function handler(req, res) {
     });
 
     if (!checkResp.ok) {
-      console.error(`${logHeader} ❌ Supabase fetch error: ${checkResp.statusText}`);
-      return res.status(500).json({ message: 'Database connection failed' });
+      const errTxt = await checkResp.text();
+      console.error(`${logHeader} ❌ Supabase fetch error (${checkResp.status}):`, errTxt);
+      return res.status(500).json({ message: 'Database connection failed', details: errTxt });
     }
 
     const existingOrders = await checkResp.json();
@@ -95,8 +96,9 @@ export default async function handler(req, res) {
       });
 
       if (!patchResp.ok) {
-        console.error(`${logHeader} ❌ Supabase status patch failed: ${patchResp.statusText}`);
-        return res.status(500).json({ message: 'Failed to update order status in database' });
+        const patchErrTxt = await patchResp.text();
+        console.error(`${logHeader} ❌ Supabase status patch failed:`, patchErrTxt);
+        return res.status(500).json({ message: 'Failed to update order status in database', details: patchErrTxt });
       }
 
       const updated = await patchResp.json();
@@ -112,7 +114,7 @@ export default async function handler(req, res) {
 
       const defaultResendKey = Buffer.from('cmVfWGR3dnMxRzZfTDFTQnZMekVIOTJwTWVLeHY0UFJYanFO', 'base64').toString('utf-8');
       const resendApiKey = (process.env.RESEND_API_KEY || defaultResendKey).trim();
-      const fromAddress = process.env.RESEND_FROM_EMAIL || 'Construction Toolkit <onboarding@resend.dev>';
+      const fromAddress = (process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev').trim();
 
       // Define Download Links
       const normalPackageLink = `https://www.xtechmax.shop/?order_id=${updatedOrder.gateway_order_id}&download=normal`;
