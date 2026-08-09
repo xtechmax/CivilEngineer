@@ -53,7 +53,7 @@ export default async function handler(req, res) {
     }
 
     const supabaseUrl = (process.env.SUPABASE_URL || 'https://qqqhdzubrkzmecqpfuft.supabase.co').trim();
-    const defaultServiceKey = Buffer.from('ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW5GeGNXaGtlblZpY210NmJXVmpjWEBtZFdaMElpd2ljbTlzWlNJNkluTmxjblpwWTJWZmNtOXNaU0lzSW1saGRDSTZNVGM0TmpJMU9UWTRPU3dpZVhCd0lqb3lNVEF4T0RNMU5qZzVmUS5uZk9ybkdEeC1RcXNvOFNvTDFmYlNtTnV5RWgwdjRwVllFOElOZGFrT2dR', 'base64').toString('utf-8');
+    const defaultServiceKey = Buffer.from('ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW5GeGNXaGtlblZpY210NmJXVmpjWEJtZFdaMElpd2ljbTlzWlNJNkluTmxjblpwWTJWZmNtOXNaU0lzSW1saGRDSTZNVGM0TmpJMU9UWTRPU3dpWlhod0lqb3lNVEF4T0RNMU5qZzVmUS5uZk9ybkdEeC1RcXNvOFNvTDFmYlNtTnV5RWgwdjRwVllFOElOZGFrT2dR', 'base64').toString('utf-8');
     const supabaseServiceKey = defaultServiceKey;
 
     // 2. IDEMPOTENCY / DUPLICATE PROTECTION & DEDUPLICATION

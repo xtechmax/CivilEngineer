@@ -67,7 +67,7 @@ export default async function handler(req, res) {
 
     // Save Order Record to Supabase
     const supabaseUrl = 'https://qqqhdzubrkzmecqpfuft.supabase.co';
-    const supabaseServiceKey = Buffer.from('ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW5GeGNXaGtlblZpY210NmJXVmpjWEBtZFdaMElpd2ljbTlzWlNJNkluTmxjblpwWTJWZmNtOXNaU0lzSW1saGRDSTZNVGM0TmpJMU9UWTRPU3dpZVhCd0lqb3lNVEF4T0RNMU5qZzVmUS5uZk9ybkdEeC1RcXNvOFNvTDFmYlNtTnV5RWgwdjRwVllFOElOZGFrT2dR', 'base64').toString('utf-8');
+    const supabaseServiceKey = Buffer.from('ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW5GeGNXaGtlblZpY210NmJXVmpjWEJtZFdaMElpd2ljbTlzWlNJNkluTmxjblpwWTJWZmNtOXNaU0lzSW1saGRDSTZNVGM0TmpJMU9UWTRPU3dpZVhCd0lqb3lNVEF4T0RNMU5qZzVmUS5uZk9ybkdEeC1RcXNvOFNvTDFmYlNtTnV5RWgwdjRwVllFOElOZGFrT2dR', 'base64').toString('utf-8');
 
     const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
