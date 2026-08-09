@@ -354,6 +354,37 @@
                 setSelectedRows(prev => ({ ...prev, [id]: !prev[id] }));
             };
 
+            const handleDeleteSelected = async () => {
+                const idsToDelete = Object.keys(selectedRows).filter(id => selectedRows[id]);
+                if (idsToDelete.length === 0) return;
+                
+                if (!window.confirm(`Are you sure you want to delete ${idsToDelete.length} selected order(s)? This action cannot be undone.`)) {
+                    return;
+                }
+
+                try {
+                    const idList = idsToDelete.join(',');
+                    const response = await fetch(`${SUPABASE_URL}/rest/v1/orders?id=in.(${idList})`, {
+                        method: "DELETE",
+                        headers: {
+                            "apikey": SUPABASE_ANON_KEY,
+                            "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+                        }
+                    });
+
+                    if (response.ok) {
+                        setOrders(prev => prev.filter(o => !idsToDelete.includes(String(o.id))));
+                        setSelectedRows({});
+                    } else {
+                        console.error("Failed to delete orders");
+                        alert("Failed to delete orders from Supabase.");
+                    }
+                } catch (e) {
+                    console.error("Delete error:", e);
+                    alert("Error deleting orders.");
+                }
+            };
+
             return (
                 <div className="flex min-h-screen">
                     {/* Fixed Left Sidebar (~280px wide) */}
@@ -605,15 +636,23 @@
                                             ))}
                                         </div>
 
-                                        <div className="relative">
-                                            <input
-                                                type="text"
-                                                placeholder="Search email or phone..."
-                                                value={searchQuery}
-                                                onChange={e => setSearchQuery(e.target.value)}
-                                                className="w-64 border border-slate-200 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-700 outline-none focus:border-slate-400"
-                                            />
-                                            <span className="material-symbols-outlined text-slate-400 text-sm absolute left-2.5 top-2">search</span>
+                                        <div className="flex items-center gap-3">
+                                            {Object.values(selectedRows).some(Boolean) && (
+                                                <button onClick={handleDeleteSelected} className="flex items-center gap-1.5 px-3 py-1.5 bg-rose-50 border border-rose-200 text-rose-600 rounded-lg text-xs font-semibold hover:bg-rose-100 transition-colors shadow-sm">
+                                                    <span className="material-symbols-outlined text-[16px]">delete</span>
+                                                    Delete Selected
+                                                </button>
+                                            )}
+                                            <div className="relative">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Search email or phone..."
+                                                    value={searchQuery}
+                                                    onChange={e => setSearchQuery(e.target.value)}
+                                                    className="w-64 border border-slate-200 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-700 outline-none focus:border-slate-400"
+                                                />
+                                                <span className="material-symbols-outlined text-slate-400 text-sm absolute left-2.5 top-2">search</span>
+                                            </div>
                                         </div>
                                     </div>
 
