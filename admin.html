@@ -186,6 +186,11 @@
                 const saved = localStorage.getItem("admin_contact_requests");
                 return saved ? JSON.parse(saved) : [];
             });
+            
+            const [pageviews, setPageviews] = useState(() => {
+                const saved = localStorage.getItem("admin_pageviews");
+                return saved ? JSON.parse(saved) : [];
+            });
 
             const [loading, setLoading] = useState(true);
             const [supabaseStatus, setSupabaseStatus] = useState("Connected");
@@ -231,6 +236,20 @@
                         }
                     }
 
+                    // Fetch Pageviews
+                    const pvResp = await fetch(`${SUPABASE_URL}/rest/v1/pageviews?select=*&order=created_at.desc&limit=5000`, {
+                        headers: {
+                            "apikey": SUPABASE_ANON_KEY,
+                            "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+                        }
+                    });
+                    if (pvResp.ok) {
+                        const supaPv = await pvResp.json();
+                        if (Array.isArray(supaPv)) {
+                            setPageviews(supaPv);
+                        }
+                    }
+
                     setSupabaseStatus("Synced with Supabase");
                 } catch (err) {
                     console.error("Supabase Fetch Error:", err);
@@ -248,10 +267,39 @@
             useEffect(() => {
                 localStorage.setItem("admin_orders", JSON.stringify(orders));
             }, [orders]);
+            
+            useEffect(() => {
+                localStorage.setItem("admin_pageviews", JSON.stringify(pageviews));
+            }, [pageviews]);
 
             useEffect(() => {
                 localStorage.setItem("admin_contact_requests", JSON.stringify(contactRequests));
             }, [contactRequests]);
+
+            // Compute Viewer Stats
+            const viewerStats = useMemo(() => {
+                const now = new Date();
+                let live = 0, today = 0, month = 0, lifetime = pageviews.length;
+
+                pageviews.forEach(pv => {
+                    if (!pv.created_at) return;
+                    const pvDate = new Date(pv.created_at);
+                    const diffMs = now - pvDate;
+                    const diffMins = diffMs / 60000;
+                    
+                    if (diffMins <= 5) live++;
+                    
+                    if (pvDate.getDate() === now.getDate() && pvDate.getMonth() === now.getMonth() && pvDate.getFullYear() === now.getFullYear()) {
+                        today++;
+                    }
+                    
+                    if (pvDate.getMonth() === now.getMonth() && pvDate.getFullYear() === now.getFullYear()) {
+                        month++;
+                    }
+                });
+
+                return { live, today, month, lifetime };
+            }, [pageviews]);
 
             // Analytics Calculations
             const analytics = useMemo(() => {
@@ -453,6 +501,7 @@
                             <nav className="space-y-1.5">
                                 {[
                                     { id: "orders", label: "Orders", icon: "shopping_cart" },
+                                    { id: "analytics", label: "Analytics", icon: "bar_chart" },
                                     { id: "contact", label: "Contact Requests", icon: "mail" },
                                     { id: "manual", label: "Manual Send", icon: "send" }
                                 ].map(item => (
@@ -860,6 +909,86 @@
                             </div>
                         )}
 
+                        {/* Analytics Page */}
+                        {activeTab === "analytics" && (
+                            <div className="space-y-8">
+                                <div className="flex justify-between items-center mb-6">
+                                    <h1 className="text-3xl font-bold text-slate-900">Analytics</h1>
+                                    <button onClick={fetchSupabaseData} className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-sm">
+                                        <span className="material-symbols-outlined text-sm">refresh</span>
+                                        Refresh Data
+                                    </button>
+                                </div>
+
+                                {/* Viewer Analytics Cards */}
+                                <div>
+                                    <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Viewer Statistics</h2>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm relative overflow-hidden">
+                                            <div className="absolute top-0 right-0 w-2 h-full bg-red-500"></div>
+                                            <div className="text-xs text-slate-500 font-medium flex items-center gap-2">
+                                                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                                                Live Viewers
+                                            </div>
+                                            <div className="text-3xl font-bold text-slate-900 mt-2">{viewerStats.live}</div>
+                                            <div className="text-[10px] text-slate-400 mt-1">Active in last 5 minutes</div>
+                                        </div>
+
+                                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                                            <div className="text-xs text-slate-500 font-medium">Today's Viewers</div>
+                                            <div className="text-3xl font-bold text-slate-900 mt-2">{viewerStats.today}</div>
+                                        </div>
+
+                                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                                            <div className="text-xs text-slate-500 font-medium">This Month</div>
+                                            <div className="text-3xl font-bold text-slate-900 mt-2">{viewerStats.month}</div>
+                                        </div>
+
+                                        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+                                            <div className="text-xs text-slate-500 font-medium">Lifetime Views</div>
+                                            <div className="text-3xl font-bold text-slate-900 mt-2">{viewerStats.lifetime}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Recent Viewers Table */}
+                                <div>
+                                    <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Recent Viewers</h2>
+                                    <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                                        <table className="w-full text-left text-sm text-slate-600">
+                                            <thead className="bg-slate-50 text-slate-400 font-medium text-xs uppercase border-b border-slate-100">
+                                                <tr>
+                                                    <th className="py-3 px-6 w-48">Time</th>
+                                                    <th className="py-3 px-6">Device / Browser Info</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-100">
+                                                {pageviews.slice(0, 50).map((pv, idx) => (
+                                                    <tr key={pv.id || idx} className="hover:bg-slate-50 transition-colors">
+                                                        <td className="py-3 px-6 whitespace-nowrap">
+                                                            {new Date(pv.created_at).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}
+                                                        </td>
+                                                        <td className="py-3 px-6">
+                                                            <div className="text-xs text-slate-500 truncate max-w-[400px]" title={pv.user_agent || "Unknown Device"}>
+                                                                {pv.user_agent || "Unknown Device"}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                                {pageviews.length === 0 && (
+                                                    <tr>
+                                                        <td colSpan="2" className="py-8 text-center text-slate-400">
+                                                            <span className="material-symbols-outlined text-4xl block mb-2 opacity-50">analytics</span>
+                                                            No viewer data available.
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                         {/* Contact Requests Page */}
                         {activeTab === "contact" && (
                             <div className="space-y-6">

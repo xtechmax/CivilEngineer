@@ -887,9 +887,31 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
         setInterval(updateTimer, 1000);
     }
 
+    async function logPageView() {
+        try {
+            const supaUrl = "https://qqqhdzubrkzmecqpfuft.supabase.co/rest/v1/pageviews";
+            const anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxcWhkenVicmt6bWVjcXBmdWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyNTk2ODksImV4cCI6MjEwMTgzNTY4OX0.6AOXzjpaOOWX_qnhG_6ZLSkdaciQDZWqUVd0X2A864E";
+            await fetch(supaUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "apikey": anonKey,
+                    "Authorization": "Bearer " + anonKey,
+                    "Prefer": "return=minimal"
+                },
+                body: JSON.stringify({
+                    user_agent: navigator.userAgent
+                })
+            });
+        } catch (e) {
+            console.warn("Analytics blocked or failed");
+        }
+    }
+
     window.addEventListener("DOMContentLoaded", () => {
         initDynamicDiscounts();
         startBannerTimer();
+        logPageView();
         if (window.innerWidth < 1024) {
             document.body.style.paddingBottom = '120px';
         }
