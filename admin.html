@@ -203,6 +203,7 @@
             const [endDate, setEndDate] = useState("");
             const [chartMetric, setChartMetric] = useState("revenue");
             const [selectedRows, setSelectedRows] = useState({});
+            const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
             // Fetch Real Data from Supabase
             const fetchSupabaseData = async () => {
@@ -489,9 +490,28 @@
             }
 
             return (
-                <div className="flex min-h-screen">
-                    {/* Fixed Left Sidebar (~280px wide) */}
-                    <aside className="w-[280px] bg-white border-r border-slate-200 p-6 flex flex-col justify-between fixed top-0 bottom-0 left-0 z-40">
+                <div className="flex min-h-screen bg-slate-50">
+                    {/* Mobile Top Navigation */}
+                    <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white border-b border-slate-200 z-30 flex items-center px-4 justify-between shadow-sm">
+                        <div className="flex items-center gap-2">
+                            <span className="material-symbols-outlined text-amber-500 text-2xl">construction</span>
+                            <span className="font-bold text-slate-900 tracking-tight">AdminPanel</span>
+                        </div>
+                        <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+                            <span className="material-symbols-outlined text-2xl">menu</span>
+                        </button>
+                    </div>
+
+                    {/* Mobile Sidebar Overlay */}
+                    {isSidebarOpen && (
+                        <div 
+                            className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 lg:hidden transition-opacity"
+                            onClick={() => setIsSidebarOpen(false)}
+                        ></div>
+                    )}
+
+                    {/* Left Sidebar */}
+                    <aside className={`w-[280px] bg-white border-r border-slate-200 p-6 flex flex-col justify-between fixed top-0 bottom-0 left-0 z-50 transition-transform duration-300 ease-in-out lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
                         <div>
                             <div className="flex items-center gap-3 mb-8">
                                 <span className="material-symbols-outlined text-amber-500 text-3xl">construction</span>
@@ -507,7 +527,7 @@
                                 ].map(item => (
                                     <button
                                         key={item.id}
-                                        onClick={() => setActiveTab(item.id)}
+                                        onClick={() => { setActiveTab(item.id); setIsSidebarOpen(false); }}
                                         className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                                             activeTab === item.id
                                                 ? "bg-slate-100 text-slate-900 font-semibold"
@@ -535,7 +555,7 @@
                     </aside>
 
                     {/* Main Content Area */}
-                    <main className="flex-1 ml-[280px] p-8 max-w-[1400px]">
+                    <main className="flex-1 lg:ml-[280px] pt-24 lg:pt-8 p-4 lg:p-8 max-w-[1400px] w-full overflow-hidden">
                         {activeTab === "orders" && (
                             <div className="space-y-8">
                                 {/* Page Header & Contact Reminders Panel */}
@@ -687,7 +707,7 @@
                                 </div>
 
                                 {/* Daily Breakdown Table */}
-                                <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                                <div className="bg-white border border-slate-200 rounded-xl overflow-x-auto shadow-sm">
                                     <div className="px-6 py-4 border-b border-slate-100 font-semibold text-slate-800 text-sm">
                                         Daily breakdown
                                     </div>
@@ -954,7 +974,7 @@
                                 {/* Recent Viewers Table */}
                                 <div>
                                     <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Recent Viewers</h2>
-                                    <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                                    <div className="bg-white border border-slate-200 rounded-xl overflow-x-auto shadow-sm">
                                         <table className="w-full text-left text-sm text-slate-600">
                                             <thead className="bg-slate-50 text-slate-400 font-medium text-xs uppercase border-b border-slate-100">
                                                 <tr>
@@ -993,7 +1013,7 @@
                         {activeTab === "contact" && (
                             <div className="space-y-6">
                                 <h1 className="text-3xl font-bold text-slate-900">Contact Requests</h1>
-                                <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                                <div className="bg-white border border-slate-200 rounded-xl overflow-x-auto shadow-sm">
                                     <table className="w-full text-left text-sm text-slate-600">
                                         <thead className="bg-slate-50 text-slate-400 font-medium text-xs uppercase border-b border-slate-100">
                                             <tr>
