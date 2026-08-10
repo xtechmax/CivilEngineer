@@ -328,6 +328,7 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 </head>
 <body class="font-body-md antialiased selection:bg-construction-amber selection:text-black">
 <!-- TopAppBar -->
@@ -450,7 +451,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 
     <!-- Interactive CTA Add Button -->
     <label class="mt-2 w-full cursor-pointer block">
-        <input id="orderBump" onchange="toggleAddonState()" checked class="hidden" type="checkbox"/>
+        <input id="orderBump" onchange="toggleAddonState()" checked class="sr-only" type="checkbox"/>
         <div id="addonCtaBtn" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs py-1.5 px-2.5 rounded-md flex items-center justify-center gap-1 transition-all shadow-md text-center">
             <span class="material-symbols-outlined text-xs font-bold">check_circle</span>
             <span id="addonCtaText">✓ Added to Order (+₹49)</span>
@@ -814,7 +815,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 
     
     // Sticky Buy Bar JS removed — using pure CSS media query to guarantee visibility
-\n    function initDynamicDiscounts() {
+    function initDynamicDiscounts() {
         // Main Product: Original 1,999, Discounted 199 -> 90%
         const mainOrig = 1999;
         const mainCurrent = 199;
