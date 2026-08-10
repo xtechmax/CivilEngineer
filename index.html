@@ -807,23 +807,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
     }
 
     
-    // Sticky Buy Bar — show after hero, never hide on checkout
-    (function() {
-        function updateStickyBar() {
-            var bar = document.getElementById('stickyBuyBar');
-            if (!bar) return;
-            // Only show on mobile
-            if (window.innerWidth >= 1024) {
-                bar.style.display = 'none';
-                return;
-            }
-            var pastHero = window.scrollY > 300;
-            bar.style.display = pastHero ? 'block' : 'none';
-        }
-        window.addEventListener('scroll', updateStickyBar, {passive: true});
-        window.addEventListener('resize', updateStickyBar);
-        window.addEventListener('DOMContentLoaded', updateStickyBar);
-    })();
+    // Sticky Buy Bar JS removed — using pure CSS media query to guarantee visibility
 \n    function initDynamicDiscounts() {
         // Main Product: Original 1,999, Discounted 199 -> 90%
         const mainOrig = 1999;
@@ -908,7 +892,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 
 
 <!-- Sticky Buy Now Full Panel -->
-<div id="stickyBuyBar" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:999999;background-color:#ffffff;border-top:1px solid #e5e7eb;padding:12px 16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));box-sizing:border-box;box-shadow:0 -10px 40px rgba(0,0,0,0.15);">
+<div id="stickyBuyBar" class="mobile-sticky-bar" style="position:fixed;bottom:0;left:0;right:0;z-index:999999;background-color:#ffffff;border-top:1px solid #e5e7eb;padding:12px 16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));box-sizing:border-box;box-shadow:0 -10px 40px rgba(0,0,0,0.15);">
   <!-- Top Price Row -->
   <div style="display:flex;justify-content:center;align-items:flex-end;gap:8px;margin-bottom:8px;">
     <span style="font-size:28px;font-weight:900;color:#1d4ed8;line-height:1;letter-spacing:-0.5px;">₹199</span>
@@ -955,6 +939,10 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 <style>
   @keyframes btnShimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(250%)} }
   #stickyShimmer { animation: btnShimmer 2.2s ease-in-out infinite; }
+  .mobile-sticky-bar { display: none !important; }
+  @media (max-width: 1023px) {
+    .mobile-sticky-bar { display: block !important; }
+  }
 </style>
 
 </body></html>
