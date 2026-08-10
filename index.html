@@ -813,21 +813,19 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
         const checkoutSection = document.getElementById('checkout');
         if (!stickyBar) return;
 
-        const scrollY = window.scrollY;
-        const pastHero = scrollY > 450;
+        const pastHero = window.scrollY > 450;
 
-        // Hide bar when user has scrolled to checkout section
+        // Hide bar when checkout section is visible in the viewport
         let nearCheckout = false;
         if (checkoutSection) {
             const rect = checkoutSection.getBoundingClientRect();
-            // Hide when checkout top is within 100px above or below viewport top
             nearCheckout = rect.top <= window.innerHeight && rect.bottom >= 0;
         }
 
         if (pastHero && !nearCheckout) {
-            stickyBar.classList.remove('translate-y-full');
+            stickyBar.style.transform = 'translateY(0)';
         } else {
-            stickyBar.classList.add('translate-y-full');
+            stickyBar.style.transform = 'translateY(100%)';
         }
     });
 \n    function initDynamicDiscounts() {
