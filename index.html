@@ -807,21 +807,21 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
     }
 
     
-    // Sticky Buy Bar — show after hero, hide when checkout is visible
+    // Sticky Buy Bar — show after hero, never hide on checkout
     (function() {
         function updateStickyBar() {
             var bar = document.getElementById('stickyBuyBar');
             if (!bar) return;
-            var checkout = document.getElementById('checkout');
-            var pastHero = window.scrollY > 400;
-            var onCheckout = false;
-            if (checkout) {
-                var r = checkout.getBoundingClientRect();
-                onCheckout = r.top < window.innerHeight && r.bottom > 0;
+            // Only show on mobile
+            if (window.innerWidth >= 1024) {
+                bar.style.display = 'none';
+                return;
             }
-            bar.style.display = (pastHero && !onCheckout) ? 'block' : 'none';
+            var pastHero = window.scrollY > 300;
+            bar.style.display = pastHero ? 'block' : 'none';
         }
         window.addEventListener('scroll', updateStickyBar, {passive: true});
+        window.addEventListener('resize', updateStickyBar);
         window.addEventListener('DOMContentLoaded', updateStickyBar);
     })();
 \n    function initDynamicDiscounts() {
@@ -899,6 +899,9 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
     window.addEventListener("DOMContentLoaded", () => {
         initDynamicDiscounts();
         startBannerTimer();
+        if (window.innerWidth < 1024) {
+            document.body.style.paddingBottom = '100px';
+        }
     });
 
 </script>
