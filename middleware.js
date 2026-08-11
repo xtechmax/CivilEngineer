@@ -1,8 +1,17 @@
 export const config = {
-  matcher: ['/', '/index.html'],
+  matcher: '/:path*',
 };
 
 export default async function middleware(request) {
+  // Check and block specific IP
+  const clientIp = request.headers.get('x-real-ip') || request.headers.get('x-forwarded-for') || '';
+  if (clientIp.includes('223.188.46.116')) {
+    return new Response('Access Denied: Your IP has been blocked.', {
+      status: 403,
+      headers: { 'content-type': 'text/plain' }
+    });
+  }
+
   // Check MAINTENANCE_MODE environment variable
   const isMaintenanceMode = process.env.MAINTENANCE_MODE === 'true' || process.env.MAINTENANCE_MODE === '1';
 
