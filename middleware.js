@@ -6,8 +6,8 @@ export default async function middleware(request) {
   // Check and block specific IP
   const clientIp = request.headers.get('x-real-ip') || request.headers.get('x-forwarded-for') || '';
   if (clientIp.includes('223.188.46.116')) {
-    return new Response('Access Denied: Your IP has been blocked.', {
-      status: 403,
+    return new Response('404 Not Found', {
+      status: 404,
       headers: { 'content-type': 'text/plain' }
     });
   }
