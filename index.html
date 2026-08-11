@@ -372,8 +372,8 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 </div>
 <h1 class="text-3xl sm:text-4xl lg:text-[44px] text-headline-white leading-tight md:leading-[1.15] font-extrabold tracking-tight">Master Construction Estimation with Precision.</h1>
 <p class="text-base lg:text-lg text-body-gray max-w-2xl">The complete system to generate accurate BOQs, Rate Analysis, and Billing seamlessly.</p>
-<div class="rounded-2xl overflow-hidden mt-3 lg:mt-5 border border-border-subtle relative group shadow-2xl">
-<img class="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105" data-alt="A premium 3D render of a thick construction estimation handbook standing upright on a minimalist dark architectural desk. The book cover is deep navy blue with bold yellow typography reading 'The Complete Construction Estimation System'." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVgIbk7NnvJ9AWirQfviYK9_1UsTTgTusQ4a7hjfzF6jO1zXLX15fNcz0eJ5PNcsvLhc27cACg5w4HCaACskgXeYDKWo-7ODCwPgE5Np7H3wGZgtoUEgVUNs-ArYiOKZQp4PA5F5TIJ9O5IJW6KUarA7bQ-jjT00mxQXPZ-iNpv_wT0yWO6s6Eu5UsYsRqeQNXzz-napn36i8Izyrg-7cxr2AIALR1q4wpvg0etw8aXYy97WNisFXO2yF3fNI8Npw5vg"/>
+<div class="rounded-2xl overflow-hidden mt-3 lg:mt-5 border border-border-subtle relative group shadow-2xl max-w-4xl mx-auto">
+<img class="w-full h-auto max-h-[300px] md:max-h-[400px] object-cover object-center transform transition-transform duration-700 group-hover:scale-105" data-alt="A premium 3D render of a thick construction estimation handbook standing upright on a minimalist dark architectural desk. The book cover is deep navy blue with bold yellow typography reading 'The Complete Construction Estimation System'." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVgIbk7NnvJ9AWirQfviYK9_1UsTTgTusQ4a7hjfzF6jO1zXLX15fNcz0eJ5PNcsvLhc27cACg5w4HCaACskgXeYDKWo-7ODCwPgE5Np7H3wGZgtoUEgVUNs-ArYiOKZQp4PA5F5TIJ9O5IJW6KUarA7bQ-jjT00mxQXPZ-iNpv_wT0yWO6s6Eu5UsYsRqeQNXzz-napn36i8Izyrg-7cxr2AIALR1q4wpvg0etw8aXYy97WNisFXO2yF3fNI8Npw5vg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 </div>
 <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 mt-6 p-4 rounded-xl border border-blue-500/30 bg-blue-900/20 shadow-[0_0_20px_rgba(59,130,246,0.2)] relative overflow-hidden group">
@@ -459,15 +459,21 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
         </div>
     </label>
 </div>
+    <!-- Price Drop Alert -->
+    <div class="bg-red-500/10 border border-red-500/20 rounded-md p-1.5 flex items-center gap-1.5 mt-2 shadow-sm">
+        <span class="material-symbols-outlined text-red-500 text-sm">trending_down</span>
+        <span class="text-red-400 text-[10px] font-bold uppercase tracking-wide">Price drop alert: Lowest price since launch</span>
+    </div>
+</div>
 <!-- Total -->
-<div class="border-t border-border-subtle pt-2 mt-0.5">
+<div class="border-t border-border-subtle pt-2 mt-2">
 <div class="flex justify-between items-center mb-0.5 text-[11px]">
 <span class="text-body-gray">Subtotal</span>
-<span class="text-headline-white">₹199.00</span>
+<span class="text-headline-white">₹149.00</span>
 </div>
 <div class="flex justify-between items-center font-bold text-base">
 <span class="text-headline-white">Total</span>
-<span id="displayTotal" class="text-construction-amber">₹248.00</span>
+<span id="displayTotal" class="text-construction-amber">₹198.00</span>
 </div>
 </div>
 <button id="payButton" class="mt-1.5 w-full bg-gradient-to-r from-construction-amber to-primary text-black font-bold py-2.5 rounded-lg glow-button transition-all transform active:scale-95 flex justify-center items-center gap-1.5 text-xs" type="submit">
@@ -708,7 +714,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 
     function updateTotalDisplay() {
         const isBump = document.getElementById("orderBump").checked;
-        const total = isBump ? 248.00 : 199.00;
+        const total = isBump ? 198.00 : 149.00;
         document.getElementById("displayTotal").innerText = "₹" + total.toFixed(2);
     }
 
@@ -819,7 +825,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
     function initDynamicDiscounts() {
         // Main Product: Original 1,999, Discounted 199 -> 90%
         const mainOrig = 1999;
-        const mainCurrent = 199;
+        const mainCurrent = 149;
         const mainDiscount = calcDiscountPercent(mainOrig, mainCurrent);
 
         const bannerHighlight = document.querySelector(".discount-highlight");
@@ -944,7 +950,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
     letter-spacing:0.02em;
   ">
     <span style="display:inline-flex;align-items:center;flex-shrink:0;" class="material-symbols-outlined">download</span>
-    <span style="flex:1;text-align:center;white-space:nowrap;">BUY NOW — ₹199</span>
+    <span style="flex:1;text-align:center;white-space:nowrap;">BUY NOW — ₹149</span>
     <span style="display:inline-flex;align-items:center;flex-shrink:0;" class="material-symbols-outlined">arrow_forward</span>
     <span id="stickyShimmer" style="position:absolute;top:0;left:0;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);transform:translateX(-100%);pointer-events:none;"></span>
   </a>
