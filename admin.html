@@ -807,8 +807,17 @@
                                             <tbody className="divide-y divide-slate-100">
                                                 {filteredOrders.length > 0 ? (
                                                     filteredOrders.map(order => {
-                                                        const cleanPhone = (order.phone || "").replace(/[^0-9]/g, '');
-                                                        const waText = encodeURIComponent(`Hi, following up on your order for ₹${order.amount} — let us know if you need any help completing the payment!`);
+                                                        let cleanPhone = (order.phone || "").replace(/[^0-9]/g, '');
+                                                        if (cleanPhone.length === 10) {
+                                                            cleanPhone = "91" + cleanPhone;
+                                                        }
+                                                        
+                                                        let rawWaText = `Hi! 👋 I noticed your order for the Construction Estimation Master Toolkit (₹${order.amount}).`;
+                                                        if (order.addon) {
+                                                            rawWaText += ` This includes the selected Add-on.`;
+                                                        }
+                                                        rawWaText += `\n\nOrder Reference: ${order.cashfree_order_id || 'N/A'}\n\nPlease let us know if you need any help completing the payment!`;
+                                                        const waText = encodeURIComponent(rawWaText);
                                                         const waUrl = `https://wa.me/${cleanPhone}?text=${waText}`;
 
                                                         return (
