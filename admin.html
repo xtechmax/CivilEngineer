@@ -162,7 +162,7 @@
 
             const handleLogin = (e) => {
                 e.preventDefault();
-                if (loginEmail === "zulak.ns@gmail.com" && loginPass === "@Xtechmax.com1") {
+                if (loginEmail.toLowerCase() === "zulak.ns@gmail.com" && loginPass === "@Xtechmax.com1") {
                     localStorage.setItem("admin_authenticated", "true");
                     setIsAuthenticated(true);
                 } else {
