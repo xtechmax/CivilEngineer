@@ -28,7 +28,8 @@ export default async function handler(req, res) {
     const furl = `${baseUrl}/api/payu/callback`;
 
     // Hash sequence: key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||salt
-    const hashString = `${key}|${txnid}|${amount}|${productinfo}|${firstname}|${email}||||||||||${salt}`;
+    // There are 11 pipes between email and salt if udfs are empty
+    const hashString = `${key}|${txnid}|${amount}|${productinfo}|${firstname}|${email}|||||||||||${salt}`;
     const hash = crypto.createHash('sha512').update(hashString).digest('hex');
 
     res.status(200).json({
