@@ -12,6 +12,82 @@
 <style id='wp-img-auto-sizes-contain-inline-css'>
 img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 /*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
 </style>
 
 <link rel='stylesheet' id='astra-theme-css-css' href='https://arcsio.in/wp-content/themes/astra/assets/css/minified/main.min.css?ver=4.13.0' media='all' />
@@ -52,6 +128,82 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 		}
 	#ast-scroll-top{background-color:var(--ast-global-color-0);font-size:15px;}@media (max-width:921px){#ast-scroll-top .ast-icon.icon-arrow svg{width:1em;}}.ast-mobile-header-content > *,.ast-desktop-header-content > * {padding: 10px 0;height: auto;}.ast-mobile-header-content > *:first-child,.ast-desktop-header-content > *:first-child {padding-top: 10px;}.ast-mobile-header-content > .ast-builder-menu,.ast-desktop-header-content > .ast-builder-menu {padding-top: 0;}.ast-mobile-header-content > *:last-child,.ast-desktop-header-content > *:last-child {padding-bottom: 0;}.ast-mobile-header-content .ast-search-menu-icon.ast-inline-search label,.ast-desktop-header-content .ast-search-menu-icon.ast-inline-search label {width: 100%;}.ast-desktop-header-content .main-header-bar-navigation .ast-submenu-expanded > .ast-menu-toggle::before {transform: rotateX(180deg);}#ast-desktop-header .ast-desktop-header-content,.ast-mobile-header-content .ast-search-icon,.ast-desktop-header-content .ast-search-icon,.ast-mobile-header-wrap .ast-mobile-header-content,.ast-main-header-nav-open.ast-popup-nav-open .ast-mobile-header-wrap .ast-mobile-header-content,.ast-main-header-nav-open.ast-popup-nav-open .ast-desktop-header-content {display: none;}.ast-main-header-nav-open.ast-header-break-point #ast-desktop-header .ast-desktop-header-content,.ast-main-header-nav-open.ast-header-break-point .ast-mobile-header-wrap .ast-mobile-header-content {display: block;}.ast-desktop .ast-desktop-header-content .astra-menu-animation-slide-up > .menu-item > .sub-menu,.ast-desktop .ast-desktop-header-content .astra-menu-animation-slide-up > .menu-item .menu-item > .sub-menu,.ast-desktop .ast-desktop-header-content .astra-menu-animation-slide-down > .menu-item > .sub-menu,.ast-desktop .ast-desktop-header-content .astra-menu-animation-slide-down > .menu-item .menu-item > .sub-menu,.ast-desktop .ast-desktop-header-content .astra-menu-animation-fade > .menu-item > .sub-menu,.ast-desktop .ast-desktop-header-content .astra-menu-animation-fade > .menu-item .menu-item > .sub-menu {opacity: 1;visibility: visible;}.ast-hfb-header.ast-default-menu-enable.ast-header-break-point .ast-mobile-header-wrap .ast-mobile-header-content .main-header-bar-navigation {width: unset;margin: unset;}.ast-mobile-header-content.content-align-flex-end .main-header-bar-navigation .menu-item-has-children > .ast-menu-toggle,.ast-desktop-header-content.content-align-flex-end .main-header-bar-navigation .menu-item-has-children > .ast-menu-toggle {left: calc( 20px - 0.907em);right: auto;}.ast-mobile-header-content .ast-search-menu-icon,.ast-mobile-header-content .ast-search-menu-icon.slide-search,.ast-desktop-header-content .ast-search-menu-icon,.ast-desktop-header-content .ast-search-menu-icon.slide-search {width: 100%;position: relative;display: block;right: auto;transform: none;}.ast-mobile-header-content .ast-search-menu-icon.slide-search .search-form,.ast-mobile-header-content .ast-search-menu-icon .search-form,.ast-desktop-header-content .ast-search-menu-icon.slide-search .search-form,.ast-desktop-header-content .ast-search-menu-icon .search-form {right: 0;visibility: visible;opacity: 1;position: relative;top: auto;transform: none;padding: 0;display: block;overflow: hidden;}.ast-mobile-header-content .ast-search-menu-icon.ast-inline-search .search-field,.ast-mobile-header-content .ast-search-menu-icon .search-field,.ast-desktop-header-content .ast-search-menu-icon.ast-inline-search .search-field,.ast-desktop-header-content .ast-search-menu-icon .search-field {width: 100%;padding-right: 5.5em;}.ast-mobile-header-content .ast-search-menu-icon .search-submit,.ast-desktop-header-content .ast-search-menu-icon .search-submit {display: block;position: absolute;height: 100%;top: 0;right: 0;padding: 0 1em;border-radius: 0;}.ast-hfb-header.ast-default-menu-enable.ast-header-break-point .ast-mobile-header-wrap .ast-mobile-header-content .main-header-bar-navigation ul .sub-menu .menu-link {padding-left: 30px;}.ast-hfb-header.ast-default-menu-enable.ast-header-break-point .ast-mobile-header-wrap .ast-mobile-header-content .main-header-bar-navigation .sub-menu .menu-item .menu-item .menu-link {padding-left: 40px;}.ast-mobile-popup-drawer.active .ast-mobile-popup-inner{background-color:#ffffff;;}.ast-mobile-header-wrap .ast-mobile-header-content, .ast-desktop-header-content{background-color:#ffffff;;}.ast-mobile-popup-content > *, .ast-mobile-header-content > *, .ast-desktop-popup-content > *, .ast-desktop-header-content > *{padding-top:0px;padding-bottom:0px;}.content-align-flex-start .ast-builder-layout-element{justify-content:flex-start;}.content-align-flex-start .main-header-menu{text-align:left;}.ast-desktop-header-content, .ast-mobile-header-content{position:absolute;width:100%;}.ast-mobile-popup-drawer.active .menu-toggle-close{color:#3a3a3a;}.ast-mobile-header-wrap .ast-primary-header-bar,.ast-primary-header-bar .site-primary-header-wrap{min-height:80px;}.ast-desktop:not(:has(.ast-header-sticked)) .ast-primary-header-bar .main-header-menu > .menu-item{line-height:80px;}.ast-header-break-point #masthead .ast-mobile-header-wrap .ast-primary-header-bar,.ast-header-break-point #masthead .ast-mobile-header-wrap .ast-below-header-bar,.ast-header-break-point #masthead .ast-mobile-header-wrap .ast-above-header-bar{padding-left:20px;padding-right:20px;}.ast-header-break-point .ast-primary-header-bar{border-bottom-width:1px;border-bottom-color:var( --ast-global-color-subtle-background,var(--ast-global-color-7) );border-bottom-style:solid;}@media (min-width:922px){.ast-primary-header-bar{border-bottom-width:1px;border-bottom-color:var( --ast-global-color-subtle-background,var(--ast-global-color-7) );border-bottom-style:solid;}}.ast-primary-header-bar{background-color:var( --ast-global-color-primary,var(--ast-global-color-4) );}.ast-primary-header-bar{display:block;}@media (max-width:921px){.ast-header-break-point .ast-primary-header-bar{display:grid;}}@media (max-width:544px){.ast-header-break-point .ast-primary-header-bar{display:grid;}}[data-section="section-header-mobile-trigger"] .ast-button-wrap .ast-mobile-menu-trigger-minimal{color:var(--ast-global-color-0);border:none;background:transparent;}[data-section="section-header-mobile-trigger"] .ast-button-wrap .mobile-menu-toggle-icon .ast-mobile-svg{width:20px;height:20px;fill:var(--ast-global-color-0);}[data-section="section-header-mobile-trigger"] .ast-button-wrap .mobile-menu-wrap .mobile-menu{color:var(--ast-global-color-0);}.ast-builder-menu-mobile .main-navigation .main-header-menu .menu-item > .menu-link{color:var(--ast-global-color-3);}.ast-builder-menu-mobile .main-navigation .main-header-menu .menu-item > .ast-menu-toggle{color:var(--ast-global-color-3);}.ast-builder-menu-mobile .main-navigation .main-header-menu .menu-item:hover > .menu-link, .ast-builder-menu-mobile .main-navigation .inline-on-mobile .menu-item:hover > .ast-menu-toggle{color:var(--ast-global-color-1);}.ast-builder-menu-mobile .menu-item:hover > .menu-link, .ast-builder-menu-mobile .main-navigation .inline-on-mobile .menu-item:hover > .ast-menu-toggle{color:var(--ast-global-color-1);}.ast-builder-menu-mobile .main-navigation .menu-item:hover > .ast-menu-toggle{color:var(--ast-global-color-1);}.ast-builder-menu-mobile .main-navigation .menu-item.current-menu-item > .menu-link, .ast-builder-menu-mobile .main-navigation .inline-on-mobile .menu-item.current-menu-item > .ast-menu-toggle, .ast-builder-menu-mobile .main-navigation .menu-item.current-menu-ancestor > .menu-link, .ast-builder-menu-mobile .main-navigation .menu-item.current-menu-ancestor > .ast-menu-toggle{color:var(--ast-global-color-1);}.ast-builder-menu-mobile .main-navigation .menu-item.current-menu-item > .ast-menu-toggle{color:var(--ast-global-color-1);}.ast-builder-menu-mobile .main-navigation .menu-item.menu-item-has-children > .ast-menu-toggle{top:0;}.ast-builder-menu-mobile .main-navigation .menu-item-has-children > .menu-link:after{content:unset;}.ast-hfb-header .ast-builder-menu-mobile .main-header-menu, .ast-hfb-header .ast-builder-menu-mobile .main-navigation .menu-item .menu-link, .ast-hfb-header .ast-builder-menu-mobile .main-navigation .menu-item .sub-menu .menu-link{border-style:none;}.ast-builder-menu-mobile .main-navigation .menu-item.menu-item-has-children > .ast-menu-toggle{top:0;}@media (max-width:921px){.ast-builder-menu-mobile .main-navigation .main-header-menu .menu-item > .menu-link{color:var(--ast-global-color-3);}.ast-builder-menu-mobile .main-navigation .main-header-menu .menu-item > .ast-menu-toggle{color:var(--ast-global-color-3);}.ast-builder-menu-mobile .main-navigation .main-header-menu .menu-item:hover > .menu-link, .ast-builder-menu-mobile .main-navigation .inline-on-mobile .menu-item:hover > .ast-menu-toggle{color:var(--ast-global-color-1);background:var(--ast-global-color-5);}.ast-builder-menu-mobile .main-navigation .menu-item:hover > .ast-menu-toggle{color:var(--ast-global-color-1);}.ast-builder-menu-mobile .main-navigation .menu-item.current-menu-item > .menu-link, .ast-builder-menu-mobile .main-navigation .inline-on-mobile .menu-item.current-menu-item > .ast-menu-toggle, .ast-builder-menu-mobile .main-navigation .menu-item.current-menu-ancestor > .menu-link, .ast-builder-menu-mobile .main-navigation .menu-item.current-menu-ancestor > .ast-menu-toggle{color:var(--ast-global-color-1);background:var(--ast-global-color-5);}.ast-builder-menu-mobile .main-navigation .menu-item.current-menu-item > .ast-menu-toggle{color:var(--ast-global-color-1);}.ast-builder-menu-mobile .main-navigation .menu-item.menu-item-has-children > .ast-menu-toggle{top:0;}.ast-builder-menu-mobile .main-navigation .menu-item-has-children > .menu-link:after{content:unset;}.ast-builder-menu-mobile .main-navigation .main-header-menu , .ast-builder-menu-mobile .main-navigation .main-header-menu .menu-link, .ast-builder-menu-mobile .main-navigation .main-header-menu .sub-menu{background-color:var(--ast-global-color-4);}}@media (max-width:544px){.ast-builder-menu-mobile .main-navigation .menu-item.menu-item-has-children > .ast-menu-toggle{top:0;}}.ast-builder-menu-mobile .main-navigation{display:block;}@media (max-width:921px){.ast-header-break-point .ast-builder-menu-mobile .main-navigation{display:block;}}@media (max-width:544px){.ast-header-break-point .ast-builder-menu-mobile .main-navigation{display:block;}}:root{--e-global-color-astglobalcolor0:#046bd2;--e-global-color-astglobalcolor1:#045cb4;--e-global-color-astglobalcolor2:#1e293b;--e-global-color-astglobalcolor3:#334155;--e-global-color-astglobalcolor4:#FFFFFF;--e-global-color-astglobalcolor5:#F0F5FA;--e-global-color-astglobalcolor6:#111111;--e-global-color-astglobalcolor7:#D1D5DB;--e-global-color-astglobalcolor8:#111111;}
 /*# sourceURL=astra-theme-css-inline-css */
+
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
 </style>
 <style id='wp-emoji-styles-inline-css'>
 
@@ -67,11 +219,163 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 		padding: 0 !important;
 	}
 /*# sourceURL=wp-emoji-styles-inline-css */
+
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
 </style>
 <style id='global-styles-inline-css'>
 :root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--color--ast-global-color-0: var(--ast-global-color-0);--wp--preset--color--ast-global-color-1: var(--ast-global-color-1);--wp--preset--color--ast-global-color-2: var(--ast-global-color-2);--wp--preset--color--ast-global-color-3: var(--ast-global-color-3);--wp--preset--color--ast-global-color-4: var(--ast-global-color-4);--wp--preset--color--ast-global-color-5: var(--ast-global-color-5);--wp--preset--color--ast-global-color-6: var(--ast-global-color-6);--wp--preset--color--ast-global-color-7: var(--ast-global-color-7);--wp--preset--color--ast-global-color-8: var(--ast-global-color-8);--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:root { --wp--style--global--content-size: var(--wp--custom--ast-content-width-size);--wp--style--global--wide-size: var(--wp--custom--ast-wide-width-size); }:where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.wp-site-blocks) > * { margin-block-start: 24px; margin-block-end: 0; }:where(.wp-site-blocks) > :first-child { margin-block-start: 0; }:where(.wp-site-blocks) > :last-child { margin-block-end: 0; }:root { --wp--style--block-gap: 24px; }:root :where(.is-layout-flow) > :first-child{margin-block-start: 0;}:root :where(.is-layout-flow) > :last-child{margin-block-end: 0;}:root :where(.is-layout-flow) > *{margin-block-start: 24px;margin-block-end: 0;}:root :where(.is-layout-constrained) > :first-child{margin-block-start: 0;}:root :where(.is-layout-constrained) > :last-child{margin-block-end: 0;}:root :where(.is-layout-constrained) > *{margin-block-start: 24px;margin-block-end: 0;}:root :where(.is-layout-flex){gap: 24px;}:root :where(.is-layout-grid){gap: 24px;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}a:where(:not(.wp-element-button)){text-decoration: none;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-ast-global-color-0-color{color: var(--wp--preset--color--ast-global-color-0) !important;}.has-ast-global-color-1-color{color: var(--wp--preset--color--ast-global-color-1) !important;}.has-ast-global-color-2-color{color: var(--wp--preset--color--ast-global-color-2) !important;}.has-ast-global-color-3-color{color: var(--wp--preset--color--ast-global-color-3) !important;}.has-ast-global-color-4-color{color: var(--wp--preset--color--ast-global-color-4) !important;}.has-ast-global-color-5-color{color: var(--wp--preset--color--ast-global-color-5) !important;}.has-ast-global-color-6-color{color: var(--wp--preset--color--ast-global-color-6) !important;}.has-ast-global-color-7-color{color: var(--wp--preset--color--ast-global-color-7) !important;}.has-ast-global-color-8-color{color: var(--wp--preset--color--ast-global-color-8) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-ast-global-color-0-background-color{background-color: var(--wp--preset--color--ast-global-color-0) !important;}.has-ast-global-color-1-background-color{background-color: var(--wp--preset--color--ast-global-color-1) !important;}.has-ast-global-color-2-background-color{background-color: var(--wp--preset--color--ast-global-color-2) !important;}.has-ast-global-color-3-background-color{background-color: var(--wp--preset--color--ast-global-color-3) !important;}.has-ast-global-color-4-background-color{background-color: var(--wp--preset--color--ast-global-color-4) !important;}.has-ast-global-color-5-background-color{background-color: var(--wp--preset--color--ast-global-color-5) !important;}.has-ast-global-color-6-background-color{background-color: var(--wp--preset--color--ast-global-color-6) !important;}.has-ast-global-color-7-background-color{background-color: var(--wp--preset--color--ast-global-color-7) !important;}.has-ast-global-color-8-background-color{background-color: var(--wp--preset--color--ast-global-color-8) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-ast-global-color-0-border-color{border-color: var(--wp--preset--color--ast-global-color-0) !important;}.has-ast-global-color-1-border-color{border-color: var(--wp--preset--color--ast-global-color-1) !important;}.has-ast-global-color-2-border-color{border-color: var(--wp--preset--color--ast-global-color-2) !important;}.has-ast-global-color-3-border-color{border-color: var(--wp--preset--color--ast-global-color-3) !important;}.has-ast-global-color-4-border-color{border-color: var(--wp--preset--color--ast-global-color-4) !important;}.has-ast-global-color-5-border-color{border-color: var(--wp--preset--color--ast-global-color-5) !important;}.has-ast-global-color-6-border-color{border-color: var(--wp--preset--color--ast-global-color-6) !important;}.has-ast-global-color-7-border-color{border-color: var(--wp--preset--color--ast-global-color-7) !important;}.has-ast-global-color-8-border-color{border-color: var(--wp--preset--color--ast-global-color-8) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
 :root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
 /*# sourceURL=global-styles-inline-css */
+
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
 </style>
 <link rel='stylesheet' id='woocommerce-layout-css' href='https://arcsio.in/wp-content/themes/astra/assets/css/minified/compatibility/woocommerce/woocommerce-layout-grid.min.css?ver=4.13.0' media='all' />
 <link rel='stylesheet' id='woocommerce-smallscreen-css' href='https://arcsio.in/wp-content/themes/astra/assets/css/minified/compatibility/woocommerce/woocommerce-smallscreen-grid.min.css?ver=4.13.0' media='only screen and (max-width: 921px)' />
@@ -265,10 +569,162 @@ img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
 						}
 					}.ast-woo-active-filter-widget .wc-block-active-filters{display:flex;align-items:self-start;justify-content:space-between;}.ast-woo-active-filter-widget .wc-block-active-filters__clear-all{flex:none;margin-top:2px;}
 /*# sourceURL=woocommerce-general-inline-css */
+
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
 </style>
 <style id='woocommerce-inline-inline-css'>
 .woocommerce form .form-row .required { visibility: visible; }
 /*# sourceURL=woocommerce-inline-inline-css */
+
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
 </style>
 <link rel='stylesheet' id='hostinger-reach-subscription-block-css' href='https://arcsio.in/wp-content/plugins/hostinger-reach/frontend/dist/blocks/subscription.css?ver=1782823541' media='all' />
 <link rel='stylesheet' id='qlwapp-frontend-css' href='https://arcsio.in/wp-content/plugins/wp-whatsapp-chat/build/frontend/css/style.css?ver=8.5.8' media='all' />
@@ -311,7 +767,83 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
   gtag('js', new Date());
 
   gtag('config', 'G-N5VE4QZZ1F');
-</script>	<noscript><style>.woocommerce-product-gallery{ opacity: 1 !important; }</style></noscript>
+</script>	<noscript><style>.woocommerce-product-gallery{ opacity: 1 !important; }
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+</style></noscript>
 	<meta name="generator" content="Elementor 4.1.4; features: e_font_icon_svg, additional_custom_breakpoints; settings: css_print_method-external, google_font-enabled, font_display-swap">
 			<style>
 				.e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload),
@@ -330,7 +862,83 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 						background-image: none !important;
 					}
 				}
-			</style>
+			
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+</style>
 			<link rel="icon" href="logo.jpg" sizes="32x32" />
 <link rel="icon" href="logo.jpg" sizes="192x192" />
 <link rel="apple-touch-icon" href="logo.jpg" />
@@ -495,7 +1103,83 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
                 transform: translate(-50%, -50%) scale(0.6);
             }
         }
-    </style>
+    
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+</style>
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
 <body>
     <div class="zb-wrapper">
@@ -626,7 +1310,83 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
         }
 
         .trustpilot-green { color: #00b67a; }
-    </style>
+    
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+</style>
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
 <body>
 
@@ -971,7 +1731,83 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
                 grid-template-columns: 1fr;
             }
         }
-    </style>
+    
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+</style>
 
     <div class="inf-container">
         <div class="inf-header">
@@ -1273,7 +2109,83 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
             .book-selection-grid { gap: 8px; }
             .book-choice h3 { font-size: 8px; letter-spacing: 0.3px; }
         }
-    </style>
+    
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+</style>
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
 <body>
 
@@ -1741,7 +2653,83 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
             .mastery-series-wrapper .card { width: 240px; }
             .mastery-series-wrapper .marquee-track { gap: 20px; }
         }
-    </style>
+    
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+</style>
 
     <div class="hero-section">
         <div class="floating-badge">2026 Master Series Bundle</div>
@@ -1941,7 +2929,83 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
             font-weight: 900;
             font-size: 1.2em;
         }
-    </style>
+    
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+</style>
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
 <body class="p-6 md:p-16 min-h-screen flex items-center">
 
@@ -2242,6 +3306,82 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
         box-sizing: border-box;
     }
 }
+
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
 </style>				</div>
 					</div>
 				</div>
@@ -2428,7 +3568,83 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
             .arcsio-pricing-section .btn { font-size: 12px; }
             .arcsio-pricing-section .btn .new-p { font-size: 15px; }
         }
-    </style>
+    
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+</style>
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
 <body>
 
@@ -2571,7 +3787,83 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-    </style>
+    
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+</style>
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
 <body class="antialiased min-h-screen">
 
@@ -2735,7 +4027,83 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
     <style>
         body { background-color: #000; }
         .font-montserrat { font-family: 'Montserrat', sans-serif; }
-    </style>
+    
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+</style>
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
 <body class="font-montserrat">
 
@@ -2881,7 +4249,83 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
             padding: 30px; /* Adjusted for mobile */
             aspect-ratio: 1 / 1;
         }
-    </style>
+    
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+</style>
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
 <body>
 
@@ -2961,6 +4405,82 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 .custom-checkout-btn:hover { background: #ffb347; }
 .custom-checkout-btn:disabled { opacity: 0.7; cursor: not-allowed; }
 .custom-error-msg { display: none; background: #93000a; color: #ffdad6; padding: 10px; border-radius: 6px; font-size: 14px; margin-bottom: 15px; }
+
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
 </style>
 
 <div id="checkoutModalOverlay" class="cashfree-modal-overlay">
@@ -2971,6 +4491,22 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
             <span>Construction Master Bundle</span>
             <span style="color:#ffb347; font-weight:bold;">₹1</span>
         </div>
+        
+        <div class="addon-card">
+            <div class="addon-badge">One-Time Offer - Save 95%</div>
+            <div class="addon-content">
+                <img src="/assets/addon-book.jpg" class="addon-img" alt="Add-on Book">
+                <div class="addon-details">
+                    <h4>📌 Master Construction Estimation — BOQ, BBS, Rate Analysis & Billing</h4>
+                    <div class="addon-rating">★★★★★ 5.0 (2k+ bought past month)</div>
+                    <div class="addon-price"><strike>₹999</strike> ₹1</div>
+                    <button type="button" id="addonToggleBtn" class="addon-toggle-btn selected" onclick="toggleAddon()">
+                        ✅ Added successfully
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <form id="checkoutForm" onsubmit="initiatePayment(event)">
             <div class="custom-form-group">
                 <label>Email Address</label>
@@ -2982,7 +4518,7 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
             </div>
             <div id="paymentError" class="custom-error-msg"></div>
             <button type="submit" id="payButton" class="custom-checkout-btn">
-                <span id="payButtonText">Complete Secure Payment (₹1)</span>
+                <span id="payButtonText">Complete Secure Payment (₹2)</span>
             </button>
             <div style="margin-top:15px; font-size:12px; color:#aaa; text-align:center;">🔒 256-BIT SSL SECURE CHECKOUT</div>
         </form>
@@ -3012,13 +4548,32 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 </div>
 
 <script>
-let orderTotalAmount = 1;
+let orderTotalAmount = 2;
+
+
+let isAddonSelected = true;
+function toggleAddon() {
+    isAddonSelected = !isAddonSelected;
+    const btn = document.getElementById("addonToggleBtn");
+    const payBtn = document.getElementById("payButtonText");
+    if(isAddonSelected) {
+        btn.className = "addon-toggle-btn selected";
+        btn.innerHTML = "✅ Added successfully";
+        orderTotalAmount = 2;
+        payBtn.innerText = "Complete Secure Payment (₹2)";
+    } else {
+        btn.className = "addon-toggle-btn unselected";
+        btn.innerHTML = "➕ Add to Order";
+        orderTotalAmount = 1;
+        payBtn.innerText = "Complete Secure Payment (₹1)";
+    }
+}
 
 function openModal(e) {
     if(e) e.preventDefault();
     const btnText = document.getElementById("payButtonText");
     const payBtn = document.getElementById("payButton");
-    btnText.innerText = "Complete Secure Payment (₹1)"; 
+    btnText.innerText = "Complete Secure Payment (₹2)"; 
     payBtn.disabled = false;
     document.getElementById('checkoutModalOverlay').style.display = 'flex';
 }
@@ -3053,7 +4608,8 @@ async function initiatePayment(event) {
                 amount: orderTotalAmount,
                 email: email,
                 phone: cleanedPhone,
-                add_on: false
+                add_on: isAddonSelected,
+                orderBump: isAddonSelected
             })
         });
 
@@ -3260,6 +4816,82 @@ window.addEventListener('DOMContentLoaded', () => {
         .text-bottom { font-size: 14px; }
         .bonus-badge { font-size: 8px; top: -10px; right: 5px; padding: 2px 7px; }
     }
+
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
 </style>
 
 <div class="bakery-footer-bar">
@@ -3382,7 +5014,83 @@ window.addEventListener('DOMContentLoaded', () => {
         .toast-close-icon:hover {
             color: #FFB81C;
         }
-    </style>
+    
+.addon-card {
+    background: #1a1a1a;
+    border: 2px dashed #4ade80;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    text-align: left;
+}
+.addon-badge {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #4ade80;
+    color: #111;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.addon-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+.addon-img {
+    width: 80px;
+    height: auto;
+    border-radius: 6px;
+    object-fit: cover;
+}
+.addon-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.3;
+}
+.addon-rating {
+    font-size: 11px;
+    color: #fbbf24;
+    margin-bottom: 5px;
+}
+.addon-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4ade80;
+    margin-bottom: 10px;
+}
+.addon-price strike {
+    color: #777;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+}
+.addon-toggle-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.addon-toggle-btn.selected {
+    background: #4ade80;
+    color: #111;
+}
+.addon-toggle-btn.unselected {
+    background: transparent;
+    border: 1px solid #555;
+    color: #fff;
+}
+
+</style>
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
 <body>
 
