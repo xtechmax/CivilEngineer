@@ -1,3 +1,4 @@
+import { pdfBase64 } from './pdfBase64.js';
 import crypto from 'crypto';
 
 export const config = {
@@ -209,7 +210,13 @@ export default async function handler(req, res) {
             from: fromAddress,
             to: [updatedOrder.email],
             subject: `🎉 Your Construction Toolkit Download (${planType === 'normal_addon' ? 'Toolkit + Vastu Shastra Guide' : 'Master Toolkit'})`,
-            html: customerEmailHtml
+            html: customerEmailHtml,
+            attachments: [
+              {
+                filename: 'EngineerXtech.pdf',
+                content: pdfBase64
+              }
+            ]
           })
         });
 
