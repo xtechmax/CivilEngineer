@@ -49,7 +49,7 @@ export default async function handler(req, res) {
           customer_phone: cleanPhone,
         },
         order_meta: {
-          return_url: 'https://www.xtechmax.shop/?order_id={order_id}&status=success',
+          return_url: 'https://www.xtechmax.shop/?order_id={order_id}&check_status=true',
           notify_url: 'https://www.xtechmax.shop/api/cashfree-webhook',
         },
       }),

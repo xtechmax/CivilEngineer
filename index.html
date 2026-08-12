@@ -3079,13 +3079,35 @@ async function initiatePayment(event) {
     }
 }
 
-function checkPaymentStatus() {
+async function checkPaymentStatus() {
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get("status") === "success") {
-        const modal = document.getElementById("successModal");
-        if (modal) {
-            modal.style.display = "flex";
-            modal.classList.remove("hidden");
+    const orderId = urlParams.get("order_id");
+    if (urlParams.get("check_status") === "true" && orderId) {
+        try {
+            const res = await fetch('/api/check-status?order_id=' + orderId);
+            const data = await res.json();
+            if (data.status === 'success') {
+                const modal = document.getElementById("successModal");
+                if (modal) {
+                    modal.style.display = "flex";
+                    modal.classList.remove("hidden");
+                }
+            } else {
+                alert("Payment was not successful. Status: " + data.status);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+        window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (urlParams.get("status") === "success") {
+        // Fallback for previous hardcoded urls that might be in history
+        // BUT ONLY IF there's no txnid (meaning it's not the old payu one)
+        if(!urlParams.get("txnid")) {
+            const modal = document.getElementById("successModal");
+            if (modal) {
+                modal.style.display = "flex";
+                modal.classList.remove("hidden");
+            }
         }
         window.history.replaceState({}, document.title, window.location.pathname);
     }
