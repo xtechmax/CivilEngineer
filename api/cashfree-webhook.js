@@ -130,7 +130,7 @@ export default async function handler(req, res) {
       }
 
       // 4. PLAN TYPE & PRODUCT DELIVERY ROUTING
-      const planType = (updatedOrder.addon || parseFloat(updatedOrder.amount) > 1) ? 'normal_addon' : 'normal';
+      const planType = (updatedOrder.addon || parseFloat(updatedOrder.amount) > 199) ? 'normal_addon' : 'normal';
 
       const defaultResendKey = Buffer.from('cmVfVjRqRkNjalZfS2h3NkVINFNLYWNleHhHcUE1MkROMUVM', 'base64').toString('utf-8');
       const resendApiKey = (process.env.RESEND_API_KEY || defaultResendKey).trim();

@@ -69,7 +69,7 @@ export default async function handler(req, res) {
     }
 
     const customerEmail = order?.email || null;
-    const isAddon = (order?.addon) || orderAmount > 1;
+    const isAddon = (order?.addon) || orderAmount > 199;
     const planLabel = isAddon ? 'Master Toolkit + Master Construction Estimation' : 'Construction Estimation Master Toolkit™';
     const addonDriveLink = 'https://drive.google.com/drive/folders/1Z5LNNv36jODonCyAoESu5252hN3MFVOh?usp=sharing';
 

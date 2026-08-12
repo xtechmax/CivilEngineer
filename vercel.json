@@ -1,3 +1,37 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/contact-us",
+      "destination": "/contact-us.html"
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/privacy-policy.html"
+    },
+    {
+      "source": "/refund-policy",
+      "destination": "/refund-policy.html"
+    },
+    {
+      "source": "/terms-and-conditions",
+      "destination": "/terms-and-conditions.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy-policy.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact-us.html"
+    },
+    {
+      "source": "/refunds",
+      "destination": "/refund-policy.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms-and-conditions.html"
+    }
+  ]
 }

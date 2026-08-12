@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Contact Us — Engineer Xtechmax | giftlove.online</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://www.xtechmax.shop/contact-us">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:#0a0a0c;color:#e2e2e2;line-height:1.7;}
+  a{color:#FFB347;text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .container{max-width:860px;margin:0 auto;padding:40px 20px 80px;}
+  header{background:#111;border-bottom:1px solid #222;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  header .logo{font-size:18px;font-weight:700;color:#FFB347;}
+  header nav a{color:#aaa;font-size:13px;margin-left:16px;}
+  header nav a:hover{color:#FFB347;text-decoration:none;}
+  h1{font-size:2rem;font-weight:700;color:#FFB347;margin-bottom:8px;}
+  h2{font-size:1.25rem;font-weight:600;color:#fff;margin:32px 0 10px;border-left:3px solid #FFB347;padding-left:12px;}
+  h3{font-size:1rem;font-weight:600;color:#ddd;margin:18px 0 6px;}
+  p,li{font-size:14px;color:#b0b0b0;margin-bottom:8px;}
+  ul{padding-left:20px;}
+  .entity-box{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:20px;margin:24px 0;}
+  .entity-box p{margin-bottom:4px;font-size:13px;}
+  .entity-box strong{color:#FFB347;}
+  footer.site-footer{background:#111;border-top:1px solid #222;padding:40px 20px 20px;text-align:center;margin-top:60px;}
+  footer.site-footer .footer-grid{display:flex;flex-wrap:wrap;gap:32px;justify-content:center;margin-bottom:32px;text-align:left;max-width:900px;margin-left:auto;margin-right:auto;}
+  footer.site-footer .footer-col h4{color:#FFB347;font-size:13px;font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;}
+  footer.site-footer .footer-col a,footer.site-footer .footer-col p{display:block;color:#888;font-size:13px;margin-bottom:6px;}
+  footer.site-footer .footer-col a:hover{color:#FFB347;text-decoration:none;}
+  footer.site-footer .footer-bottom{font-size:11px;color:#555;border-top:1px solid #222;padding-top:16px;}
+  .badge{display:inline-block;background:#1e1e1e;border:1px solid #333;border-radius:4px;padding:2px 8px;font-size:11px;color:#aaa;margin-bottom:4px;}
+  @media(max-width:600px){h1{font-size:1.5rem;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Engineer Xtechmax</div>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/contact-us">Contact</a>
+    <a href="/privacy-policy">Privacy</a>
+    <a href="/refund-policy">Refund Policy</a>
+    <a href="/terms-and-conditions">Terms</a>
+  </nav>
+</header>
+
+<div class="container">
+  <span class="badge">Contact</span>
+  <h1>Contact Us</h1>
+  <p>We're here to help. Reach out to us through any of the channels below.</p>
+
+  
+<div class="entity-box">
+  <p><strong>Legal Entity:</strong> giftlove.online</p>
+  <p><strong>Operating Brand:</strong> Engineer Xtechmax</p>
+  <p><strong>Managing Director:</strong> Jedan Hossain</p>
+  <p><strong>Registered Address:</strong> Kolkata, West Bengal, India</p>
+  <p><strong>Email:</strong> <a href="mailto:xtechmax2024@gmail.com">xtechmax2024@gmail.com</a></p>
+  <p><strong>Phone/WhatsApp:</strong> <a href="https://wa.me/918910803089">+91 8910803089</a></p>
+</div>
+
+
+  <h2>Send Us a Message</h2>
+  <form onsubmit="handleContact(event)" style="background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:24px;margin-top:16px;">
+    <div style="margin-bottom:16px;">
+      <label style="display:block;font-size:13px;color:#aaa;margin-bottom:6px;">Your Name</label>
+      <input type="text" id="cName" required placeholder="Rahul Kumar" style="width:100%;background:#111;border:1px solid #333;border-radius:6px;padding:10px 14px;color:#fff;font-size:14px;outline:none;">
+    </div>
+    <div style="margin-bottom:16px;">
+      <label style="display:block;font-size:13px;color:#aaa;margin-bottom:6px;">Email Address</label>
+      <input type="email" id="cEmail" required placeholder="you@example.com" style="width:100%;background:#111;border:1px solid #333;border-radius:6px;padding:10px 14px;color:#fff;font-size:14px;outline:none;">
+    </div>
+    <div style="margin-bottom:16px;">
+      <label style="display:block;font-size:13px;color:#aaa;margin-bottom:6px;">Message</label>
+      <textarea id="cMsg" required rows="5" placeholder="Your question or concern..." style="width:100%;background:#111;border:1px solid #333;border-radius:6px;padding:10px 14px;color:#fff;font-size:14px;outline:none;resize:vertical;"></textarea>
+    </div>
+    <button type="submit" id="cBtn" style="background:#FFB347;color:#000;font-weight:700;padding:11px 28px;border:none;border-radius:8px;cursor:pointer;font-size:14px;">Send Message</button>
+    <div id="cStatus" style="margin-top:12px;font-size:13px;"></div>
+  </form>
+
+  <h2>Email</h2>
+  <p><a href="mailto:xtechmax2024@gmail.com">xtechmax2024@gmail.com</a> — We reply within 24 hours.</p>
+
+  <h2>WhatsApp</h2>
+  <p><a href="https://wa.me/918910803089">+91 8910803089</a> — Available Mon–Sat, 9 AM to 6 PM IST.</p>
+
+  <h2>Registered Address</h2>
+  <p>giftlove.online (Engineer Xtechmax)<br>Kolkata, West Bengal, India</p>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Engineer Xtechmax</h4>
+      <p>A brand operated by <strong style="color:#FFB347">giftlove.online</strong></p>
+      <p>MD: Jedan Hossain</p>
+      <p>Kolkata, West Bengal, India</p>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="/privacy-policy">Privacy Policy</a>
+      <a href="/refund-policy">Refund & Cancellation Policy</a>
+      <a href="/terms-and-conditions">Terms & Conditions</a>
+      <a href="/contact-us">Contact Us</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:xtechmax2024@gmail.com">xtechmax2024@gmail.com</a>
+      <a href="https://wa.me/918910803089">+91 8910803089 (WhatsApp)</a>
+      <a href="/">Home</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2024 giftlove.online. All rights reserved. Engineer Xtechmax is a brand operated by giftlove.online.
+    <br>Registered Address: Kolkata, West Bengal, India
+  </div>
+</footer>
+
+<script>
+async function handleContact(e) {
+  e.preventDefault();
+  const btn = document.getElementById('cBtn');
+  const status = document.getElementById('cStatus');
+  btn.disabled = true;
+  btn.innerText = 'Sending...';
+  const name = document.getElementById('cName').value;
+  const email = document.getElementById('cEmail').value;
+  const msg = document.getElementById('cMsg').value;
+  try {
+    const resp = await fetch('/api/send-contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, message: msg })
+    });
+    if (resp.ok) {
+      status.style.color = '#4ade80';
+      status.innerText = '✅ Message sent! We will get back to you within 24 hours.';
+      document.getElementById('cName').value = '';
+      document.getElementById('cEmail').value = '';
+      document.getElementById('cMsg').value = '';
+    } else {
+      throw new Error('Failed');
+    }
+  } catch(err) {
+    status.style.color = '#f87171';
+    status.innerText = '❌ Failed to send. Please email us directly at xtechmax2024@gmail.com';
+  }
+  btn.disabled = false;
+  btn.innerText = 'Send Message';
+}
+</script>
+</body>
+</html>
