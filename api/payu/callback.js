@@ -8,8 +8,8 @@ export default async function handler(req, res) {
   try {
     const { status, firstname, amount, txnid, hash, email, productinfo, key, additionalCharges } = req.body;
     
-    const salt = process.env.PAYU_MERCHANT_SALT || "DRPR9SPIlhkg3IfHUyfgibhbcvzKpdRM";
-    const merchantKey = process.env.PAYU_MERCHANT_KEY || "Bcrp9R";
+    const salt = process.env.PAYU_MERCHANT_SALT || "iTDtDbj4vLXKuOdyYCdm1viP7GA7BCRi";
+    const merchantKey = process.env.PAYU_MERCHANT_KEY || "XZdqBd";
 
     if (!salt || !merchantKey) {
       return res.redirect(302, '/?status=error&message=ServerConfigError');
