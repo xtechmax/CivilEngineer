@@ -535,6 +535,170 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
             setInterval(rotateCarousel, 3000);
         });
     </script>
+
+<!-- PayU Checkout Modal -->
+<style>
+.payu-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8); z-index: 100000;
+    display: none; align-items: center; justify-content: center;
+}
+.payu-modal {
+    background: #111; padding: 30px; border-radius: 12px;
+    max-width: 400px; width: 90%; color: #fff; border: 1px solid #333;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+.payu-close {
+    position: absolute; top: 15px; right: 20px; font-size: 24px;
+    cursor: pointer; color: #aaa;
+}
+.payu-modal h2 { font-size: 20px; margin-bottom: 20px; color: #ffb347; margin-top: 0; }
+.payu-form-group { margin-bottom: 15px; }
+.payu-form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
+.payu-form-group input { 
+    width: 100%; padding: 12px; border-radius: 6px; 
+    border: 1px solid #444; background: #222; color: #fff; 
+    box-sizing: border-box;
+}
+.payu-submit-btn {
+    width: 100%; background: #ffb347; color: #000; font-weight: bold;
+    padding: 14px; border: none; border-radius: 6px; cursor: pointer;
+    font-size: 14px; margin-top: 10px;
+}
+.payu-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+</style>
+
+<div id="payuCheckoutModal" class="payu-modal-overlay">
+    <div class="payu-modal">
+        <span class="payu-close" onclick="closePayuModal()">&times;</span>
+        <h2>Complete Your Purchase</h2>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:15px; font-size:14px;">
+            <span>Construction Master Bundle</span>
+            <span style="color:#ffb347; font-weight:bold;">₹390</span>
+        </div>
+        <form id="payuCheckoutForm" onsubmit="initiatePayuPayment(event)">
+            <div class="payu-form-group">
+                <label>Full Name</label>
+                <input type="text" id="payuName" required placeholder="John Doe">
+            </div>
+            <div class="payu-form-group">
+                <label>Email Address</label>
+                <input type="email" id="payuEmail" required placeholder="your@email.com">
+            </div>
+            <div class="payu-form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="payuPhone" required placeholder="9876543210">
+            </div>
+            <button type="submit" id="payuSubmitBtn" class="payu-submit-btn">
+                Complete Secure Payment (₹390)
+            </button>
+            <div id="payuErrorMsg" style="color:#ef4444; font-size:12px; margin-top:10px; display:none;"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openPayuModal(e) {
+    if(e) e.preventDefault();
+    document.getElementById('payuCheckoutModal').style.display = 'flex';
+}
+
+function closePayuModal() {
+    document.getElementById('payuCheckoutModal').style.display = 'none';
+}
+
+// Attach open event to all "Buy Digital Copy" buttons
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+        if(link.innerText.toUpperCase().includes('BUY DIGITAL COPY') || link.innerText.toUpperCase().includes('BUY  DIGITAL COPY')) {
+            link.addEventListener('click', openPayuModal);
+            // also remove target _blank if it was there, just in case
+            link.removeAttribute('target');
+        }
+    });
+
+    // Check url params for payment status
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    if (status === 'success') {
+        alert("Payment Successful! Thank you for your purchase. We will send you the download link shortly.");
+    } else if (status === 'failure') {
+        alert("Payment Failed. Please try again.");
+    } else if (status === 'tampered') {
+        alert("Security Error: Payment verification failed.");
+    } else if (status === 'error') {
+        alert("An error occurred during payment processing.");
+    }
+});
+
+async function initiatePayuPayment(event) {
+    event.preventDefault();
+    const btn = document.getElementById('payuSubmitBtn');
+    const errorDiv = document.getElementById('payuErrorMsg');
+    
+    btn.disabled = true;
+    btn.innerText = 'Processing...';
+    errorDiv.style.display = 'none';
+
+    const payload = {
+        firstname: document.getElementById('payuName').value,
+        email: document.getElementById('payuEmail').value,
+        phone: document.getElementById('payuPhone').value
+    };
+
+    try {
+        const res = await fetch('/api/payu/hash', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to initialize payment');
+        }
+
+        // Dynamically construct a form and submit to PayU Test Environment
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://test.payu.in/_payment';
+        
+        const params = {
+            key: data.key,
+            txnid: data.txnid,
+            amount: data.amount,
+            productinfo: data.productinfo,
+            firstname: data.firstname,
+            email: data.email,
+            phone: data.phone,
+            surl: data.surl,
+            furl: data.furl,
+            hash: data.hash
+        };
+        
+        for (const key in params) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = params[key];
+            form.appendChild(input);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+        
+    } catch (err) {
+        btn.disabled = false;
+        btn.innerText = 'Complete Secure Payment (₹390)';
+        errorDiv.innerText = err.message;
+        errorDiv.style.display = 'block';
+    }
+}
+</script>
+
 </body>
 </html>				</div>
 				<div class="elementor-element elementor-element-201d83d5 elementor-widget elementor-widget-html" data-id="201d83d5" data-element_type="widget" data-e-type="widget" data-widget_type="html.default">
@@ -664,6 +828,170 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
             </div>
         </div>
     </section>
+
+
+<!-- PayU Checkout Modal -->
+<style>
+.payu-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8); z-index: 100000;
+    display: none; align-items: center; justify-content: center;
+}
+.payu-modal {
+    background: #111; padding: 30px; border-radius: 12px;
+    max-width: 400px; width: 90%; color: #fff; border: 1px solid #333;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+.payu-close {
+    position: absolute; top: 15px; right: 20px; font-size: 24px;
+    cursor: pointer; color: #aaa;
+}
+.payu-modal h2 { font-size: 20px; margin-bottom: 20px; color: #ffb347; margin-top: 0; }
+.payu-form-group { margin-bottom: 15px; }
+.payu-form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
+.payu-form-group input { 
+    width: 100%; padding: 12px; border-radius: 6px; 
+    border: 1px solid #444; background: #222; color: #fff; 
+    box-sizing: border-box;
+}
+.payu-submit-btn {
+    width: 100%; background: #ffb347; color: #000; font-weight: bold;
+    padding: 14px; border: none; border-radius: 6px; cursor: pointer;
+    font-size: 14px; margin-top: 10px;
+}
+.payu-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+</style>
+
+<div id="payuCheckoutModal" class="payu-modal-overlay">
+    <div class="payu-modal">
+        <span class="payu-close" onclick="closePayuModal()">&times;</span>
+        <h2>Complete Your Purchase</h2>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:15px; font-size:14px;">
+            <span>Construction Master Bundle</span>
+            <span style="color:#ffb347; font-weight:bold;">₹390</span>
+        </div>
+        <form id="payuCheckoutForm" onsubmit="initiatePayuPayment(event)">
+            <div class="payu-form-group">
+                <label>Full Name</label>
+                <input type="text" id="payuName" required placeholder="John Doe">
+            </div>
+            <div class="payu-form-group">
+                <label>Email Address</label>
+                <input type="email" id="payuEmail" required placeholder="your@email.com">
+            </div>
+            <div class="payu-form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="payuPhone" required placeholder="9876543210">
+            </div>
+            <button type="submit" id="payuSubmitBtn" class="payu-submit-btn">
+                Complete Secure Payment (₹390)
+            </button>
+            <div id="payuErrorMsg" style="color:#ef4444; font-size:12px; margin-top:10px; display:none;"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openPayuModal(e) {
+    if(e) e.preventDefault();
+    document.getElementById('payuCheckoutModal').style.display = 'flex';
+}
+
+function closePayuModal() {
+    document.getElementById('payuCheckoutModal').style.display = 'none';
+}
+
+// Attach open event to all "Buy Digital Copy" buttons
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+        if(link.innerText.toUpperCase().includes('BUY DIGITAL COPY') || link.innerText.toUpperCase().includes('BUY  DIGITAL COPY')) {
+            link.addEventListener('click', openPayuModal);
+            // also remove target _blank if it was there, just in case
+            link.removeAttribute('target');
+        }
+    });
+
+    // Check url params for payment status
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    if (status === 'success') {
+        alert("Payment Successful! Thank you for your purchase. We will send you the download link shortly.");
+    } else if (status === 'failure') {
+        alert("Payment Failed. Please try again.");
+    } else if (status === 'tampered') {
+        alert("Security Error: Payment verification failed.");
+    } else if (status === 'error') {
+        alert("An error occurred during payment processing.");
+    }
+});
+
+async function initiatePayuPayment(event) {
+    event.preventDefault();
+    const btn = document.getElementById('payuSubmitBtn');
+    const errorDiv = document.getElementById('payuErrorMsg');
+    
+    btn.disabled = true;
+    btn.innerText = 'Processing...';
+    errorDiv.style.display = 'none';
+
+    const payload = {
+        firstname: document.getElementById('payuName').value,
+        email: document.getElementById('payuEmail').value,
+        phone: document.getElementById('payuPhone').value
+    };
+
+    try {
+        const res = await fetch('/api/payu/hash', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to initialize payment');
+        }
+
+        // Dynamically construct a form and submit to PayU Test Environment
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://test.payu.in/_payment';
+        
+        const params = {
+            key: data.key,
+            txnid: data.txnid,
+            amount: data.amount,
+            productinfo: data.productinfo,
+            firstname: data.firstname,
+            email: data.email,
+            phone: data.phone,
+            surl: data.surl,
+            furl: data.furl,
+            hash: data.hash
+        };
+        
+        for (const key in params) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = params[key];
+            form.appendChild(input);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+        
+    } catch (err) {
+        btn.disabled = false;
+        btn.innerText = 'Complete Secure Payment (₹390)';
+        errorDiv.innerText = err.message;
+        errorDiv.style.display = 'block';
+    }
+}
+</script>
 
 </body>
 </html>				</div>
@@ -1536,6 +1864,170 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 })();
 </script>
 
+
+<!-- PayU Checkout Modal -->
+<style>
+.payu-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8); z-index: 100000;
+    display: none; align-items: center; justify-content: center;
+}
+.payu-modal {
+    background: #111; padding: 30px; border-radius: 12px;
+    max-width: 400px; width: 90%; color: #fff; border: 1px solid #333;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+.payu-close {
+    position: absolute; top: 15px; right: 20px; font-size: 24px;
+    cursor: pointer; color: #aaa;
+}
+.payu-modal h2 { font-size: 20px; margin-bottom: 20px; color: #ffb347; margin-top: 0; }
+.payu-form-group { margin-bottom: 15px; }
+.payu-form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
+.payu-form-group input { 
+    width: 100%; padding: 12px; border-radius: 6px; 
+    border: 1px solid #444; background: #222; color: #fff; 
+    box-sizing: border-box;
+}
+.payu-submit-btn {
+    width: 100%; background: #ffb347; color: #000; font-weight: bold;
+    padding: 14px; border: none; border-radius: 6px; cursor: pointer;
+    font-size: 14px; margin-top: 10px;
+}
+.payu-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+</style>
+
+<div id="payuCheckoutModal" class="payu-modal-overlay">
+    <div class="payu-modal">
+        <span class="payu-close" onclick="closePayuModal()">&times;</span>
+        <h2>Complete Your Purchase</h2>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:15px; font-size:14px;">
+            <span>Construction Master Bundle</span>
+            <span style="color:#ffb347; font-weight:bold;">₹390</span>
+        </div>
+        <form id="payuCheckoutForm" onsubmit="initiatePayuPayment(event)">
+            <div class="payu-form-group">
+                <label>Full Name</label>
+                <input type="text" id="payuName" required placeholder="John Doe">
+            </div>
+            <div class="payu-form-group">
+                <label>Email Address</label>
+                <input type="email" id="payuEmail" required placeholder="your@email.com">
+            </div>
+            <div class="payu-form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="payuPhone" required placeholder="9876543210">
+            </div>
+            <button type="submit" id="payuSubmitBtn" class="payu-submit-btn">
+                Complete Secure Payment (₹390)
+            </button>
+            <div id="payuErrorMsg" style="color:#ef4444; font-size:12px; margin-top:10px; display:none;"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openPayuModal(e) {
+    if(e) e.preventDefault();
+    document.getElementById('payuCheckoutModal').style.display = 'flex';
+}
+
+function closePayuModal() {
+    document.getElementById('payuCheckoutModal').style.display = 'none';
+}
+
+// Attach open event to all "Buy Digital Copy" buttons
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+        if(link.innerText.toUpperCase().includes('BUY DIGITAL COPY') || link.innerText.toUpperCase().includes('BUY  DIGITAL COPY')) {
+            link.addEventListener('click', openPayuModal);
+            // also remove target _blank if it was there, just in case
+            link.removeAttribute('target');
+        }
+    });
+
+    // Check url params for payment status
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    if (status === 'success') {
+        alert("Payment Successful! Thank you for your purchase. We will send you the download link shortly.");
+    } else if (status === 'failure') {
+        alert("Payment Failed. Please try again.");
+    } else if (status === 'tampered') {
+        alert("Security Error: Payment verification failed.");
+    } else if (status === 'error') {
+        alert("An error occurred during payment processing.");
+    }
+});
+
+async function initiatePayuPayment(event) {
+    event.preventDefault();
+    const btn = document.getElementById('payuSubmitBtn');
+    const errorDiv = document.getElementById('payuErrorMsg');
+    
+    btn.disabled = true;
+    btn.innerText = 'Processing...';
+    errorDiv.style.display = 'none';
+
+    const payload = {
+        firstname: document.getElementById('payuName').value,
+        email: document.getElementById('payuEmail').value,
+        phone: document.getElementById('payuPhone').value
+    };
+
+    try {
+        const res = await fetch('/api/payu/hash', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to initialize payment');
+        }
+
+        // Dynamically construct a form and submit to PayU Test Environment
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://test.payu.in/_payment';
+        
+        const params = {
+            key: data.key,
+            txnid: data.txnid,
+            amount: data.amount,
+            productinfo: data.productinfo,
+            firstname: data.firstname,
+            email: data.email,
+            phone: data.phone,
+            surl: data.surl,
+            furl: data.furl,
+            hash: data.hash
+        };
+        
+        for (const key in params) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = params[key];
+            form.appendChild(input);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+        
+    } catch (err) {
+        btn.disabled = false;
+        btn.innerText = 'Complete Secure Payment (₹390)';
+        errorDiv.innerText = err.message;
+        errorDiv.style.display = 'block';
+    }
+}
+</script>
+
 </body>
 </html>				</div>
 				<div class="elementor-element elementor-element-4bb1bb12 elementor-widget elementor-widget-html" data-id="4bb1bb12" data-element_type="widget" data-e-type="widget" data-widget_type="html.default">
@@ -1975,6 +2467,170 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 
 </div>
 
+
+<!-- PayU Checkout Modal -->
+<style>
+.payu-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8); z-index: 100000;
+    display: none; align-items: center; justify-content: center;
+}
+.payu-modal {
+    background: #111; padding: 30px; border-radius: 12px;
+    max-width: 400px; width: 90%; color: #fff; border: 1px solid #333;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+.payu-close {
+    position: absolute; top: 15px; right: 20px; font-size: 24px;
+    cursor: pointer; color: #aaa;
+}
+.payu-modal h2 { font-size: 20px; margin-bottom: 20px; color: #ffb347; margin-top: 0; }
+.payu-form-group { margin-bottom: 15px; }
+.payu-form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
+.payu-form-group input { 
+    width: 100%; padding: 12px; border-radius: 6px; 
+    border: 1px solid #444; background: #222; color: #fff; 
+    box-sizing: border-box;
+}
+.payu-submit-btn {
+    width: 100%; background: #ffb347; color: #000; font-weight: bold;
+    padding: 14px; border: none; border-radius: 6px; cursor: pointer;
+    font-size: 14px; margin-top: 10px;
+}
+.payu-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+</style>
+
+<div id="payuCheckoutModal" class="payu-modal-overlay">
+    <div class="payu-modal">
+        <span class="payu-close" onclick="closePayuModal()">&times;</span>
+        <h2>Complete Your Purchase</h2>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:15px; font-size:14px;">
+            <span>Construction Master Bundle</span>
+            <span style="color:#ffb347; font-weight:bold;">₹390</span>
+        </div>
+        <form id="payuCheckoutForm" onsubmit="initiatePayuPayment(event)">
+            <div class="payu-form-group">
+                <label>Full Name</label>
+                <input type="text" id="payuName" required placeholder="John Doe">
+            </div>
+            <div class="payu-form-group">
+                <label>Email Address</label>
+                <input type="email" id="payuEmail" required placeholder="your@email.com">
+            </div>
+            <div class="payu-form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="payuPhone" required placeholder="9876543210">
+            </div>
+            <button type="submit" id="payuSubmitBtn" class="payu-submit-btn">
+                Complete Secure Payment (₹390)
+            </button>
+            <div id="payuErrorMsg" style="color:#ef4444; font-size:12px; margin-top:10px; display:none;"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openPayuModal(e) {
+    if(e) e.preventDefault();
+    document.getElementById('payuCheckoutModal').style.display = 'flex';
+}
+
+function closePayuModal() {
+    document.getElementById('payuCheckoutModal').style.display = 'none';
+}
+
+// Attach open event to all "Buy Digital Copy" buttons
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+        if(link.innerText.toUpperCase().includes('BUY DIGITAL COPY') || link.innerText.toUpperCase().includes('BUY  DIGITAL COPY')) {
+            link.addEventListener('click', openPayuModal);
+            // also remove target _blank if it was there, just in case
+            link.removeAttribute('target');
+        }
+    });
+
+    // Check url params for payment status
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    if (status === 'success') {
+        alert("Payment Successful! Thank you for your purchase. We will send you the download link shortly.");
+    } else if (status === 'failure') {
+        alert("Payment Failed. Please try again.");
+    } else if (status === 'tampered') {
+        alert("Security Error: Payment verification failed.");
+    } else if (status === 'error') {
+        alert("An error occurred during payment processing.");
+    }
+});
+
+async function initiatePayuPayment(event) {
+    event.preventDefault();
+    const btn = document.getElementById('payuSubmitBtn');
+    const errorDiv = document.getElementById('payuErrorMsg');
+    
+    btn.disabled = true;
+    btn.innerText = 'Processing...';
+    errorDiv.style.display = 'none';
+
+    const payload = {
+        firstname: document.getElementById('payuName').value,
+        email: document.getElementById('payuEmail').value,
+        phone: document.getElementById('payuPhone').value
+    };
+
+    try {
+        const res = await fetch('/api/payu/hash', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to initialize payment');
+        }
+
+        // Dynamically construct a form and submit to PayU Test Environment
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://test.payu.in/_payment';
+        
+        const params = {
+            key: data.key,
+            txnid: data.txnid,
+            amount: data.amount,
+            productinfo: data.productinfo,
+            firstname: data.firstname,
+            email: data.email,
+            phone: data.phone,
+            surl: data.surl,
+            furl: data.furl,
+            hash: data.hash
+        };
+        
+        for (const key in params) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = params[key];
+            form.appendChild(input);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+        
+    } catch (err) {
+        btn.disabled = false;
+        btn.innerText = 'Complete Secure Payment (₹390)';
+        errorDiv.innerText = err.message;
+        errorDiv.style.display = 'block';
+    }
+}
+</script>
+
 </body>
 </html>				</div>
 					</div>
@@ -2409,6 +3065,170 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
     </div>
 </section>
 
+
+<!-- PayU Checkout Modal -->
+<style>
+.payu-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8); z-index: 100000;
+    display: none; align-items: center; justify-content: center;
+}
+.payu-modal {
+    background: #111; padding: 30px; border-radius: 12px;
+    max-width: 400px; width: 90%; color: #fff; border: 1px solid #333;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+.payu-close {
+    position: absolute; top: 15px; right: 20px; font-size: 24px;
+    cursor: pointer; color: #aaa;
+}
+.payu-modal h2 { font-size: 20px; margin-bottom: 20px; color: #ffb347; margin-top: 0; }
+.payu-form-group { margin-bottom: 15px; }
+.payu-form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
+.payu-form-group input { 
+    width: 100%; padding: 12px; border-radius: 6px; 
+    border: 1px solid #444; background: #222; color: #fff; 
+    box-sizing: border-box;
+}
+.payu-submit-btn {
+    width: 100%; background: #ffb347; color: #000; font-weight: bold;
+    padding: 14px; border: none; border-radius: 6px; cursor: pointer;
+    font-size: 14px; margin-top: 10px;
+}
+.payu-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+</style>
+
+<div id="payuCheckoutModal" class="payu-modal-overlay">
+    <div class="payu-modal">
+        <span class="payu-close" onclick="closePayuModal()">&times;</span>
+        <h2>Complete Your Purchase</h2>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:15px; font-size:14px;">
+            <span>Construction Master Bundle</span>
+            <span style="color:#ffb347; font-weight:bold;">₹390</span>
+        </div>
+        <form id="payuCheckoutForm" onsubmit="initiatePayuPayment(event)">
+            <div class="payu-form-group">
+                <label>Full Name</label>
+                <input type="text" id="payuName" required placeholder="John Doe">
+            </div>
+            <div class="payu-form-group">
+                <label>Email Address</label>
+                <input type="email" id="payuEmail" required placeholder="your@email.com">
+            </div>
+            <div class="payu-form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="payuPhone" required placeholder="9876543210">
+            </div>
+            <button type="submit" id="payuSubmitBtn" class="payu-submit-btn">
+                Complete Secure Payment (₹390)
+            </button>
+            <div id="payuErrorMsg" style="color:#ef4444; font-size:12px; margin-top:10px; display:none;"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openPayuModal(e) {
+    if(e) e.preventDefault();
+    document.getElementById('payuCheckoutModal').style.display = 'flex';
+}
+
+function closePayuModal() {
+    document.getElementById('payuCheckoutModal').style.display = 'none';
+}
+
+// Attach open event to all "Buy Digital Copy" buttons
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+        if(link.innerText.toUpperCase().includes('BUY DIGITAL COPY') || link.innerText.toUpperCase().includes('BUY  DIGITAL COPY')) {
+            link.addEventListener('click', openPayuModal);
+            // also remove target _blank if it was there, just in case
+            link.removeAttribute('target');
+        }
+    });
+
+    // Check url params for payment status
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    if (status === 'success') {
+        alert("Payment Successful! Thank you for your purchase. We will send you the download link shortly.");
+    } else if (status === 'failure') {
+        alert("Payment Failed. Please try again.");
+    } else if (status === 'tampered') {
+        alert("Security Error: Payment verification failed.");
+    } else if (status === 'error') {
+        alert("An error occurred during payment processing.");
+    }
+});
+
+async function initiatePayuPayment(event) {
+    event.preventDefault();
+    const btn = document.getElementById('payuSubmitBtn');
+    const errorDiv = document.getElementById('payuErrorMsg');
+    
+    btn.disabled = true;
+    btn.innerText = 'Processing...';
+    errorDiv.style.display = 'none';
+
+    const payload = {
+        firstname: document.getElementById('payuName').value,
+        email: document.getElementById('payuEmail').value,
+        phone: document.getElementById('payuPhone').value
+    };
+
+    try {
+        const res = await fetch('/api/payu/hash', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to initialize payment');
+        }
+
+        // Dynamically construct a form and submit to PayU Test Environment
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://test.payu.in/_payment';
+        
+        const params = {
+            key: data.key,
+            txnid: data.txnid,
+            amount: data.amount,
+            productinfo: data.productinfo,
+            firstname: data.firstname,
+            email: data.email,
+            phone: data.phone,
+            surl: data.surl,
+            furl: data.furl,
+            hash: data.hash
+        };
+        
+        for (const key in params) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = params[key];
+            form.appendChild(input);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+        
+    } catch (err) {
+        btn.disabled = false;
+        btn.innerText = 'Complete Secure Payment (₹390)';
+        errorDiv.innerText = err.message;
+        errorDiv.style.display = 'block';
+    }
+}
+</script>
+
 </body>
 </html>				</div>
 				<div class="elementor-element elementor-element-37674b55 elementor-widget elementor-widget-html" data-id="37674b55" data-element_type="widget" data-e-type="widget" data-widget_type="html.default">
@@ -2650,6 +3470,170 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 
     </main>
 
+
+<!-- PayU Checkout Modal -->
+<style>
+.payu-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8); z-index: 100000;
+    display: none; align-items: center; justify-content: center;
+}
+.payu-modal {
+    background: #111; padding: 30px; border-radius: 12px;
+    max-width: 400px; width: 90%; color: #fff; border: 1px solid #333;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+.payu-close {
+    position: absolute; top: 15px; right: 20px; font-size: 24px;
+    cursor: pointer; color: #aaa;
+}
+.payu-modal h2 { font-size: 20px; margin-bottom: 20px; color: #ffb347; margin-top: 0; }
+.payu-form-group { margin-bottom: 15px; }
+.payu-form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
+.payu-form-group input { 
+    width: 100%; padding: 12px; border-radius: 6px; 
+    border: 1px solid #444; background: #222; color: #fff; 
+    box-sizing: border-box;
+}
+.payu-submit-btn {
+    width: 100%; background: #ffb347; color: #000; font-weight: bold;
+    padding: 14px; border: none; border-radius: 6px; cursor: pointer;
+    font-size: 14px; margin-top: 10px;
+}
+.payu-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+</style>
+
+<div id="payuCheckoutModal" class="payu-modal-overlay">
+    <div class="payu-modal">
+        <span class="payu-close" onclick="closePayuModal()">&times;</span>
+        <h2>Complete Your Purchase</h2>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:15px; font-size:14px;">
+            <span>Construction Master Bundle</span>
+            <span style="color:#ffb347; font-weight:bold;">₹390</span>
+        </div>
+        <form id="payuCheckoutForm" onsubmit="initiatePayuPayment(event)">
+            <div class="payu-form-group">
+                <label>Full Name</label>
+                <input type="text" id="payuName" required placeholder="John Doe">
+            </div>
+            <div class="payu-form-group">
+                <label>Email Address</label>
+                <input type="email" id="payuEmail" required placeholder="your@email.com">
+            </div>
+            <div class="payu-form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="payuPhone" required placeholder="9876543210">
+            </div>
+            <button type="submit" id="payuSubmitBtn" class="payu-submit-btn">
+                Complete Secure Payment (₹390)
+            </button>
+            <div id="payuErrorMsg" style="color:#ef4444; font-size:12px; margin-top:10px; display:none;"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openPayuModal(e) {
+    if(e) e.preventDefault();
+    document.getElementById('payuCheckoutModal').style.display = 'flex';
+}
+
+function closePayuModal() {
+    document.getElementById('payuCheckoutModal').style.display = 'none';
+}
+
+// Attach open event to all "Buy Digital Copy" buttons
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+        if(link.innerText.toUpperCase().includes('BUY DIGITAL COPY') || link.innerText.toUpperCase().includes('BUY  DIGITAL COPY')) {
+            link.addEventListener('click', openPayuModal);
+            // also remove target _blank if it was there, just in case
+            link.removeAttribute('target');
+        }
+    });
+
+    // Check url params for payment status
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    if (status === 'success') {
+        alert("Payment Successful! Thank you for your purchase. We will send you the download link shortly.");
+    } else if (status === 'failure') {
+        alert("Payment Failed. Please try again.");
+    } else if (status === 'tampered') {
+        alert("Security Error: Payment verification failed.");
+    } else if (status === 'error') {
+        alert("An error occurred during payment processing.");
+    }
+});
+
+async function initiatePayuPayment(event) {
+    event.preventDefault();
+    const btn = document.getElementById('payuSubmitBtn');
+    const errorDiv = document.getElementById('payuErrorMsg');
+    
+    btn.disabled = true;
+    btn.innerText = 'Processing...';
+    errorDiv.style.display = 'none';
+
+    const payload = {
+        firstname: document.getElementById('payuName').value,
+        email: document.getElementById('payuEmail').value,
+        phone: document.getElementById('payuPhone').value
+    };
+
+    try {
+        const res = await fetch('/api/payu/hash', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to initialize payment');
+        }
+
+        // Dynamically construct a form and submit to PayU Test Environment
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://test.payu.in/_payment';
+        
+        const params = {
+            key: data.key,
+            txnid: data.txnid,
+            amount: data.amount,
+            productinfo: data.productinfo,
+            firstname: data.firstname,
+            email: data.email,
+            phone: data.phone,
+            surl: data.surl,
+            furl: data.furl,
+            hash: data.hash
+        };
+        
+        for (const key in params) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = params[key];
+            form.appendChild(input);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+        
+    } catch (err) {
+        btn.disabled = false;
+        btn.innerText = 'Complete Secure Payment (₹390)';
+        errorDiv.innerText = err.message;
+        errorDiv.style.display = 'block';
+    }
+}
+</script>
+
 </body>
 </html>				</div>
 				<div class="elementor-element elementor-element-242d344f elementor-widget elementor-widget-html" data-id="242d344f" data-element_type="widget" data-e-type="widget" data-widget_type="html.default">
@@ -2734,6 +3718,170 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
         </div>
     </div>
 </section>
+
+
+<!-- PayU Checkout Modal -->
+<style>
+.payu-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8); z-index: 100000;
+    display: none; align-items: center; justify-content: center;
+}
+.payu-modal {
+    background: #111; padding: 30px; border-radius: 12px;
+    max-width: 400px; width: 90%; color: #fff; border: 1px solid #333;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+.payu-close {
+    position: absolute; top: 15px; right: 20px; font-size: 24px;
+    cursor: pointer; color: #aaa;
+}
+.payu-modal h2 { font-size: 20px; margin-bottom: 20px; color: #ffb347; margin-top: 0; }
+.payu-form-group { margin-bottom: 15px; }
+.payu-form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
+.payu-form-group input { 
+    width: 100%; padding: 12px; border-radius: 6px; 
+    border: 1px solid #444; background: #222; color: #fff; 
+    box-sizing: border-box;
+}
+.payu-submit-btn {
+    width: 100%; background: #ffb347; color: #000; font-weight: bold;
+    padding: 14px; border: none; border-radius: 6px; cursor: pointer;
+    font-size: 14px; margin-top: 10px;
+}
+.payu-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+</style>
+
+<div id="payuCheckoutModal" class="payu-modal-overlay">
+    <div class="payu-modal">
+        <span class="payu-close" onclick="closePayuModal()">&times;</span>
+        <h2>Complete Your Purchase</h2>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:15px; font-size:14px;">
+            <span>Construction Master Bundle</span>
+            <span style="color:#ffb347; font-weight:bold;">₹390</span>
+        </div>
+        <form id="payuCheckoutForm" onsubmit="initiatePayuPayment(event)">
+            <div class="payu-form-group">
+                <label>Full Name</label>
+                <input type="text" id="payuName" required placeholder="John Doe">
+            </div>
+            <div class="payu-form-group">
+                <label>Email Address</label>
+                <input type="email" id="payuEmail" required placeholder="your@email.com">
+            </div>
+            <div class="payu-form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="payuPhone" required placeholder="9876543210">
+            </div>
+            <button type="submit" id="payuSubmitBtn" class="payu-submit-btn">
+                Complete Secure Payment (₹390)
+            </button>
+            <div id="payuErrorMsg" style="color:#ef4444; font-size:12px; margin-top:10px; display:none;"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openPayuModal(e) {
+    if(e) e.preventDefault();
+    document.getElementById('payuCheckoutModal').style.display = 'flex';
+}
+
+function closePayuModal() {
+    document.getElementById('payuCheckoutModal').style.display = 'none';
+}
+
+// Attach open event to all "Buy Digital Copy" buttons
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+        if(link.innerText.toUpperCase().includes('BUY DIGITAL COPY') || link.innerText.toUpperCase().includes('BUY  DIGITAL COPY')) {
+            link.addEventListener('click', openPayuModal);
+            // also remove target _blank if it was there, just in case
+            link.removeAttribute('target');
+        }
+    });
+
+    // Check url params for payment status
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    if (status === 'success') {
+        alert("Payment Successful! Thank you for your purchase. We will send you the download link shortly.");
+    } else if (status === 'failure') {
+        alert("Payment Failed. Please try again.");
+    } else if (status === 'tampered') {
+        alert("Security Error: Payment verification failed.");
+    } else if (status === 'error') {
+        alert("An error occurred during payment processing.");
+    }
+});
+
+async function initiatePayuPayment(event) {
+    event.preventDefault();
+    const btn = document.getElementById('payuSubmitBtn');
+    const errorDiv = document.getElementById('payuErrorMsg');
+    
+    btn.disabled = true;
+    btn.innerText = 'Processing...';
+    errorDiv.style.display = 'none';
+
+    const payload = {
+        firstname: document.getElementById('payuName').value,
+        email: document.getElementById('payuEmail').value,
+        phone: document.getElementById('payuPhone').value
+    };
+
+    try {
+        const res = await fetch('/api/payu/hash', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to initialize payment');
+        }
+
+        // Dynamically construct a form and submit to PayU Test Environment
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://test.payu.in/_payment';
+        
+        const params = {
+            key: data.key,
+            txnid: data.txnid,
+            amount: data.amount,
+            productinfo: data.productinfo,
+            firstname: data.firstname,
+            email: data.email,
+            phone: data.phone,
+            surl: data.surl,
+            furl: data.furl,
+            hash: data.hash
+        };
+        
+        for (const key in params) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = params[key];
+            form.appendChild(input);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+        
+    } catch (err) {
+        btn.disabled = false;
+        btn.innerText = 'Complete Secure Payment (₹390)';
+        errorDiv.innerText = err.message;
+        errorDiv.style.display = 'block';
+    }
+}
+</script>
 
 </body>
 </html>				</div>
@@ -2834,6 +3982,170 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 
         </div>
     </section>
+
+
+<!-- PayU Checkout Modal -->
+<style>
+.payu-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8); z-index: 100000;
+    display: none; align-items: center; justify-content: center;
+}
+.payu-modal {
+    background: #111; padding: 30px; border-radius: 12px;
+    max-width: 400px; width: 90%; color: #fff; border: 1px solid #333;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+.payu-close {
+    position: absolute; top: 15px; right: 20px; font-size: 24px;
+    cursor: pointer; color: #aaa;
+}
+.payu-modal h2 { font-size: 20px; margin-bottom: 20px; color: #ffb347; margin-top: 0; }
+.payu-form-group { margin-bottom: 15px; }
+.payu-form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
+.payu-form-group input { 
+    width: 100%; padding: 12px; border-radius: 6px; 
+    border: 1px solid #444; background: #222; color: #fff; 
+    box-sizing: border-box;
+}
+.payu-submit-btn {
+    width: 100%; background: #ffb347; color: #000; font-weight: bold;
+    padding: 14px; border: none; border-radius: 6px; cursor: pointer;
+    font-size: 14px; margin-top: 10px;
+}
+.payu-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+</style>
+
+<div id="payuCheckoutModal" class="payu-modal-overlay">
+    <div class="payu-modal">
+        <span class="payu-close" onclick="closePayuModal()">&times;</span>
+        <h2>Complete Your Purchase</h2>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:15px; font-size:14px;">
+            <span>Construction Master Bundle</span>
+            <span style="color:#ffb347; font-weight:bold;">₹390</span>
+        </div>
+        <form id="payuCheckoutForm" onsubmit="initiatePayuPayment(event)">
+            <div class="payu-form-group">
+                <label>Full Name</label>
+                <input type="text" id="payuName" required placeholder="John Doe">
+            </div>
+            <div class="payu-form-group">
+                <label>Email Address</label>
+                <input type="email" id="payuEmail" required placeholder="your@email.com">
+            </div>
+            <div class="payu-form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="payuPhone" required placeholder="9876543210">
+            </div>
+            <button type="submit" id="payuSubmitBtn" class="payu-submit-btn">
+                Complete Secure Payment (₹390)
+            </button>
+            <div id="payuErrorMsg" style="color:#ef4444; font-size:12px; margin-top:10px; display:none;"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openPayuModal(e) {
+    if(e) e.preventDefault();
+    document.getElementById('payuCheckoutModal').style.display = 'flex';
+}
+
+function closePayuModal() {
+    document.getElementById('payuCheckoutModal').style.display = 'none';
+}
+
+// Attach open event to all "Buy Digital Copy" buttons
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+        if(link.innerText.toUpperCase().includes('BUY DIGITAL COPY') || link.innerText.toUpperCase().includes('BUY  DIGITAL COPY')) {
+            link.addEventListener('click', openPayuModal);
+            // also remove target _blank if it was there, just in case
+            link.removeAttribute('target');
+        }
+    });
+
+    // Check url params for payment status
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    if (status === 'success') {
+        alert("Payment Successful! Thank you for your purchase. We will send you the download link shortly.");
+    } else if (status === 'failure') {
+        alert("Payment Failed. Please try again.");
+    } else if (status === 'tampered') {
+        alert("Security Error: Payment verification failed.");
+    } else if (status === 'error') {
+        alert("An error occurred during payment processing.");
+    }
+});
+
+async function initiatePayuPayment(event) {
+    event.preventDefault();
+    const btn = document.getElementById('payuSubmitBtn');
+    const errorDiv = document.getElementById('payuErrorMsg');
+    
+    btn.disabled = true;
+    btn.innerText = 'Processing...';
+    errorDiv.style.display = 'none';
+
+    const payload = {
+        firstname: document.getElementById('payuName').value,
+        email: document.getElementById('payuEmail').value,
+        phone: document.getElementById('payuPhone').value
+    };
+
+    try {
+        const res = await fetch('/api/payu/hash', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to initialize payment');
+        }
+
+        // Dynamically construct a form and submit to PayU Test Environment
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://test.payu.in/_payment';
+        
+        const params = {
+            key: data.key,
+            txnid: data.txnid,
+            amount: data.amount,
+            productinfo: data.productinfo,
+            firstname: data.firstname,
+            email: data.email,
+            phone: data.phone,
+            surl: data.surl,
+            furl: data.furl,
+            hash: data.hash
+        };
+        
+        for (const key in params) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = params[key];
+            form.appendChild(input);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+        
+    } catch (err) {
+        btn.disabled = false;
+        btn.innerText = 'Complete Secure Payment (₹390)';
+        errorDiv.innerText = err.message;
+        errorDiv.style.display = 'block';
+    }
+}
+</script>
 
 </body>
 </html>				</div>
@@ -3168,6 +4480,170 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
         }
     </script>
 
+
+<!-- PayU Checkout Modal -->
+<style>
+.payu-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8); z-index: 100000;
+    display: none; align-items: center; justify-content: center;
+}
+.payu-modal {
+    background: #111; padding: 30px; border-radius: 12px;
+    max-width: 400px; width: 90%; color: #fff; border: 1px solid #333;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+.payu-close {
+    position: absolute; top: 15px; right: 20px; font-size: 24px;
+    cursor: pointer; color: #aaa;
+}
+.payu-modal h2 { font-size: 20px; margin-bottom: 20px; color: #ffb347; margin-top: 0; }
+.payu-form-group { margin-bottom: 15px; }
+.payu-form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
+.payu-form-group input { 
+    width: 100%; padding: 12px; border-radius: 6px; 
+    border: 1px solid #444; background: #222; color: #fff; 
+    box-sizing: border-box;
+}
+.payu-submit-btn {
+    width: 100%; background: #ffb347; color: #000; font-weight: bold;
+    padding: 14px; border: none; border-radius: 6px; cursor: pointer;
+    font-size: 14px; margin-top: 10px;
+}
+.payu-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+</style>
+
+<div id="payuCheckoutModal" class="payu-modal-overlay">
+    <div class="payu-modal">
+        <span class="payu-close" onclick="closePayuModal()">&times;</span>
+        <h2>Complete Your Purchase</h2>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:15px; font-size:14px;">
+            <span>Construction Master Bundle</span>
+            <span style="color:#ffb347; font-weight:bold;">₹390</span>
+        </div>
+        <form id="payuCheckoutForm" onsubmit="initiatePayuPayment(event)">
+            <div class="payu-form-group">
+                <label>Full Name</label>
+                <input type="text" id="payuName" required placeholder="John Doe">
+            </div>
+            <div class="payu-form-group">
+                <label>Email Address</label>
+                <input type="email" id="payuEmail" required placeholder="your@email.com">
+            </div>
+            <div class="payu-form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="payuPhone" required placeholder="9876543210">
+            </div>
+            <button type="submit" id="payuSubmitBtn" class="payu-submit-btn">
+                Complete Secure Payment (₹390)
+            </button>
+            <div id="payuErrorMsg" style="color:#ef4444; font-size:12px; margin-top:10px; display:none;"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openPayuModal(e) {
+    if(e) e.preventDefault();
+    document.getElementById('payuCheckoutModal').style.display = 'flex';
+}
+
+function closePayuModal() {
+    document.getElementById('payuCheckoutModal').style.display = 'none';
+}
+
+// Attach open event to all "Buy Digital Copy" buttons
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+        if(link.innerText.toUpperCase().includes('BUY DIGITAL COPY') || link.innerText.toUpperCase().includes('BUY  DIGITAL COPY')) {
+            link.addEventListener('click', openPayuModal);
+            // also remove target _blank if it was there, just in case
+            link.removeAttribute('target');
+        }
+    });
+
+    // Check url params for payment status
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    if (status === 'success') {
+        alert("Payment Successful! Thank you for your purchase. We will send you the download link shortly.");
+    } else if (status === 'failure') {
+        alert("Payment Failed. Please try again.");
+    } else if (status === 'tampered') {
+        alert("Security Error: Payment verification failed.");
+    } else if (status === 'error') {
+        alert("An error occurred during payment processing.");
+    }
+});
+
+async function initiatePayuPayment(event) {
+    event.preventDefault();
+    const btn = document.getElementById('payuSubmitBtn');
+    const errorDiv = document.getElementById('payuErrorMsg');
+    
+    btn.disabled = true;
+    btn.innerText = 'Processing...';
+    errorDiv.style.display = 'none';
+
+    const payload = {
+        firstname: document.getElementById('payuName').value,
+        email: document.getElementById('payuEmail').value,
+        phone: document.getElementById('payuPhone').value
+    };
+
+    try {
+        const res = await fetch('/api/payu/hash', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to initialize payment');
+        }
+
+        // Dynamically construct a form and submit to PayU Test Environment
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://test.payu.in/_payment';
+        
+        const params = {
+            key: data.key,
+            txnid: data.txnid,
+            amount: data.amount,
+            productinfo: data.productinfo,
+            firstname: data.firstname,
+            email: data.email,
+            phone: data.phone,
+            surl: data.surl,
+            furl: data.furl,
+            hash: data.hash
+        };
+        
+        for (const key in params) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = params[key];
+            form.appendChild(input);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+        
+    } catch (err) {
+        btn.disabled = false;
+        btn.innerText = 'Complete Secure Payment (₹390)';
+        errorDiv.innerText = err.message;
+        errorDiv.style.display = 'block';
+    }
+}
+</script>
+
 </body>
 </html>				</div>
 				<div class="elementor-element elementor-element-6a551a2 elementor-widget elementor-widget-spacer" data-id="6a551a2" data-element_type="widget" data-e-type="widget" data-widget_type="spacer.default">
@@ -3222,17 +4698,11 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 					document.addEventListener( event, lazyloadRunObserver );
 				} );
 			</script>
-					<div
-			class="qlwapp"
-			style="--qlwapp-scheme-font-family:inherit;--qlwapp-scheme-font-size:18px;--qlwapp-scheme-icon-size:60px;--qlwapp-scheme-icon-font-size:24px;--qlwapp-scheme-box-max-height:400px;--qlwapp-scheme-brand:#25d366;--qlwapp-scheme-text:#ffffff;--qlwapp-scheme-text-secondary:#303030;--qlwapp-scheme-contact-role-color:inherit;--qlwapp-scheme-contact-name-color:inherit;--qlwapp-scheme-contact-availability-color:inherit;--qlwapp-scheme-box-message-word-break:break-all;--qlwapp-button-notification-bubble-animation:none;"
-			data-contacts="[{&quot;id&quot;:1,&quot;bot_id&quot;:&quot;&quot;,&quot;order&quot;:0,&quot;active&quot;:1,&quot;chat&quot;:1,&quot;avatar&quot;:&quot;https:\/\/www.gravatar.com\/avatar\/00000000000000000000000000000000&quot;,&quot;type&quot;:&quot;phone&quot;,&quot;phone&quot;:&quot;918756173680&quot;,&quot;group&quot;:&quot;https:\/\/chat.whatsapp.com\/EQuPUtcPzEdIZVlT8JyyNw&quot;,&quot;firstname&quot;:&quot;John&quot;,&quot;lastname&quot;:&quot;Doe&quot;,&quot;label&quot;:&quot;Support&quot;,&quot;message&quot;:&quot;&quot;,&quot;timefrom&quot;:&quot;00:00&quot;,&quot;timeto&quot;:&quot;00:00&quot;,&quot;timezone&quot;:&quot;UTC+0&quot;,&quot;visibility&quot;:&quot;readonly&quot;,&quot;timedays&quot;:[],&quot;whatsapp_link_type&quot;:&quot;web&quot;,&quot;display&quot;:{&quot;entries&quot;:{&quot;post&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]},&quot;page&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]},&quot;product&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]}},&quot;taxonomies&quot;:{&quot;category&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]},&quot;product_cat&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]}},&quot;target&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]},&quot;devices&quot;:&quot;all&quot;}}]"
-			data-primary-contact="{&quot;id&quot;:1,&quot;bot_id&quot;:&quot;&quot;,&quot;order&quot;:0,&quot;active&quot;:1,&quot;chat&quot;:1,&quot;avatar&quot;:&quot;https:\/\/www.gravatar.com\/avatar\/00000000000000000000000000000000&quot;,&quot;type&quot;:&quot;phone&quot;,&quot;phone&quot;:&quot;918756173680&quot;,&quot;group&quot;:&quot;https:\/\/chat.whatsapp.com\/EQuPUtcPzEdIZVlT8JyyNw&quot;,&quot;firstname&quot;:&quot;John&quot;,&quot;lastname&quot;:&quot;Doe&quot;,&quot;label&quot;:&quot;Support&quot;,&quot;message&quot;:&quot;&quot;,&quot;timefrom&quot;:&quot;00:00&quot;,&quot;timeto&quot;:&quot;00:00&quot;,&quot;timezone&quot;:&quot;UTC+0&quot;,&quot;visibility&quot;:&quot;readonly&quot;,&quot;timedays&quot;:[],&quot;whatsapp_link_type&quot;:&quot;web&quot;,&quot;display&quot;:{&quot;entries&quot;:{&quot;post&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]},&quot;page&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]},&quot;product&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]}},&quot;taxonomies&quot;:{&quot;category&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]},&quot;product_cat&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]}},&quot;target&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]},&quot;devices&quot;:&quot;all&quot;}}"
-			data-display="{&quot;devices&quot;:&quot;all&quot;,&quot;entries&quot;:{&quot;post&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]},&quot;page&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]},&quot;product&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]}},&quot;taxonomies&quot;:{&quot;category&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]},&quot;product_cat&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]}},&quot;target&quot;:{&quot;include&quot;:1,&quot;ids&quot;:[]}}"
-			data-button="{&quot;layout&quot;:&quot;bubble&quot;,&quot;box&quot;:&quot;no&quot;,&quot;position&quot;:&quot;middle-right&quot;,&quot;text&quot;:&quot;&quot;,&quot;icon&quot;:&quot;qlwapp-whatsapp-icon&quot;,&quot;developer&quot;:&quot;no&quot;,&quot;rounded&quot;:&quot;yes&quot;,&quot;animation_name&quot;:&quot;&quot;,&quot;animation_delay&quot;:&quot;&quot;,&quot;notification_bubble&quot;:&quot;none&quot;,&quot;notification_bubble_animation&quot;:&quot;none&quot;,&quot;timefrom&quot;:&quot;00:00&quot;,&quot;timeto&quot;:&quot;00:00&quot;,&quot;timedays&quot;:[],&quot;timezone&quot;:&quot;&quot;,&quot;visibility&quot;:&quot;readonly&quot;}"
-			data-box="{&quot;enable&quot;:&quot;yes&quot;,&quot;auto_open&quot;:&quot;no&quot;,&quot;auto_delay_open&quot;:1000,&quot;lazy_load&quot;:&quot;no&quot;,&quot;allow_outside_close&quot;:&quot;no&quot;,&quot;header&quot;:&quot;&quot;,&quot;footer&quot;:&quot;&lt;p style=\&quot;text-align: start\&quot;&gt;Need help? Our team is just a message away&lt;\/p&gt;&quot;,&quot;response&quot;:&quot;Write a response&quot;,&quot;consent_message&quot;:&quot;I accept cookies and privacy policy.&quot;,&quot;consent_enabled&quot;:&quot;no&quot;}"
-			data-scheme="{&quot;font_family&quot;:&quot;inherit&quot;,&quot;font_size&quot;:&quot;18&quot;,&quot;icon_size&quot;:&quot;60&quot;,&quot;icon_font_size&quot;:&quot;24&quot;,&quot;box_max_height&quot;:&quot;400&quot;,&quot;brand&quot;:&quot;#25d366&quot;,&quot;text&quot;:&quot;#ffffff&quot;,&quot;text_secondary&quot;:&quot;#303030&quot;,&quot;link&quot;:&quot;&quot;,&quot;message&quot;:&quot;&quot;,&quot;label&quot;:&quot;&quot;,&quot;name&quot;:&quot;&quot;,&quot;contact_role_color&quot;:&quot;inherit&quot;,&quot;contact_name_color&quot;:&quot;inherit&quot;,&quot;contact_availability_color&quot;:&quot;inherit&quot;,&quot;box_message_word_break&quot;:&quot;break-all&quot;}"
-		>
-					</div>
+					
+<a href="https://wa.me/918910803089" target="_blank" style="position:fixed; bottom:80px; right:20px; z-index:99999; background-color:#25D366; color:#FFF; border-radius:50px; width:60px; height:60px; display:flex; justify-content:center; align-items:center; box-shadow: 2px 2px 5px rgba(0,0,0,0.3);">
+  <svg width="35" height="35" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+</a>
+
 		<noscript><img height="1" width="1" style="display: none;" src="https://www.facebook.com/tr?id=2058919651624057&ev=PageView&noscript=1&cd%5Bpage_title%5D=The+Complete+4-in-1+System+for+Estimation%2C+BOQ%2C+Billing+%26+Construction+Cost+Control&cd%5Bpost_type%5D=page&cd%5Bpost_id%5D=1560&cd%5Bplugin%5D=PixelYourSite&cd%5Buser_role%5D=guest&cd%5Bevent_url%5D=arcsio.in%2Fthe-complete-4-in-1-system-for-estimation-boq-billing-construction-cost-control%2F" alt=""></noscript>
 	<script>
 		(function () {
@@ -3288,6 +4758,170 @@ const a=JSON.parse(document.getElementById("wp-emoji-settings").textContent),o=(
 </script>
 	
 
+
+
+<!-- PayU Checkout Modal -->
+<style>
+.payu-modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8); z-index: 100000;
+    display: none; align-items: center; justify-content: center;
+}
+.payu-modal {
+    background: #111; padding: 30px; border-radius: 12px;
+    max-width: 400px; width: 90%; color: #fff; border: 1px solid #333;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+.payu-close {
+    position: absolute; top: 15px; right: 20px; font-size: 24px;
+    cursor: pointer; color: #aaa;
+}
+.payu-modal h2 { font-size: 20px; margin-bottom: 20px; color: #ffb347; margin-top: 0; }
+.payu-form-group { margin-bottom: 15px; }
+.payu-form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
+.payu-form-group input { 
+    width: 100%; padding: 12px; border-radius: 6px; 
+    border: 1px solid #444; background: #222; color: #fff; 
+    box-sizing: border-box;
+}
+.payu-submit-btn {
+    width: 100%; background: #ffb347; color: #000; font-weight: bold;
+    padding: 14px; border: none; border-radius: 6px; cursor: pointer;
+    font-size: 14px; margin-top: 10px;
+}
+.payu-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+</style>
+
+<div id="payuCheckoutModal" class="payu-modal-overlay">
+    <div class="payu-modal">
+        <span class="payu-close" onclick="closePayuModal()">&times;</span>
+        <h2>Complete Your Purchase</h2>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:15px; font-size:14px;">
+            <span>Construction Master Bundle</span>
+            <span style="color:#ffb347; font-weight:bold;">₹390</span>
+        </div>
+        <form id="payuCheckoutForm" onsubmit="initiatePayuPayment(event)">
+            <div class="payu-form-group">
+                <label>Full Name</label>
+                <input type="text" id="payuName" required placeholder="John Doe">
+            </div>
+            <div class="payu-form-group">
+                <label>Email Address</label>
+                <input type="email" id="payuEmail" required placeholder="your@email.com">
+            </div>
+            <div class="payu-form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="payuPhone" required placeholder="9876543210">
+            </div>
+            <button type="submit" id="payuSubmitBtn" class="payu-submit-btn">
+                Complete Secure Payment (₹390)
+            </button>
+            <div id="payuErrorMsg" style="color:#ef4444; font-size:12px; margin-top:10px; display:none;"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+function openPayuModal(e) {
+    if(e) e.preventDefault();
+    document.getElementById('payuCheckoutModal').style.display = 'flex';
+}
+
+function closePayuModal() {
+    document.getElementById('payuCheckoutModal').style.display = 'none';
+}
+
+// Attach open event to all "Buy Digital Copy" buttons
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+        if(link.innerText.toUpperCase().includes('BUY DIGITAL COPY') || link.innerText.toUpperCase().includes('BUY  DIGITAL COPY')) {
+            link.addEventListener('click', openPayuModal);
+            // also remove target _blank if it was there, just in case
+            link.removeAttribute('target');
+        }
+    });
+
+    // Check url params for payment status
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    if (status === 'success') {
+        alert("Payment Successful! Thank you for your purchase. We will send you the download link shortly.");
+    } else if (status === 'failure') {
+        alert("Payment Failed. Please try again.");
+    } else if (status === 'tampered') {
+        alert("Security Error: Payment verification failed.");
+    } else if (status === 'error') {
+        alert("An error occurred during payment processing.");
+    }
+});
+
+async function initiatePayuPayment(event) {
+    event.preventDefault();
+    const btn = document.getElementById('payuSubmitBtn');
+    const errorDiv = document.getElementById('payuErrorMsg');
+    
+    btn.disabled = true;
+    btn.innerText = 'Processing...';
+    errorDiv.style.display = 'none';
+
+    const payload = {
+        firstname: document.getElementById('payuName').value,
+        email: document.getElementById('payuEmail').value,
+        phone: document.getElementById('payuPhone').value
+    };
+
+    try {
+        const res = await fetch('/api/payu/hash', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to initialize payment');
+        }
+
+        // Dynamically construct a form and submit to PayU Test Environment
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://test.payu.in/_payment';
+        
+        const params = {
+            key: data.key,
+            txnid: data.txnid,
+            amount: data.amount,
+            productinfo: data.productinfo,
+            firstname: data.firstname,
+            email: data.email,
+            phone: data.phone,
+            surl: data.surl,
+            furl: data.furl,
+            hash: data.hash
+        };
+        
+        for (const key in params) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = params[key];
+            form.appendChild(input);
+        }
+        
+        document.body.appendChild(form);
+        form.submit();
+        
+    } catch (err) {
+        btn.disabled = false;
+        btn.innerText = 'Complete Secure Payment (₹390)';
+        errorDiv.innerText = err.message;
+        errorDiv.style.display = 'block';
+    }
+}
+</script>
 
 </body>
 </html>
