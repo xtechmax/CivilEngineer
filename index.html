@@ -3,317 +3,371 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Construction Estimation Master Toolkit™</title>
-<link rel="icon" type="image/jpeg" href="favicon.jpg"/>
+<title>ESTIMATR.PRO - Construction Mastery Series</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "body-gray": "#A1A1A6",
-                      "primary-fixed": "#ffdcbf",
-                      "primary": "#ffbd7f",
-                      "surface": "#131313",
-                      "glass-surface": "rgba(28, 28, 30, 0.7)",
-                      "surface-bright": "#393939",
-                      "outline": "#a38d7a",
-                      "surface-container-low": "#1b1b1b",
-                      "inverse-primary": "#8c5000",
-                      "surface-tint": "#ffb874",
-                      "on-tertiary": "#00344a",
-                      "on-background": "#e2e2e2",
-                      "on-secondary-container": "#6e5700",
-                      "tertiary": "#8ad3ff",
-                      "secondary-fixed": "#ffe08b",
-                      "on-primary-fixed": "#2d1600",
-                      "on-secondary-fixed": "#241a00",
-                      "surface-container-lowest": "#0e0e0e",
-                      "surface-variant": "#353535",
-                      "on-secondary-fixed-variant": "#584400",
-                      "on-tertiary-fixed-variant": "#004c6a",
-                      "secondary-container": "#fecb00",
-                      "surface-container-highest": "#353535",
-                      "on-primary": "#4b2800",
-                      "on-error": "#690005",
-                      "on-primary-container": "#643700",
-                      "tertiary-container": "#00bbfe",
-                      "construction-amber": "#FFB347",
-                      "secondary-fixed-dim": "#f1c100",
-                      "surface-container": "#1f1f1f",
-                      "tertiary-fixed-dim": "#7fd0ff",
-                      "on-error-container": "#ffdad6",
-                      "on-primary-fixed-variant": "#6a3b00",
-                      "on-tertiary-fixed": "#001e2d",
-                      "error-container": "#93000a",
-                      "on-surface-variant": "#dbc2ad",
-                      "surface-dim": "#131313",
-                      "outline-variant": "#554334",
-                      "primary-fixed-dim": "#ffb874",
-                      "headline-white": "#F5F5F7",
-                      "on-tertiary-container": "#004764",
-                      "tertiary-fixed": "#c5e7ff",
-                      "inverse-surface": "#e2e2e2",
-                      "primary-container": "#ff9500",
-                      "on-surface": "#e2e2e2",
-                      "error": "#ffb4ab",
-                      "background": "#131313",
-                      "surface-container-high": "#2a2a2a",
-                      "on-secondary": "#3d2f00",
-                      "border-subtle": "rgba(255, 255, 255, 0.08)",
-                      "inverse-on-surface": "#303030",
-                      "secondary": "#ffecc0"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.25rem",
-                      "lg": "0.5rem",
-                      "xl": "0.75rem",
-                      "2xl": "1.5rem",
-                      "full": "9999px"
-              },
-              "spacing": {
-                      "gutter": "1.5rem",
-                      "safe-margin": "2rem",
-                      "stack-md": "1.5rem",
-                      "section-gap": "8rem",
-                      "stack-sm": "0.5rem"
-              },
-              "fontFamily": {
-                      "headline-lg-mobile": [
-                              "Inter"
-                      ],
-                      "label-sm": [
-                              "JetBrains Mono"
-                      ],
-                      "headline-lg": [
-                              "Inter"
-                      ],
-                      "body-md": [
-                              "Inter"
-                      ],
-                      "display-lg": [
-                              "Inter"
-                      ],
-                      "headline-xl": [
-                              "Inter"
-                      ],
-                      "body-lg": [
-                              "Inter"
-                      ]
-              },
-              "fontSize": {
-                      "headline-lg-mobile": [
-                              "28px",
-                              {
-                                      "lineHeight": "1.3",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "label-sm": [
-                              "13px",
-                              {
-                                      "lineHeight": "1.0",
-                                      "letterSpacing": "0.05em",
-                                      "fontWeight": "500"
-                              }
-                      ],
-                      "headline-lg": [
-                              "32px",
-                              {
-                                      "lineHeight": "1.3",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "body-md": [
-                              "17px",
-                              {
-                                      "lineHeight": "1.5",
-                                      "fontWeight": "400"
-                              }
-                      ],
-                      "display-lg": [
-                              "80px",
-                              {
-                                      "lineHeight": "1.1",
-                                      "letterSpacing": "-0.02em",
-                                      "fontWeight": "700"
-                              }
-                      ],
-                      "headline-xl": [
-                              "56px",
-                              {
-                                      "lineHeight": "1.2",
-                                      "letterSpacing": "-0.01em",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "body-lg": [
-                              "20px",
-                              {
-                                      "lineHeight": "1.6",
-                                      "fontWeight": "400"
-                              }
-                      ]
-              }
-      },
-          },
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#ffb874",
+                        "on-primary-container": "#643700",
+                        "surface-container-high": "#2a2a2a",
+                        "background": "#131313",
+                        "surface-container": "#1f1f1f",
+                        "surface-variant": "#353535",
+                        "inverse-surface": "#e2e2e2",
+                        "on-primary-fixed-variant": "#6a3b00",
+                        "surface": "#131313",
+                        "tertiary-container": "#00bbfe",
+                        "surface-container-highest": "#353535",
+                        "body-gray": "#A1A1A6",
+                        "secondary-container": "#fecb00",
+                        "surface-bright": "#393939",
+                        "inverse-primary": "#8c5000",
+                        "error-container": "#93000a",
+                        "outline-variant": "#554334",
+                        "construction-amber": "#FFB347",
+                        "primary": "#ffbd7f",
+                        "on-tertiary-fixed-variant": "#004c6a",
+                        "surface-dim": "#131313",
+                        "on-secondary-fixed": "#241a00",
+                        "secondary-fixed-dim": "#f1c100",
+                        "primary-fixed-dim": "#ffb874",
+                        "tertiary": "#8ad3ff",
+                        "tertiary-fixed-dim": "#7fd0ff",
+                        "on-secondary-container": "#6e5700",
+                        "inverse-on-surface": "#303030",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-secondary-fixed-variant": "#584400",
+                        "on-surface": "#e2e2e2",
+                        "on-primary": "#4b2800",
+                        "tertiary-fixed": "#c5e7ff",
+                        "outline": "#a38d7a",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#001e2d",
+                        "surface-container-low": "#1b1b1b",
+                        "on-primary-fixed": "#2d1600",
+                        "primary-container": "#ff9500",
+                        "on-error": "#690005",
+                        "glass-surface": "rgba(28, 28, 30, 0.7)",
+                        "on-background": "#e2e2e2",
+                        "on-surface-variant": "#dbc2ad",
+                        "on-tertiary-container": "#004764",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#ffe08b",
+                        "on-tertiary": "#00344a",
+                        "border-subtle": "rgba(255, 255, 255, 0.08)",
+                        "on-secondary": "#3d2f00",
+                        "headline-white": "#F5F5F7",
+                        "secondary": "#ffecc0",
+                        "primary-fixed": "#ffdcbf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "8rem",
+                        "gutter": "1.5rem",
+                        "stack-sm": "0.5rem",
+                        "safe-margin": "2rem",
+                        "stack-md": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["17px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-xl": ["56px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-sm": ["13px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg": ["80px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["20px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                },
+            },
         }
-      </script>
+    </script>
 <style>
         body {
-            background-color: #000000;
-            color: #F5F5F7;
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
         }
         .glass-panel {
-            background: rgba(28, 28, 30, 0.7);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background-color: theme('colors.surface-container');
+            border: 1px solid theme('colors.border-subtle');
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
-        .glow-button {
-            box-shadow: 0 0 40px 0 rgba(255, 179, 71, 0.15);
+        .btn-primary {
+            background: linear-gradient(135deg, theme('colors.construction-amber') 0%, theme('colors.primary') 100%);
+            color: theme('colors.on-primary');
+            box-shadow: 0 0 40px rgba(255, 179, 71, 0.15);
+            transition: all 0.3s ease;
         }
-        .glow-button:hover {
-            box-shadow: 0 0 60px 0 rgba(255, 179, 71, 0.25);
+        .btn-primary:hover {
+            box-shadow: 0 0 60px rgba(255, 179, 71, 0.3);
+            transform: translateY(-2px);
         }
-    /* ==========================================
-   Independence Day Sale Banner (Compact Bar)
-   ========================================== */
-.india-sale-banner {
-    position: relative;
-    overflow: hidden;
-    padding: 0.65rem 1rem;
-    text-align: center;
-    background: #0a0a0c;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    z-index: 60;
-}
-.flag-stripe {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 3px;
-    z-index: 2;
-}
-.flag-saffron {
-    top: 0;
-    background: linear-gradient(90deg, transparent 0%, #FF9933 20%, #FF9933 80%, transparent 100%);
-    box-shadow: 0 0 10px rgba(255, 153, 51, 0.6);
-}
-.flag-green {
-    bottom: 0;
-    background: linear-gradient(90deg, transparent 0%, #138808 20%, #138808 80%, transparent 100%);
-    box-shadow: 0 0 10px rgba(19, 136, 8, 0.6);
-}
-.light-sweep {
-    position: absolute;
-    top: -50%;
-    left: -100%;
-    width: 60%;
-    height: 200%;
-    background: linear-gradient(
-        105deg,
-        transparent 30%,
-        rgba(255, 153, 51, 0.08) 40%,
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(19, 136, 8, 0.08) 60%,
-        transparent 70%
-    );
-    animation: lightSweep 4s ease-in-out infinite;
-    pointer-events: none;
-    z-index: 1;
-}
-@keyframes lightSweep {
-    0% { left: -100%; }
-    100% { left: 200%; }
-}
-.sale-content {
-    position: relative;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    font-size: 0.95rem;
-    color: #e4e4e7;
-}
-.sale-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.2rem 0.65rem;
-    background: rgba(255, 153, 51, 0.15);
-    border: 1px solid rgba(255, 153, 51, 0.3);
-    border-radius: 99px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #FF9933;
-    letter-spacing: 0.02em;
-}
-.sale-heading {
-    background: linear-gradient(135deg, #FF9933 0%, #ffffff 50%, #138808 100%);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: tricolorShift 5s ease-in-out infinite;
-    font-weight: 800;
-}
-@keyframes tricolorShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-.discount-highlight {
-    color: #FF9933;
-    font-weight: 800;
-    text-shadow: 0 0 12px rgba(255, 153, 51, 0.6);
-}
-.btn-sale {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.35rem 0.9rem;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-decoration: none;
-    border: none;
-    border-radius: 99px;
-    cursor: pointer;
-    color: #000;
-    background: linear-gradient(135deg, #FF9933, #f59e0b);
-    box-shadow: 0 0 12px rgba(255, 153, 51, 0.4);
-    transition: all 0.2s ease;
-}
-.btn-sale:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(255, 153, 51, 0.7);
-}
-
-
-        @keyframes redPulseShake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px) scale(0.98); }
-            40%, 80% { transform: translateX(5px) scale(0.98); }
-        }
-        @keyframes celebrationBurst {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            50% { transform: scale(1.03); box-shadow: 0 0 30px 8px rgba(16, 185, 129, 0.5); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-        .anim-red-shake { animation: redPulseShake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
-        .anim-celebrate { animation: celebrationBurst 0.5s ease-out; }
-
-    
-        @keyframes shimmer {
-            100% { transform: translateX(100%); }
-        }
-
     </style>
-<!-- Meta Pixel Code -->
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+</head>
+<body class="font-body-md antialiased pt-24 pb-12">
+<!-- Header (Shared Component) -->
+<header class="fixed top-0 w-full z-50 bg-glass-surface backdrop-blur-md border-b border-border-subtle">
+<div class="flex justify-between items-center px-gutter py-4 max-w-[1280px] mx-auto">
+<div class="font-headline-lg text-headline-lg font-bold text-primary">
+                ESTIMATR.PRO
+            </div>
+<nav class="hidden md:flex gap-8">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-body-md text-body-md hover:text-primary transition-colors duration-200" href="#">Modules</a>
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors duration-200" href="#">Accuracy</a>
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors duration-200" href="#">Pricing</a>
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-primary transition-colors duration-200" href="#">Whitepaper</a>
+</nav>
+<a class="btn-primary px-6 py-2 rounded font-label-sm text-label-sm uppercase tracking-wider font-bold" href="#">
+                Get Started
+            </a>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="max-w-[1280px] mx-auto px-gutter pt-section-gap pb-12 grid md:grid-cols-2 gap-12 items-center">
+<div>
+<div class="inline-block border border-construction-amber text-construction-amber px-3 py-1 rounded-full font-label-sm text-label-sm mb-6">
+                4 BOOK, ONE PRICE 390/- NOTHING HIDDEN
+            </div>
+<h1 class="font-headline-xl text-headline-xl text-headline-white mb-6">
+                4-Book Master Series:
+            </h1>
+<p class="font-body-lg text-body-lg text-body-gray mb-8">
+                Master Quantity Surveying, Estimation, Site Formulas, Construction Billing, BOQ &amp; Contracts – Manage Project Finances, Avoid Errors, and Execute Engineering Contracts Like a Pro!
+            </p>
+<div class="flex flex-col sm:flex-row gap-4 mb-8">
+<a class="btn-primary text-center px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-wider font-bold" href="#checkoutFormSection">
+                    Buy Digital Copy ₹390
+                </a>
+<a class="glass-panel text-center px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-wider font-bold hover:border-construction-amber transition-colors" href="#">
+                    Buy Hard Copy ₹1990
+                </a>
+</div>
+<p class="font-label-sm text-label-sm text-body-gray flex items-center gap-2">
+<span class="material-symbols-outlined text-construction-amber text-sm">local_shipping</span>
+                Ships via Express Courier • Arrives in 7-8 Days
+            </p>
+</div>
+<div class="relative grid grid-cols-2 gap-4">
+<!-- Placeholder images mimicking the hero book spread -->
+<img class="w-full rounded-lg glass-panel hover:scale-105 transition-transform duration-300" data-alt="High quality render of a construction operations manual book cover, dark theme with bright amber technical diagrams on the cover, floating slightly on a pure black background." src="https://lh3.googleusercontent.com/aida/AP1WRLtJDLE8if2AFovyxhozSNhYnMwyv28Uwpcs0IIYbwOk0nAPdDXimeM7DEMUr5APhBz1legUNjGKpyGKdbAQkmZA2h6B1-fPzqNdAginZyHARIL70JoWhJnNcKnBwQsw_cr5YzjMmD1nunyoCsQpKspnGmvl9dVF8UMXbrrr3BuMvF5ctl6ItMsqluDcLVqUIaVjNbr_v8jjqfmhivp349J-C0TOh3maSK9_HN1-NVQjYo_8lTdChmD6JA"/>
+<img class="w-full rounded-lg glass-panel hover:scale-105 transition-transform duration-300 translate-y-8" data-alt="High quality render of a quantity surveying textbook cover, dark theme with bright amber structural plans on the cover, floating slightly on a pure black background." src="https://lh3.googleusercontent.com/aida/AP1WRLv1em1ur9xxJ-EFgG6FKzRaOnvDNGNRCEzf4siYLlkslWDv9-S2_-S1I-ZcwSTZaoDm6OClkkVCyq5zdH4934uuDArtq3CaGsM0BOuFl6XpdOFmbhSULu2QN6mW2vb2pRJQxcYLw-uKJMSDlrpXIGOBWIQQu3gTCywreXVy7eEQXKA6-PITPDoTRqzugxFebjmpIrzrghX8HsLKM8chWl5R3RmgiCdtA5xnhPsDRJAiYorUNT0NmAha9FY"/>
+</div>
+</section>
+<!-- Curriculum Section (Bento Grid) -->
+<section class="max-w-[1280px] mx-auto px-gutter py-section-gap">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-headline-white mb-4">Mastery Series Curriculum</h2>
+<p class="font-body-md text-body-md text-body-gray max-w-2xl mx-auto">Explore our Ultimate Construction Bundle for simplified learning of complex billing &amp; contracting concepts.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Card 1 -->
+<div class="glass-panel p-8 rounded-xl flex flex-col gap-4 hover:border-construction-amber transition-colors group">
+<div class="w-12 h-12 rounded bg-surface-variant flex items-center justify-center text-construction-amber group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">architecture</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-headline-white">Execution Planning</h3>
+<p class="font-body-md text-body-md text-body-gray flex-grow">Strategic site setup frameworks, mobilization strategies, and operational layouts.</p>
+<div class="pt-4 border-t border-border-subtle mt-auto">
+<ul class="space-y-2">
+<li class="flex items-start gap-2 font-label-sm text-label-sm text-body-gray">
+<span class="material-symbols-outlined text-construction-amber text-[16px]">check</span> Optimize Labor
+                        </li>
+</ul>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-panel p-8 rounded-xl flex flex-col gap-4 hover:border-construction-amber transition-colors group">
+<div class="w-12 h-12 rounded bg-surface-variant flex items-center justify-center text-construction-amber group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">query_stats</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-headline-white">Operations Management</h3>
+<p class="font-body-md text-body-md text-body-gray flex-grow">Practical site frameworks designed for engineers and project managers.</p>
+<div class="pt-4 border-t border-border-subtle mt-auto">
+<ul class="space-y-2">
+<li class="flex items-start gap-2 font-label-sm text-label-sm text-body-gray">
+<span class="material-symbols-outlined text-construction-amber text-[16px]">check</span> Maintain Visibility
+                        </li>
+</ul>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-panel p-8 rounded-xl flex flex-col gap-4 hover:border-construction-amber transition-colors group">
+<div class="w-12 h-12 rounded bg-surface-variant flex items-center justify-center text-construction-amber group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">calculate</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-headline-white">QS &amp; Cost Estimation</h3>
+<p class="font-body-md text-body-md text-body-gray flex-grow">Detailed extraction processes to mathematically quantify earthwork and structures.</p>
+<div class="pt-4 border-t border-border-subtle mt-auto">
+<ul class="space-y-2">
+<li class="flex items-start gap-2 font-label-sm text-label-sm text-body-gray">
+<span class="material-symbols-outlined text-construction-amber text-[16px]">check</span> Eliminate Guesswork
+                        </li>
+</ul>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="glass-panel p-8 rounded-xl flex flex-col gap-4 hover:border-construction-amber transition-colors group">
+<div class="w-12 h-12 rounded bg-surface-variant flex items-center justify-center text-construction-amber group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-headline-white">Billing, BOQ &amp; Contracts</h3>
+<p class="font-body-md text-body-md text-body-gray flex-grow">Structural frameworks governing RA bills, structural measurements, and IPCs.</p>
+<div class="pt-4 border-t border-border-subtle mt-auto">
+<ul class="space-y-2">
+<li class="flex items-start gap-2 font-label-sm text-label-sm text-body-gray">
+<span class="material-symbols-outlined text-construction-amber text-[16px]">check</span> Secure Cash Flows
+                        </li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- Inside Layouts (Gallery) -->
+<section class="bg-surface-container-low py-section-gap border-y border-border-subtle">
+<div class="max-w-[1280px] mx-auto px-gutter">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-headline-white mb-4">Explore Inside Layouts</h2>
+<p class="font-body-md text-body-md text-body-gray">Scroll through high-quality calculations, templates, and spreadsheets.</p>
+</div>
+<div class="grid md:grid-cols-2 gap-8">
+<img class="w-full rounded-xl border border-border-subtle" data-alt="A macro shot of a printed technical spreadsheet showing construction operations control metrics. The paper rests on a dark concrete surface. Focus is sharp on the data rows, illuminated by a warm ambient light." src="https://lh3.googleusercontent.com/aida/AP1WRLt_XO03n3iS_H1YDJlRN4tXANkugP7aIu92nxfx3hr37wfB3QqKzuWX-s-Jc05Fjg-y5Fvz8ZF1RXmyEchcBGrz4HpY1Vjz29Z_i--BGVvx1PUQ21Vy1xphHqrjjpWJl63GKrbpySZVAUpYYo8bv3u2ZdMy1GXSME33_mtkb4wle6_G_S-W1iTwowLMHsf1fDYePNfUmr_OuJgNXRGedZ3zHg5bhw1sa1ZVjpXJM4g7zMaTgs6rZqT-wQ"/>
+<img class="w-full rounded-xl border border-border-subtle" data-alt="A close up of a printed Bill of Quantities (BOQ) contract page showing itemized structural rates. The document is placed on a dark wooden desk beside a metallic pen. Crisp typography is visible under directional studio lighting." src="https://lh3.googleusercontent.com/aida/AP1WRLvMxPtire_-jRbVhafOvrMjXM_QpdAgsC6leiV-TpKmW0Bo_Jhvbj9Vx71zcSeLG34tB5EsKOuSKBla7RWIlEK57poOVGBa371hFx8W9iJjOmub1Y2MK6MsfDDNOgMWTUkVAiU2wdhGiOR5S03DDbD0I0-0971H0-TaZcxcgzqNb8GUYMSwjx17pzqYHlTGNPRHm-7tolqWOoIaC4kAIgAugFck1uuEgZGiyln8W2CtHK3u2MqXqyOlugw"/>
+</div>
+</div>
+</section>
+<!-- Author Profile -->
+<section class="max-w-[1280px] mx-auto px-gutter py-section-gap">
+<div class="glass-panel rounded-2xl p-8 md:p-12 flex flex-col md:flex-row gap-12 items-center">
+<div class="w-48 h-48 rounded-full overflow-hidden border-2 border-construction-amber shrink-0 relative">
+<div class="absolute inset-0 bg-construction-amber/20 mix-blend-overlay"></div>
+<img class="w-full h-full object-cover" data-alt="A professional headshot of an Indian male engineer in his 30s. He is wearing a dark, well-tailored blazer over a dark t-shirt. The background is a minimalist dark grey studio setting with subtle warm accent lighting." src="https://lh3.googleusercontent.com/aida/AP1WRLuqTf_sr5M9O1WJgpxaLquejMBPRKcSLCLptj2kHKweDwgiyINGg5QYp1K40v1OtG1tb9xlgCnwWSRdw-6fa4nhggm4QD9xlUYS22MG0NuTC4nwBA18p4UFdO37SNqInYfuxMaiZIHXP9Uavt7W-EyAiLbUa0yt1CEVywdDGmCwi1TeXQZBO9OkR8XNHTg0Cu_HSmxypNSKwCzmjY3Z1ElCrw44uHDDHz4qEsu0tAJvmkC8xPBawjXje20"/>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-construction-amber mb-2 uppercase tracking-wider">Meet the Author</div>
+<h2 class="font-headline-lg text-headline-lg text-headline-white mb-2">Ashwin Nayak</h2>
+<p class="font-body-md text-body-md text-body-gray mb-6">Construction Designing &amp; Construction | Digital Creator</p>
+<ul class="space-y-3 font-body-md text-body-md text-body-gray max-w-2xl">
+<li class="flex items-start gap-3">
+<span class="text-construction-amber">•</span>
+                        Ashwin Nayak is a passionate designer and digital creator with over 5 years of experience in BIM and industry research.
+                    </li>
+<li class="flex items-start gap-3">
+<span class="text-construction-amber">•</span>
+                        Founder of Arcsio, a digital platform focused on simplifying architectural and construction learning.
+                    </li>
+<li class="flex items-start gap-3">
+<span class="text-construction-amber">•</span>
+                        Educated 10,000+ students through practical bundles used globally.
+                    </li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- Checkout Section -->
+<section id="checkoutFormSection" class="max-w-[800px] mx-auto px-gutter py-section-gap">
+    <div class="glass-panel p-8 rounded-xl flex flex-col gap-4 border border-construction-amber/30">
+        <h2 class="font-headline-lg text-headline-lg text-headline-white text-center mb-4">Complete Your Purchase</h2>
+        <div class="flex justify-between items-center mb-4 border-b border-border-subtle pb-4">
+            <span class="font-body-lg text-body-lg text-body-gray">Construction Master Bundle</span>
+            <span class="font-headline-lg-mobile text-headline-lg-mobile text-construction-amber">₹390</span>
+        </div>
+        <form id="checkoutForm" onsubmit="initiatePayment(event)" class="flex flex-col gap-4">
+            <div class="flex flex-col gap-2">
+                <label class="font-label-sm text-label-sm uppercase tracking-wider text-body-gray">Email Address</label>
+                <input id="custEmail" required class="bg-surface-container-high text-headline-white border border-outline-variant rounded-md px-4 py-3 text-body-md focus:border-construction-amber focus:outline-none transition-colors" placeholder="your@email.com" type="email"/>
+            </div>
+            <div class="flex flex-col gap-2 mb-4">
+                <label class="font-label-sm text-label-sm uppercase tracking-wider text-body-gray">Phone Number</label>
+                <input id="custPhone" required class="bg-surface-container-high text-headline-white border border-outline-variant rounded-md px-4 py-3 text-body-md focus:border-construction-amber focus:outline-none transition-colors" placeholder="9876543210" type="tel"/>
+            </div>
+            <div id="paymentError" class="hidden p-4 rounded-lg bg-error-container border border-error text-on-error-container text-sm mb-2 shadow-lg"></div>
+            <button id="payButton" type="submit" class="w-full btn-primary text-center px-8 py-4 rounded font-label-sm text-label-sm uppercase tracking-wider font-bold hover:scale-[1.02] transition-transform flex justify-center items-center gap-2">
+                <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">lock</span>
+                <span id="payButtonText">Complete Secure Payment (₹390)</span>
+            </button>
+        </form>
+        <div class="mt-4 flex justify-center items-center gap-2 text-body-gray opacity-80">
+            <span class="material-symbols-outlined text-[16px]">verified_user</span>
+            <span class="font-label-sm text-label-sm tracking-wider">256-BIT SSL SECURE CHECKOUT</span>
+        </div>
+    </div>
+</section>
+
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-section-gap border-t border-border-subtle bg-background">
+<div class="max-w-[1280px] mx-auto px-gutter flex flex-col md:flex-row justify-between items-center gap-stack-md">
+<div class="font-headline-lg text-headline-lg font-bold text-primary">
+                ESTIMATR.PRO
+            </div>
+<div class="font-label-sm text-label-sm text-body-gray">
+                © 2024 Estimatr Pro. Precision in every measurement.
+            </div>
+<div class="flex gap-6 font-label-sm text-label-sm text-body-gray">
+<a class="hover:text-primary underline transition-all" href="#">Privacy Policy</a>
+<a class="hover:text-primary underline transition-all" href="#">Terms of Service</a>
+<a class="hover:text-primary underline transition-all" href="#">Compliance</a>
+<a class="hover:text-primary underline transition-all" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+
+<!-- Success Modal -->
+<div id="successModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl max-w-md w-full text-center border-green-500/40 shadow-2xl">
+        <div class="w-14 h-14 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center mx-auto mb-3 border border-green-500/30">
+            <span class="material-symbols-outlined text-3xl">check_circle</span>
+        </div>
+        <h2 class="text-2xl font-bold text-headline-white mb-1">Payment Successful!</h2>
+        <p class="text-body-gray text-xs mb-4">Thank you for your purchase! Your files are ready for instant download below.</p>
+        
+        <div class="p-3 bg-surface-container-low rounded-xl text-left text-xs space-y-1 mb-5 border border-border-subtle">
+            <div><span class="text-body-gray">Order Reference:</span> <span id="successOrderId" class="text-construction-amber font-mono font-bold"></span></div>
+            <div><span class="text-body-gray">Product Package:</span> <span id="successPackageName" class="text-headline-white font-semibold">Construction Estimation Master Toolkit™</span></div>
+            <div><span class="text-body-gray">Delivery Method:</span> <span class="text-emerald-400 font-medium">Instant Google Drive Download</span></div>
+        </div>
+
+        <div id="successDownloadButtons" class="space-y-3">
+            <a id="successMainLink" href="https://drive.google.com/drive/folders/1uK7PjLxCI7Gjb9vosRZ5MohPLqwIuKaO?usp=sharing" target="_blank" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-construction-amber to-amber-500 text-black font-bold py-3 px-5 rounded-xl shadow-lg hover:brightness-110 transition-all text-xs sm:text-sm">
+                <span class="material-symbols-outlined text-lg">folder_zip</span>
+                📦 Download Master Construction Toolkit
+            </a>
+            <div id="successAddonContainer" class="hidden">
+                <a id="successAddonLink" href="https://drive.google.com/drive/folders/1mKZykJegBX1QnFZRNS3e5BnjEme6Nu5O?usp=sharing" target="_blank" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-3 px-5 rounded-xl shadow-lg hover:brightness-110 transition-all text-xs sm:text-sm">
+                    <span class="material-symbols-outlined text-lg">description</span>
+                    ⚡ Download Practical Vastu Shastra Guide
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
+
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -690,20 +744,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 
 <script>
     
-    function toggleAddonState() {
-        const bump = document.getElementById("orderBump");
-        const btn = document.getElementById("addonCtaBtn");
-        const text = document.getElementById("addonCtaText");
-        const card = document.getElementById("addonCard");
-
-        card.classList.remove("anim-red-shake", "anim-celebrate");
-        void card.offsetWidth; // force DOM reflow for re-triggering animation
-
-        if (bump.checked) {
-            btn.className = "w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs py-1.5 px-2.5 rounded-md flex items-center justify-center gap-1 transition-all shadow-md text-center";
-            text.innerText = "✓ Added to Order (+₹49)";
-            card.className = "mt-1 p-2.5 rounded-lg border-2 border-emerald-500 bg-surface-container-high relative transition-all shadow-lg ring-2 ring-emerald-500/20 anim-celebrate";
-        } else {
+     else {
             btn.className = "w-full bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-bold text-xs py-1.5 px-2.5 rounded-md flex items-center justify-center gap-1 transition-all shadow-md text-center";
             text.innerText = "Click to Add Back (+₹49)";
             card.className = "mt-1 p-2.5 rounded-lg border-2 border-rose-500/80 bg-rose-950/30 relative transition-all shadow-md anim-red-shake";
@@ -712,11 +753,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
         updateTotalDisplay();
     }
 
-    function updateTotalDisplay() {
-        const isBump = document.getElementById("orderBump").checked;
-        const total = isBump ? 198.00 : 149.00;
-        document.getElementById("displayTotal").innerText = "₹" + total.toFixed(2);
-    }
+    
 
     async function initiatePayment(e) {
         e.preventDefault();
@@ -731,7 +768,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
         
         const email = document.getElementById("custEmail").value.trim();
         const phone = document.getElementById("custPhone").value.trim();
-        const orderBump = document.getElementById("orderBump").checked;
+        const orderBump = false;
         
         if (!email || !phone) {
             errorDiv.innerText = "Please fill in all required contact details.";
@@ -798,7 +835,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
                     if (Array.isArray(data) && data.length > 0) {
                         const order = data[0];
                         const hasAddon = order.addon || (order.amount > 200);
-                        if (hasAddon) {
+                        if (false) {
                             document.getElementById("successPackageName").innerText = "Master Toolkit + Vastu Shastra Guide";
                             document.getElementById("successAddonContainer").classList.remove("hidden");
                         }
@@ -916,7 +953,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-        initDynamicDiscounts();
+        
         startBannerTimer();
         logPageView();
         if (window.innerWidth < 1024) {
@@ -924,44 +961,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
         }
     });
 
+
 </script>
-
-
-<!-- Sticky Floating Buy Button -->
-<div id="stickyBuyBar" class="mobile-sticky-bar" style="position:fixed;bottom:0;left:0;right:0;z-index:999999;padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));pointer-events:none;">
-  <!-- Action Button -->
-  <a href="#checkout" id="stickyBuyBtn" style="
-    pointer-events:auto;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    width:100%;
-    box-sizing:border-box;
-    background:linear-gradient(90deg,#1e3cba 0%,#3d5ce6 100%);
-    color:#fff;
-    font-size:18px;
-    font-weight:800;
-    padding:16px 24px;
-    border-radius:50px;
-    text-decoration:none;
-    box-shadow:0 8px 32px rgba(37,99,235,0.5);
-    position:relative;
-    overflow:hidden;
-    letter-spacing:0.02em;
-  ">
-    <span style="display:inline-flex;align-items:center;flex-shrink:0;" class="material-symbols-outlined">download</span>
-    <span style="flex:1;text-align:center;white-space:nowrap;">BUY NOW — ₹149</span>
-    <span style="display:inline-flex;align-items:center;flex-shrink:0;" class="material-symbols-outlined">arrow_forward</span>
-    <span id="stickyShimmer" style="position:absolute;top:0;left:0;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);transform:translateX(-100%);pointer-events:none;"></span>
-  </a>
-</div>
-<style>
-  @keyframes btnShimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(250%)} }
-  #stickyShimmer { animation: btnShimmer 2.2s ease-in-out infinite; }
-  .mobile-sticky-bar { display: none !important; }
-  @media (max-width: 1023px) {
-    .mobile-sticky-bar { display: block !important; }
-  }
-</style>
-
-</body></html>
+</body>
+</html>

@@ -13,8 +13,7 @@ export default async function handler(req, res) {
 
   try {
     const { name, email, phone, orderBump } = req.body || {};
-
-    const amount = orderBump ? 248.00 : 199.00;
+    const amount = orderBump ? 439.00 : 390.00;
     const orderId = 'order_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
 
     // Active Cashfree Production Credentials
