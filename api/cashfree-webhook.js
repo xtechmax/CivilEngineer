@@ -139,7 +139,7 @@ export default async function handler(req, res) {
 
       // Explicit Google Drive Folder Links
       const normalDriveLink = 'https://drive.google.com/drive/folders/1uK7PjLxCI7Gjb9vosRZ5MohPLqwIuKaO?usp=sharing';
-      const addonDriveLink = 'https://drive.google.com/drive/folders/1mKZykJegBX1QnFZRNS3e5BnjEme6Nu5O?usp=sharing';
+      const addonDriveLink = 'https://drive.google.com/drive/folders/1Z5LNNv36jODonCyAoESu5252hN3MFVOh?usp=sharing';
 
       let downloadSectionsHtml = `
         <div style="background: #1c1c1e; padding: 20px; border-radius: 10px; margin: 25px 0; border: 1px solid #333;">
@@ -166,11 +166,11 @@ export default async function handler(req, res) {
           </div>
 
           <div style="background: #064e3b; padding: 20px; border-radius: 10px; margin: 20px 0; border: 1px solid #059669;">
-            <h3 style="color: #34d399; margin-top: 0; font-size: 16px;">⚡ 2. Your Practical Vastu Shastra Guide — Complete Mastery</h3>
-            <p style="color: #d1d5db; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">Click below to access your bonus Vastu Shastra resources:</p>
+            <h3 style="color: #34d399; margin-top: 0; font-size: 16px;">⚡ 2. Your Master Construction Estimation — BOQ, BBS, Rate Analysis & Billing</h3>
+            <p style="color: #d1d5db; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">Click below to access your bonus Master Construction Estimation resources:</p>
             <div style="text-align: center;">
               <a href="${addonDriveLink}" target="_blank" style="background: #10B981; color: #fff; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block;">
-                Access Practical Vastu Shastra Guide →
+                Access Master Construction Estimation →
               </a>
             </div>
           </div>
@@ -186,7 +186,7 @@ export default async function handler(req, res) {
             <p style="margin: 4px 0; font-size: 13px;"><strong>Order ID:</strong> ${updatedOrder.gateway_order_id}</p>
             <p style="margin: 4px 0; font-size: 13px;"><strong>Payment ID:</strong> ${cfPaymentId}</p>
             <p style="margin: 4px 0; font-size: 13px;"><strong>Amount Paid:</strong> ₹${updatedOrder.amount}</p>
-            <p style="margin: 4px 0; font-size: 13px;"><strong>Package Included:</strong> <span style="color: #FFB347; font-weight: bold;">${planType === 'normal_addon' ? 'Master Toolkit + Vastu Shastra Guide' : 'Master Toolkit Package'}</span></p>
+            <p style="margin: 4px 0; font-size: 13px;"><strong>Package Included:</strong> <span style="color: #FFB347; font-weight: bold;">${planType === 'normal_addon' ? 'Master Toolkit + Master Construction Estimation' : 'Master Toolkit Package'}</span></p>
           </div>
 
           ${downloadSectionsHtml}
@@ -209,7 +209,7 @@ export default async function handler(req, res) {
           body: JSON.stringify({
             from: fromAddress,
             to: [updatedOrder.email],
-            subject: `🎉 Your Construction Toolkit Download (${planType === 'normal_addon' ? 'Toolkit + Vastu Shastra Guide' : 'Master Toolkit'})`,
+            subject: `🎉 Your Construction Toolkit Download (${planType === 'normal_addon' ? 'Toolkit + Master Construction Estimation' : 'Master Toolkit'})`,
             html: customerEmailHtml,
             attachments: [
               {
