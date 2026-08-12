@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 
     const data = await response.json();
     if (data.order_status === 'PAID') {
-      return res.status(200).json({ status: 'success' });
+      return res.status(200).json({ status: 'success', amount: data.order_amount });
     } else {
       return res.status(200).json({ status: data.order_status });
     }
