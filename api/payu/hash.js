@@ -12,8 +12,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const key = process.env.PAYU_MERCHANT_KEY;
-    const salt = process.env.PAYU_MERCHANT_SALT;
+    const key = process.env.PAYU_MERCHANT_KEY || "Bcrp9R";
+    const salt = process.env.PAYU_MERCHANT_SALT || "DRPR9SPIlhkg3IfHUyfgibhbcvzKpdRM";
     
     if (!key || !salt) {
       return res.status(500).json({ error: 'PayU credentials not configured' });
