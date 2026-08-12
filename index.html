@@ -4797,10 +4797,28 @@ async function checkPaymentStatus() {
             if (data.status === 'success') {
                 const modal = document.getElementById("successModal");
                 if (modal) {
+                    const amount = parseFloat(data.amount || 0);
+                    const isAddon = amount > 1;
+                    const packageName = document.getElementById('successPackageName');
+                    const btnContainer = document.getElementById('successButtonsContainer');
+                    if (packageName) packageName.innerText = isAddon ? 'Master Toolkit + Master Construction Estimation' : 'Construction Estimation Master Toolkit™';
+                    if (btnContainer) {
+                        let btns = `<a href="/assets/EngineerXtech.pdf" download="EngineerXtech.pdf" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#2563eb;color:#fff;padding:13px;border-radius:8px;font-weight:bold;text-decoration:none;box-sizing:border-box;">
+                            <svg style="width:18px;height:18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            ⬇ Download PDF (EngineerXtech)
+                        </a>`;
+                        if (isAddon) {
+                            btns += `<a href="https://drive.google.com/drive/folders/1Z5LNNv36jODonCyAoESu5252hN3MFVOh?usp=sharing" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#10B981;color:#fff;padding:13px;border-radius:8px;font-weight:bold;text-decoration:none;box-sizing:border-box;margin-top:0;">
+                                <svg style="width:18px;height:18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                📂 Open Add-on: Master Construction Estimation
+                            </a>`;
+                        }
+                        btnContainer.innerHTML = btns;
+                    }
                     modal.style.display = "flex";
-                                        modal.classList.remove("hidden");
+                    modal.classList.remove("hidden");
                     if (typeof fbq !== 'undefined') {
-                        fbq('track', 'Purchase', { currency: 'INR', value: orderTotalAmount });
+                        fbq('track', 'Purchase', { currency: 'INR', value: amount });
                     }
                 }
             } else {
