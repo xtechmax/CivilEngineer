@@ -460,6 +460,12 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
             opacity: 0;
         }
         
+        .zb-card.pos-back2 {
+            transform: translate(-50%, -50%) scale(0.65);
+            z-index: 1;
+            opacity: 0;
+        }
+        
         @media(max-width: 768px) {
             .zb-bundle-container {
                 height: 420px;
@@ -481,6 +487,9 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
             .zb-card.pos-back {
                 transform: translate(-50%, -50%) scale(0.6);
             }
+            .zb-card.pos-back2 {
+                transform: translate(-50%, -50%) scale(0.6);
+            }
         }
     </style>
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
@@ -494,17 +503,18 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
         <div class="zb-bundle-container">
             <div class="zb-slider" id="zbSlider">
                 <div class="zb-card pos-left"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/05/CONSTRUCTION-BILLING-BOQ-CONTRACTS-7.png" alt="Billing and BOQ"></div>
-                <div class="zb-card pos-center"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/05/CONSTRUCTION-BILLING-BOQ-CONTRACTS-6.png" alt="Quantity Surveying &amp; Cost Estimation"></div>
-                <div class="zb-card pos-right"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/05/CONSTRUCTION-BILLING-BOQ-CONTRACTS-5.png" alt="Construction Execution Planning Mastery"></div>
-                <div class="zb-card pos-back"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/05/CONSTRUCTION-BILLING-BOQ-CONTRACTS-4.png" alt="Construction Operations Management"></div>
-            </div>
+                <div class="zb-card pos-center"><img decoding="async" src="system-bundle.png" alt="System Bundle"></div>
+                <div class="zb-card pos-right"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/05/CONSTRUCTION-BILLING-BOQ-CONTRACTS-6.png" alt="Quantity Surveying &amp; Cost Estimation"></div>
+                <div class="zb-card pos-back"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/05/CONSTRUCTION-BILLING-BOQ-CONTRACTS-5.png" alt="Construction Execution Planning Mastery"></div>
+                <div class="zb-card pos-back2"><img decoding="async" src="https://arcsio.in/wp-content/uploads/2026/05/CONSTRUCTION-BILLING-BOQ-CONTRACTS-4.png" alt="Construction Operations Management"></div>
+</div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.zb-card');
-            const classOrder = ['pos-left', 'pos-center', 'pos-right', 'pos-back'];
+            const classOrder = ['pos-left', 'pos-center', 'pos-right', 'pos-back', 'pos-back2'];
             
             function rotateCarousel() {
                 cards.forEach((card) => {
