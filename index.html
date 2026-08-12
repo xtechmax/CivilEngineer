@@ -4663,11 +4663,24 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 
 <div id="checkoutModalOverlay" class="cashfree-modal-overlay">
     <div class="cashfree-modal">
-        <span class="cashfree-close" onclick="closeModal()">&times;</span>
+        <span class="cashfree-close" onclick="closeModal()">&#x2715;</span>
         <h2>Complete Your Purchase</h2>
-        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #444; padding-bottom:15px;">
-            <span>Construction Master Bundle</span>
-            <span style="color:#ffb347; font-weight:bold;">₹199</span>
+
+        <!-- Price Breakdown -->
+        <div id="priceBreakdown" style="background:#1a1a1a; border-radius:8px; padding:14px 16px; margin-bottom:18px; font-size:13px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #2a2a2a;">
+                <span style="color:#ccc;">📘 Construction Master Bundle (4-in-1)</span>
+                <span style="color:#ffb347; font-weight:700;">₹199</span>
+            </div>
+            <div id="addonRow" style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #2a2a2a;">
+                <span style="color:#4ade80;">📌 Add-on: Master Construction Estimation</span>
+                <span style="color:#4ade80; font-weight:700;">₹99</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0 2px;">
+                <span style="color:#fff; font-weight:700; font-size:14px;">Total</span>
+                <span id="totalDisplay" style="color:#ffb347; font-weight:800; font-size:16px;">₹298</span>
+            </div>
+            <div style="font-size:11px; color:#666; margin-top:4px; text-align:right;"><s>₹3198 value</s> — You save 91%!</div>
         </div>
         
         <div class="addon-card">
@@ -4727,36 +4740,57 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 <script>
 let orderTotalAmount = 298;
 
-
 let isAddonSelected = true;
+
+function updatePriceBreakdown() {
+    const addonRow = document.getElementById('addonRow');
+    const totalDisplay = document.getElementById('totalDisplay');
+    const payBtn = document.getElementById('payButtonText');
+    if (isAddonSelected) {
+        if (addonRow) addonRow.style.display = 'flex';
+        if (totalDisplay) totalDisplay.textContent = '₹298';
+        orderTotalAmount = 298;
+        if (payBtn) payBtn.innerText = 'Complete Secure Payment (₹298)';
+    } else {
+        if (addonRow) addonRow.style.display = 'none';
+        if (totalDisplay) totalDisplay.textContent = '₹199';
+        orderTotalAmount = 199;
+        if (payBtn) payBtn.innerText = 'Complete Secure Payment (₹199)';
+    }
+}
+
 function toggleAddon() {
     isAddonSelected = !isAddonSelected;
-    const btn = document.getElementById("addonToggleBtn");
-    const payBtn = document.getElementById("payButtonText");
-    if(isAddonSelected) {
-        btn.className = "addon-toggle-btn selected";
-        btn.innerHTML = "✅ Added successfully";
-        orderTotalAmount = 298;
-        payBtn.innerText = "Complete Secure Payment (₹298)";
+    const btn = document.getElementById('addonToggleBtn');
+    if (isAddonSelected) {
+        btn.className = 'addon-toggle-btn selected';
+        btn.innerHTML = '✅ Added successfully';
     } else {
-        btn.className = "addon-toggle-btn unselected";
-        btn.innerHTML = "➕ Add to Order";
-        orderTotalAmount = 199;
-        payBtn.innerText = "Complete Secure Payment (₹199)";
+        btn.className = 'addon-toggle-btn unselected';
+        btn.innerHTML = '➕ Add to Order';
     }
+    updatePriceBreakdown();
 }
 
 function openModal(e) {
     if(e) e.preventDefault();
-    const btnText = document.getElementById("payButtonText");
-    const payBtn = document.getElementById("payButton");
-    btnText.innerText = "Complete Secure Payment (₹2)"; 
-    payBtn.disabled = false;
+    // Reset addon to selected state each open
+    isAddonSelected = true;
+    const btn = document.getElementById('addonToggleBtn');
+    if (btn) { btn.className = 'addon-toggle-btn selected'; btn.innerHTML = '✅ Added successfully'; }
+    updatePriceBreakdown();
+    document.getElementById('payButton').disabled = false;
+    // Hide sticky bottom bar so it doesn't show through/below modal
+    const stickyBar = document.querySelector('.bakery-footer-bar');
+    if (stickyBar) stickyBar.style.display = 'none';
     document.getElementById('checkoutModalOverlay').style.display = 'flex';
 }
 
 function closeModal() {
     document.getElementById('checkoutModalOverlay').style.display = 'none';
+    // Restore sticky bar
+    const stickyBar = document.querySelector('.bakery-footer-bar');
+    if (stickyBar) stickyBar.style.display = '';
 }
 
 async function initiatePayment(event) {
