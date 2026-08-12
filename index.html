@@ -4938,25 +4938,20 @@ window.addEventListener('DOMContentLoaded', () => {
         bottom: 0;
         left: 0;
         width: 100%;
-        background-color: #000000;
-        padding: 12px 0;
+        background-color: transparent;
+        padding: 0 0 8px 0;
         z-index: 999999;
         display: flex;
-        flex-direction: column; /* Changed to column to stack header above buttons */
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         font-family: 'Inter', -apple-system, Arial, sans-serif;
+        pointer-events: none; /* let clicks pass through transparent area */
     }
 
-    /* New Header Styling */
+    /* New Header Styling — hidden, bar is now transparent */
     .bakery-header-text {
-        color: #FFB81C;
-        font-size: 11px;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 8px;
-        text-align: center;
+        display: none;
     }
 
     /* 2. Container to hold both buttons */
@@ -4964,7 +4959,8 @@ window.addEventListener('DOMContentLoaded', () => {
         display: flex;
         gap: 12px;
         width: 95%;
-        max-width: 650px;
+        max-width: 500px;
+        pointer-events: all; /* re-enable clicks on the button itself */
     }
 
     /* 3. Button Base */
@@ -4985,6 +4981,7 @@ window.addEventListener('DOMContentLoaded', () => {
     .btn-white {
         background-color: #ffffff;
         color: #000000;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
     }
 
     .btn-orange {
@@ -5045,8 +5042,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     @media (max-width: 768px) {
-        .bakery-footer-bar { padding: 10px 0; }
-        .bakery-header-text { font-size: 9.5px; margin-bottom: 6px; }
+        .bakery-footer-bar { padding: 0 0 6px 0; }
+        .bakery-header-text { display: none; }
         .text-top { font-size: 8.5px; }
         .text-bottom { font-size: 14px; }
         .bonus-badge { font-size: 8px; top: -10px; right: 5px; padding: 2px 7px; }
