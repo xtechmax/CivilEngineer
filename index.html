@@ -4958,9 +4958,30 @@ window.addEventListener('DOMContentLoaded', () => {
         box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
     }
 
-    .btn-orange {
+    .bakery-btn.btn-orange {
         background-color: #FFB81C;
-        color: #000000; /* Changed text color to black */
+        color: #000000;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .bakery-btn.btn-orange::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+        transform: skewX(-25deg);
+        animation: light-sweep 2.5s infinite;
+    }
+
+    @keyframes light-sweep {
+        0% { left: -100%; }
+        20% { left: 200%; }
+        100% { left: 200%; }
     }
 
     /* 4. Bonus Badge Styling */
@@ -5104,17 +5125,20 @@ window.addEventListener('DOMContentLoaded', () => {
     <!-- Added Limited Time Offer Header -->
     <div class="bakery-header-text">⚠️ Limited Time Offer</div>
     
+        <div style="font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 5px; text-shadow: 0px 1px 3px rgba(0,0,0,0.8);">
+        Get instant delivery on 
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="width: 14px; height: 14px;" alt="WhatsApp"> &amp; 
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" style="width: 14px; height: 14px;" alt="Gmail">
+    </div>
+    
     <div class="bakery-button-wrapper">
          
-        <a href="#" 
-           class="bakery-btn btn-white">
-            <span class="text-top">BUY  DIGITAL COPY</span>
+        <a href="#" class="bakery-btn btn-orange">
+            <span class="text-top">UNLOCK INSTANT ACCESS</span>
             <span class="text-bottom">
                 <span class="strike">₹2199</span> ₹199/-
             </span>
         </a>
-
-        
 
     </div>
 </div>				</div>
