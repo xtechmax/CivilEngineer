@@ -4883,7 +4883,7 @@ window.addEventListener("DOMContentLoaded", checkPaymentStatus);
 window.addEventListener('DOMContentLoaded', () => {
     const links = document.querySelectorAll('a');
     links.forEach(link => {
-        if(link.innerText.toUpperCase().includes('BUY DIGITAL COPY') || link.innerText.toUpperCase().includes('BUY  DIGITAL COPY')) {
+        if(link.innerText.toUpperCase().includes('BUY DIGITAL COPY') || link.innerText.toUpperCase().includes('BUY  DIGITAL COPY') || link.innerText.toUpperCase().includes('UNLOCK INSTANT ACCESS')) {
             link.addEventListener('click', openModal);
             link.removeAttribute('target');
             // Remove previous #checkoutFormSection hrefs if any
