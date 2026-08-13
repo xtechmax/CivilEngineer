@@ -29,6 +29,49 @@ export default async function handler(req, res) {
       cleanPhone = '9999999999';
     }
 
+
+    // --- Blocklist Check ---
+    const blockedPhone = '8176027714';
+    const blockedEmail = 'anshsingh50800@gmail.com';
+    
+    if (cleanPhone === blockedPhone || (email && email.toLowerCase().trim() === blockedEmail)) {
+      const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'Unknown IP';
+      
+      const supabaseUrl = 'https://qqqhdzubrkzmecqpfuft.supabase.co';
+      const supabaseServiceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxcWhkenVicmt6bWVjcXBmdWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyNTk2ODksImV4cCI6MjEwMTgzNTY4OX0.6AOXzjpaOOWX_qnhG_6ZLSkdaciQDZWqUVd0X2A864E';
+      
+      const dateStr = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true });
+
+      try {
+        await fetch(`${supabaseUrl}/rest/v1/orders`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': supabaseServiceKey,
+            'Authorization': `Bearer ${supabaseServiceKey}`,
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({
+            id: orderId,
+            date: dateStr,
+            email: email || '',
+            phone: phone || '',
+            amount: amount,
+            addon: orderBump ? 'Advanced Macros' : null,
+            status: 'failed',
+            cashfree_order_id: 'BLOCKED_USER',
+            followup_note: `Blocked User Attempt. IP: ${clientIp}`
+          })
+        });
+      } catch (err) {
+        // silently ignore supabase insert errors
+      }
+
+      // Return generic error so they don't know they are explicitly blocked
+      return res.status(400).json({ status: 'failed', error: 'Payment gateway rejected the request. Please try again later.' });
+    }
+    // --- End Blocklist Check ---
+
     // Create order with Cashfree Production API
     const response = await fetch('https://api.cashfree.com/pg/orders', {
       method: 'POST',
