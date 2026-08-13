@@ -31,10 +31,10 @@ export default async function handler(req, res) {
 
 
     // --- Blocklist Check ---
-    const blockedPhone = '8176027714';
+    const blockedPhones = ['8176027714', '8090602267'];
     const blockedEmail = 'anshsingh50800@gmail.com';
     
-    if (cleanPhone === blockedPhone || (email && email.toLowerCase().trim() === blockedEmail)) {
+    if (blockedPhones.includes(cleanPhone) || (email && email.toLowerCase().trim() === blockedEmail)) {
       const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'Unknown IP';
       
       const supabaseUrl = 'https://qqqhdzubrkzmecqpfuft.supabase.co';
