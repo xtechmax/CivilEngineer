@@ -813,11 +813,7 @@
                                                             cleanPhone = "91" + cleanPhone;
                                                         }
                                                         
-                                                        let rawWaText = `Hi! I noticed your order for the Construction Estimation Master Toolkit (₹${order.amount}).`;
-                                                        if (order.addon) {
-                                                            rawWaText += ` This includes the selected Add-on.`;
-                                                        }
-                                                        rawWaText += `\n\nPlease let us know if you need any help.\n\nYou can also visit https://www.xtechmax.shop/`;
+                                                        const rawWaText = `Hi! 👋 We noticed that your order for the Construction Estimation Master Toolkit is still pending.\nComplete your order and master Quantity Surveying, Estimation, Site Formulas, Construction Billing, BOQ & Contracts—everything you need to manage project finances, avoid costly errors, and execute engineering contracts like a pro! 🏗️\nIf you need any help completing your order, feel free to reach out.\nYou can also visit: https://www.xtechmax.shop/`;
                                                         const waText = encodeURIComponent(rawWaText);
                                                         const waUrl = `https://wa.me/${cleanPhone}?text=${waText}`;
 
