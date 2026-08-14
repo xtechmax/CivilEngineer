@@ -2467,6 +2467,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 
         buttons.forEach(btn => {
             btn.addEventListener("click", () => {
+                if (typeof fbq !== 'undefined') fbq('track', 'ViewContent');
                 const targetId = btn.getAttribute("data-target");
 
                 buttons.forEach(b => b.classList.remove("active-choice"));
@@ -4612,6 +4613,7 @@ function toggleAddon() {
 
 function openModal(e) {
     if(e) e.preventDefault();
+    if (typeof fbq !== 'undefined') fbq('track', 'AddToCart');
     // Reset addon to selected state each open
     isAddonSelected = true;
     const btn = document.getElementById('addonToggleBtn');
@@ -4665,6 +4667,7 @@ async function initiatePayment(event) {
         const result = await response.json();
         
         if (response.ok && result.payment_session_id) {
+            if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout');
             const cashfree = Cashfree({ mode: "production" });
             cashfree.checkout({
                 paymentSessionId: result.payment_session_id,
