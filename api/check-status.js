@@ -166,21 +166,6 @@ export default async function handler(req, res) {
           });
         }
 
-        // Send admin alert
-        await fetch('https://api.resend.com/emails', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${resendApiKey}`
-          },
-          body: JSON.stringify({
-            from: fromAddress,
-            to: ['xtechmax2024@gmail.com'],
-            subject: `💰 New Order: ₹${orderAmount} from ${customerEmail}`,
-            html: `<p><strong>New paid order!</strong></p><p>Customer: ${customerEmail}</p><p>Order ID: ${order_id}</p><p>Amount: ₹${orderAmount}</p><p>Package: ${planLabel}</p>`
-          })
-        });
-
       } catch(emailErr) {
         console.error('Email send error:', emailErr);
       }
