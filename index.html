@@ -1090,6 +1090,12 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
             z-index: 1;
             opacity: 0;
         }
+
+        .zb-card.pos-back3 {
+            transform: translate(-50%, -50%) scale(0.65);
+            z-index: 1;
+            opacity: 0;
+        }
         
         @media(max-width: 768px) {
             .zb-bundle-container {
@@ -1113,6 +1119,9 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
                 transform: translate(-50%, -50%) scale(0.6);
             }
             .zb-card.pos-back2 {
+                transform: translate(-50%, -50%) scale(0.6);
+            }
+            .zb-card.pos-back3 {
                 transform: translate(-50%, -50%) scale(0.6);
             }
         }
@@ -1208,14 +1217,15 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
                 <div class="zb-card pos-right"><img decoding="async" src="assets/book-green-quantity.jpg" alt="Quantity Surveying &amp; Cost Estimation"></div>
                 <div class="zb-card pos-back"><img decoding="async" src="assets/yellow-book-center.jpg" alt="Construction Execution Planning Mastery"></div>
                 <div class="zb-card pos-back2"><img decoding="async" src="assets/book-purple-operations.jpg" alt="Construction Operations Management"></div>
-</div>
+                <div class="zb-card pos-back3"><img decoding="async" src="assets/book-blue-vastu.jpg" alt="Practical Vastu Shastra Guide"></div>
+            </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.zb-card');
-            const classOrder = ['pos-left', 'pos-center', 'pos-right', 'pos-back', 'pos-back2'];
+            const classOrder = ['pos-left', 'pos-center', 'pos-right', 'pos-back', 'pos-back2', 'pos-back3'];
             
             function rotateCarousel() {
                 cards.forEach((card) => {
