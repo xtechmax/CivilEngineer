@@ -4521,15 +4521,19 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
                 <span style="color:#ccc;">📘 Construction Master Bundle (4-in-1)</span>
                 <span style="color:#ffb347; font-weight:700;">₹199</span>
             </div>
-            <div id="addonRow" style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #2a2a2a;">
+            <div id="addon1Row" style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #2a2a2a;">
                 <span style="color:#4ade80;">📌 Add-on: Master Construction Estimation</span>
                 <span style="color:#4ade80; font-weight:700;">₹99</span>
             </div>
+            <div id="addon2Row" style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #2a2a2a;">
+                <span style="color:#4ade80;">📌 Add-on: Practical Vastu Shastra Guide</span>
+                <span style="color:#4ade80; font-weight:700;">₹49</span>
+            </div>
             <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0 2px;">
                 <span style="color:#fff; font-weight:700; font-size:14px;">Total</span>
-                <span id="totalDisplay" style="color:#ffb347; font-weight:800; font-size:16px;">₹298</span>
+                <span id="totalDisplay" style="color:#ffb347; font-weight:800; font-size:16px;">₹347</span>
             </div>
-            <div style="font-size:11px; color:#666; margin-top:4px; text-align:right;"><s>₹3198 value</s> — You save 91%!</div>
+            <div style="font-size:11px; color:#666; margin-top:4px; text-align:right;"><s>₹4197 value</s> — You save 92%!</div>
         </div>
         
         <div class="addon-card">
@@ -4540,7 +4544,22 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
                     <h4>📌 Master Construction Estimation — BOQ, BBS, Rate Analysis & Billing</h4>
                     <div class="addon-rating">★★★★★ 5.0 (2k+ bought past month)</div>
                     <div class="addon-price"><strike>₹999</strike> ₹99</div>
-                    <button type="button" id="addonToggleBtn" class="addon-toggle-btn selected" onclick="toggleAddon()">
+                    <button type="button" id="addon1ToggleBtn" class="addon-toggle-btn selected" onclick="toggleAddon1()">
+                        ✅ Added successfully
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="addon-card">
+            <div class="addon-badge">One-Time Offer - Save 95%</div>
+            <div class="addon-content">
+                <img src="assets/book-blue-vastu.jpg" class="addon-img" alt="Practical Vastu Shastra Guide">
+                <div class="addon-details">
+                    <h4>📌 Practical Vastu Shastra Guide — Complete Mastery</h4>
+                    <div class="addon-rating">★★★★★ 4.9 (3k+ bought past month)</div>
+                    <div class="addon-price"><strike>₹999</strike> ₹49</div>
+                    <button type="button" id="addon2ToggleBtn" class="addon-toggle-btn selected" onclick="toggleAddon2()">
                         ✅ Added successfully
                     </button>
                 </div>
@@ -4587,31 +4606,46 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 </div>
 
 <script>
-let orderTotalAmount = 298;
+let orderTotalAmount = 347;
 
-let isAddonSelected = true;
+let isAddon1Selected = true;
+let isAddon2Selected = true;
 
 function updatePriceBreakdown() {
-    const addonRow = document.getElementById('addonRow');
+    const addon1Row = document.getElementById('addon1Row');
+    const addon2Row = document.getElementById('addon2Row');
     const totalDisplay = document.getElementById('totalDisplay');
     const payBtn = document.getElementById('payButtonText');
-    if (isAddonSelected) {
-        if (addonRow) addonRow.style.display = 'flex';
-        if (totalDisplay) totalDisplay.textContent = '₹298';
-        orderTotalAmount = 298;
-        if (payBtn) payBtn.innerText = 'Complete Secure Payment (₹298)';
-    } else {
-        if (addonRow) addonRow.style.display = 'none';
-        if (totalDisplay) totalDisplay.textContent = '₹199';
-        orderTotalAmount = 199;
-        if (payBtn) payBtn.innerText = 'Complete Secure Payment (₹199)';
-    }
+    
+    let total = 199;
+    if (isAddon1Selected) total += 99;
+    if (isAddon2Selected) total += 49;
+    
+    orderTotalAmount = total;
+
+    if (addon1Row) addon1Row.style.display = isAddon1Selected ? 'flex' : 'none';
+    if (addon2Row) addon2Row.style.display = isAddon2Selected ? 'flex' : 'none';
+    if (totalDisplay) totalDisplay.textContent = '₹' + total;
+    if (payBtn) payBtn.innerText = 'Complete Secure Payment (₹' + total + ')';
 }
 
-function toggleAddon() {
-    isAddonSelected = !isAddonSelected;
-    const btn = document.getElementById('addonToggleBtn');
-    if (isAddonSelected) {
+function toggleAddon1() {
+    isAddon1Selected = !isAddon1Selected;
+    const btn = document.getElementById('addon1ToggleBtn');
+    if (isAddon1Selected) {
+        btn.className = 'addon-toggle-btn selected';
+        btn.innerHTML = '✅ Added successfully';
+    } else {
+        btn.className = 'addon-toggle-btn unselected';
+        btn.innerHTML = '➕ Add to Order';
+    }
+    updatePriceBreakdown();
+}
+
+function toggleAddon2() {
+    isAddon2Selected = !isAddon2Selected;
+    const btn = document.getElementById('addon2ToggleBtn');
+    if (isAddon2Selected) {
         btn.className = 'addon-toggle-btn selected';
         btn.innerHTML = '✅ Added successfully';
     } else {
@@ -4625,9 +4659,12 @@ function openModal(e) {
     if(e) e.preventDefault();
     if (typeof fbq !== 'undefined') fbq('track', 'AddToCart');
     // Reset addon to selected state each open
-    isAddonSelected = true;
-    const btn = document.getElementById('addonToggleBtn');
-    if (btn) { btn.className = 'addon-toggle-btn selected'; btn.innerHTML = '✅ Added successfully'; }
+    isAddon1Selected = true;
+    isAddon2Selected = true;
+    const btn1 = document.getElementById('addon1ToggleBtn');
+    const btn2 = document.getElementById('addon2ToggleBtn');
+    if (btn1) { btn1.className = 'addon-toggle-btn selected'; btn1.innerHTML = '✅ Added successfully'; }
+    if (btn2) { btn2.className = 'addon-toggle-btn selected'; btn2.innerHTML = '✅ Added successfully'; }
     updatePriceBreakdown();
     document.getElementById('payButton').disabled = false;
     // Hide sticky bottom bar so it doesn't show through/below modal
@@ -4669,8 +4706,8 @@ async function initiatePayment(event) {
                 amount: orderTotalAmount,
                 email: email,
                 phone: cleanedPhone,
-                add_on: isAddonSelected,
-                orderBump: isAddonSelected
+                addon1: isAddon1Selected,
+                addon2: isAddon2Selected
             })
         });
 
@@ -4708,19 +4745,34 @@ async function checkPaymentStatus() {
                 const modal = document.getElementById("successModal");
                 if (modal) {
                     const amount = parseFloat(data.amount || 0);
-                    const isAddon = amount > 199;
+                    // Determine which add-ons were bought based on amount
+                    const isAddon1 = (amount === 298 || amount === 347);
+                    const isAddon2 = (amount === 248 || amount === 347);
+                    
                     const packageName = document.getElementById('successPackageName');
                     const btnContainer = document.getElementById('successButtonsContainer');
-                    if (packageName) packageName.innerText = isAddon ? 'Master Toolkit + Master Construction Estimation' : 'Construction Estimation Master Toolkit™';
+                    
+                    if (packageName) {
+                        let names = ['Construction Estimation Master Toolkit™'];
+                        if (isAddon1) names.push('Master Construction Estimation');
+                        if (isAddon2) names.push('Practical Vastu Shastra Guide');
+                        packageName.innerText = names.join(' + ');
+                    }
                     if (btnContainer) {
                         let btns = `<a href="/assets/EngineerXtech.pdf" download="EngineerXtech.pdf" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#2563eb;color:#fff;padding:13px;border-radius:8px;font-weight:bold;text-decoration:none;box-sizing:border-box;">
                             <svg style="width:18px;height:18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             ⬇ Download PDF (EngineerXtech)
                         </a>`;
-                        if (isAddon) {
+                        if (isAddon1) {
                             btns += `<a href="https://drive.google.com/drive/folders/1Z5LNNv36jODonCyAoESu5252hN3MFVOh?usp=sharing" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#10B981;color:#fff;padding:13px;border-radius:8px;font-weight:bold;text-decoration:none;box-sizing:border-box;margin-top:0;">
                                 <svg style="width:18px;height:18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                                 📂 Open Add-on: Master Construction Estimation
+                            </a>`;
+                        }
+                        if (isAddon2) {
+                            btns += `<a href="https://drive.google.com/drive/folders/1_54-ZuYJANA_keHuH4K5Vmod6Kl8zYYP?usp=drive_link" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#10B981;color:#fff;padding:13px;border-radius:8px;font-weight:bold;text-decoration:none;box-sizing:border-box;margin-top:0;">
+                                <svg style="width:18px;height:18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                📂 Open Add-on: Practical Vastu Shastra Guide
                             </a>`;
                         }
                         btnContainer.innerHTML = btns;

@@ -69,9 +69,17 @@ export default async function handler(req, res) {
     }
 
     const customerEmail = order?.email || null;
-    const isAddon = (order?.addon) || orderAmount > 199;
-    const planLabel = isAddon ? 'Master Toolkit + Master Construction Estimation' : 'Construction Estimation Master Toolkit™';
-    const addonDriveLink = 'https://drive.google.com/drive/folders/1Z5LNNv36jODonCyAoESu5252hN3MFVOh?usp=sharing';
+    const addonStr = order?.addon || '';
+    const isAddon1 = addonStr.includes('Master Construction Estimation') || (orderAmount === 298 || orderAmount === 347);
+    const isAddon2 = addonStr.includes('Practical Vastu Shastra Guide') || (orderAmount === 248 || orderAmount === 347);
+    
+    let names = ['Construction Estimation Master Toolkit™'];
+    if (isAddon1) names.push('Master Construction Estimation');
+    if (isAddon2) names.push('Practical Vastu Shastra Guide');
+    const planLabel = names.join(' + ');
+
+    const addon1DriveLink = 'https://drive.google.com/drive/folders/1Z5LNNv36jODonCyAoESu5252hN3MFVOh?usp=sharing';
+    const addon2DriveLink = 'https://drive.google.com/drive/folders/1_54-ZuYJANA_keHuH4K5Vmod6Kl8zYYP?usp=drive_link';
 
     let downloadHtml = `
       <div style="background:#1c1c1e;padding:20px;border-radius:10px;margin:20px 0;border:1px solid #333;">
@@ -81,12 +89,24 @@ export default async function handler(req, res) {
       </div>
     `;
 
-    if (isAddon) {
+    if (isAddon1) {
       downloadHtml += `
         <div style="background:#064e3b;padding:20px;border-radius:10px;margin:10px 0;border:1px solid #059669;text-align:center;">
           <h3 style="color:#34d399;margin-top:0;">⚡ Add-on: Master Construction Estimation</h3>
           <p style="color:#d1d5db;font-size:13px;margin-bottom:14px;">BOQ, BBS, Rate Analysis & Billing — Access via Google Drive:</p>
-          <a href="${addonDriveLink}" target="_blank" style="background:#10B981;color:#fff;padding:12px 24px;text-decoration:none;font-weight:bold;border-radius:8px;display:inline-block;">
+          <a href="${addon1DriveLink}" target="_blank" style="background:#10B981;color:#fff;padding:12px 24px;text-decoration:none;font-weight:bold;border-radius:8px;display:inline-block;">
+            Access Add-on Drive Folder →
+          </a>
+        </div>
+      `;
+    }
+    
+    if (isAddon2) {
+      downloadHtml += `
+        <div style="background:#064e3b;padding:20px;border-radius:10px;margin:10px 0;border:1px solid #059669;text-align:center;">
+          <h3 style="color:#34d399;margin-top:0;">⚡ Add-on: Practical Vastu Shastra Guide</h3>
+          <p style="color:#d1d5db;font-size:13px;margin-bottom:14px;">Complete Mastery — Access via Google Drive:</p>
+          <a href="${addon2DriveLink}" target="_blank" style="background:#10B981;color:#fff;padding:12px 24px;text-decoration:none;font-weight:bold;border-radius:8px;display:inline-block;">
             Access Add-on Drive Folder →
           </a>
         </div>
