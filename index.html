@@ -4586,11 +4586,11 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
         <form id="checkoutForm" onsubmit="initiatePayment(event)">
             <div class="custom-form-group">
                 <label>Email Address</label>
-                <input type="email" id="custEmail" required placeholder="your@email.com">
+                <input type="email" id="custEmail" required placeholder="your@email.com" onblur="saveDraftData()" onchange="saveDraftData()">
             </div>
             <div class="custom-form-group">
                 <label>Phone Number</label>
-                <input type="tel" id="custPhone" required placeholder="9876543210">
+                <input type="tel" id="custPhone" required placeholder="9876543210" onblur="saveDraftData()" onchange="saveDraftData()">
             </div>
             <div id="paymentError" class="custom-error-msg"></div>
             <button type="submit" id="payButton" class="custom-checkout-btn">
@@ -4675,6 +4675,12 @@ function toggleAddon2() {
 function openModal(e) {
     if(e) e.preventDefault();
     if (typeof fbq !== 'undefined') fbq('track', 'AddToCart');
+    
+    // Generate order ID for tracking drafts
+    if (!window.currentOrderId) {
+        window.currentOrderId = 'order_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+    }
+    
     // Reset addon to selected state each open
     isAddon1Selected = true;
     isAddon2Selected = true;
@@ -4695,6 +4701,32 @@ function closeModal() {
     // Restore sticky bar
     const stickyBar = document.querySelector('.bakery-footer-bar');
     if (stickyBar) stickyBar.style.display = '';
+}
+
+function saveDraftData() {
+    if (!window.currentOrderId) return;
+    const email = document.getElementById("custEmail").value.trim();
+    const phone = document.getElementById("custPhone").value.trim();
+    
+    if (email || phone) {
+        let cleanedPhone = phone.replace(/\D/g, "");
+        if (!cleanedPhone.startsWith("91") && cleanedPhone.length === 10) {
+            cleanedPhone = "91" + cleanedPhone;
+        }
+        
+        fetch("/api/save-draft", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                orderId: window.currentOrderId,
+                email: email,
+                phone: cleanedPhone,
+                amount: orderTotalAmount,
+                addon1: isAddon1Selected,
+                addon2: isAddon2Selected
+            })
+        }).catch(err => console.error("Draft save failed", err));
+    }
 }
 
 async function initiatePayment(event) {
@@ -4720,6 +4752,7 @@ async function initiatePayment(event) {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
+                orderId: window.currentOrderId,
                 amount: orderTotalAmount,
                 email: email,
                 phone: cleanedPhone,

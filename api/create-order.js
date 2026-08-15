@@ -12,9 +12,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, addon1, addon2 } = req.body || {};
+    const { name, email, phone, addon1, addon2, orderId: clientOrderId } = req.body || {};
     const amount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0);
-    const orderId = 'order_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+    const orderId = clientOrderId || ('order_' + Date.now() + '_' + Math.floor(Math.random() * 1000));
 
     // Active Cashfree Production Credentials
     const appId = '13542917e5845c6fd7a65ab0f621924531';
@@ -112,15 +112,17 @@ export default async function handler(req, res) {
     const dateStr = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
     try {
-      const supaResp = await fetch(`${supabaseUrl}/rest/v1/orders`, {
-        method: 'POST',
+      // Check if order exists (was saved as draft)
+      const checkResp = await fetch(`${supabaseUrl}/rest/v1/orders?gateway_order_id=eq.${encodeURIComponent(orderId)}`, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
           'apikey': supabaseServiceKey,
-          'Authorization': `Bearer ${supabaseServiceKey}`,
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify({
+          'Authorization': `Bearer ${supabaseServiceKey}`
+        }
+      });
+      const existing = await checkResp.json();
+      
+      const payload = {
           date: dateStr,
           email: email || '',
           phone: phone || '',
@@ -128,14 +130,33 @@ export default async function handler(req, res) {
           addon: [addon1 ? 'Master Construction Estimation' : null, addon2 ? 'Practical Vastu Shastra Guide' : null].filter(Boolean).join(' + ') || null,
           status: 'pending',
           gateway_order_id: orderId,
-          payment_id: '—',
-          followup_status: 'Not Contacted',
-          followup_note: ''
-        })
-      });
+      };
 
-      if (!supaResp.ok) {
-        console.error('Supabase Save HTTP Error:', supaResp.status, await supaResp.text());
+      if (existing && existing.length > 0) {
+        await fetch(`${supabaseUrl}/rest/v1/orders?gateway_order_id=eq.${encodeURIComponent(orderId)}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': supabaseServiceKey,
+            'Authorization': `Bearer ${supabaseServiceKey}`
+          },
+          body: JSON.stringify(payload)
+        });
+      } else {
+        payload.payment_id = '—';
+        payload.followup_status = 'Not Contacted';
+        payload.followup_note = '';
+        
+        await fetch(`${supabaseUrl}/rest/v1/orders`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': supabaseServiceKey,
+            'Authorization': `Bearer ${supabaseServiceKey}`,
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(payload)
+        });
       }
     } catch (supaErr) {
       console.error('Supabase Save Exception:', supaErr);
