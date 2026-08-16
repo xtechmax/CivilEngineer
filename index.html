@@ -4707,29 +4707,36 @@ function closeModal() {
 let isSubmitting = false;
 
 function saveDraftData() {
-    if (!window.currentOrderId || isSubmitting) return;
-    const email = document.getElementById("custEmail").value.trim();
-    const phone = document.getElementById("custPhone").value.trim();
+    if (!window.currentOrderId) return;
     
-    if (email || phone) {
-        let cleanedPhone = phone.replace(/\D/g, "");
-        if (!cleanedPhone.startsWith("91") && cleanedPhone.length === 10) {
-            cleanedPhone = "91" + cleanedPhone;
-        }
+    // Delay slightly so that if the user just clicked the "Pay" button,
+    // the submit event has time to fire and set isSubmitting to true.
+    setTimeout(() => {
+        if (isSubmitting) return;
         
-        fetch("/api/save-draft", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                orderId: window.currentOrderId,
-                email: email,
-                phone: cleanedPhone,
-                amount: orderTotalAmount,
-                addon1: isAddon1Selected,
-                addon2: isAddon2Selected
-            })
-        }).catch(err => console.error("Draft save failed", err));
-    }
+        const email = document.getElementById("custEmail").value.trim();
+        const phone = document.getElementById("custPhone").value.trim();
+        
+        if (email || phone) {
+            let cleanedPhone = phone.replace(/\D/g, "");
+            if (!cleanedPhone.startsWith("91") && cleanedPhone.length === 10) {
+                cleanedPhone = "91" + cleanedPhone;
+            }
+            
+            fetch("/api/save-draft", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    orderId: window.currentOrderId,
+                    email: email,
+                    phone: cleanedPhone,
+                    amount: orderTotalAmount,
+                    addon1: isAddon1Selected,
+                    addon2: isAddon2Selected
+                })
+            }).catch(err => console.error("Draft save failed", err));
+        }
+    }, 300);
 }
 
 async function initiatePayment(event) {
