@@ -2487,6 +2487,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 
         buttons.forEach(btn => {
             btn.addEventListener("click", () => {
+                // Event: ViewContent - on key product/service detail page views
                 if (typeof fbq !== 'undefined') fbq('track', 'ViewContent');
                 const targetId = btn.getAttribute("data-target");
 
@@ -4649,6 +4650,8 @@ function updatePriceBreakdown() {
 
 function toggleAddon1() {
     isAddon1Selected = !isAddon1Selected;
+    // Event: AddToCart - when a user adds a tool/material/item to their cart
+    if (isAddon1Selected && typeof fbq !== 'undefined') fbq('track', 'AddToCart');
     const btn = document.getElementById('addon1ToggleBtn');
     if (isAddon1Selected) {
         btn.className = 'addon-toggle-btn selected';
@@ -4662,6 +4665,8 @@ function toggleAddon1() {
 
 function toggleAddon2() {
     isAddon2Selected = !isAddon2Selected;
+    // Event: AddToCart - when a user adds a tool/material/item to their cart
+    if (isAddon2Selected && typeof fbq !== 'undefined') fbq('track', 'AddToCart');
     const btn = document.getElementById('addon2ToggleBtn');
     if (isAddon2Selected) {
         btn.className = 'addon-toggle-btn selected';
@@ -4675,7 +4680,8 @@ function toggleAddon2() {
 
 function openModal(e) {
     if(e) e.preventDefault();
-    if (typeof fbq !== 'undefined') fbq('track', 'AddToCart');
+    // Event: InitiateCheckout - when a user clicks "Checkout"
+    if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout');
     
     // Generate order ID for tracking drafts
     if (!window.currentOrderId) {
@@ -4775,7 +4781,8 @@ async function initiatePayment(event) {
         const result = await response.json();
         
         if (response.ok && result.payment_session_id) {
-            if (typeof fbq !== 'undefined') fbq('track', 'InitiateCheckout');
+            // Event: AddPaymentInfo - when a user submits/saves billing info during checkout
+            if (typeof fbq !== 'undefined') fbq('track', 'AddPaymentInfo');
             const cashfree = Cashfree({ mode: "production" });
             cashfree.checkout({
                 paymentSessionId: result.payment_session_id,
@@ -4845,11 +4852,13 @@ async function checkPaymentStatus() {
                     if (typeof fbq !== 'undefined') {
                         if (orderId) {
                             if (!sessionStorage.getItem('pixel_fired_' + orderId)) {
+                                // Event: Purchase - on order confirmation, with dynamic values
                                 fbq('track', 'Purchase', { currency: 'INR', value: amount }, { eventID: orderId });
                                 sessionStorage.setItem('pixel_fired_' + orderId, 'true');
                             }
                         } else {
                             if (!sessionStorage.getItem('pixel_fired_fallback')) {
+                                // Event: Purchase - on order confirmation, with dynamic values
                                 fbq('track', 'Purchase', { currency: 'INR', value: amount });
                                 sessionStorage.setItem('pixel_fired_fallback', 'true');
                             }
@@ -4874,11 +4883,13 @@ async function checkPaymentStatus() {
                     if (typeof fbq !== 'undefined') {
                         if (orderId) {
                             if (!sessionStorage.getItem('pixel_fired_' + orderId)) {
+                                // Event: Purchase - on order confirmation, with dynamic values
                                 fbq('track', 'Purchase', { currency: 'INR', value: orderTotalAmount }, { eventID: orderId });
                                 sessionStorage.setItem('pixel_fired_' + orderId, 'true');
                             }
                         } else {
                             if (!sessionStorage.getItem('pixel_fired_fallback')) {
+                                // Event: Purchase - on order confirmation, with dynamic values
                                 fbq('track', 'Purchase', { currency: 'INR', value: orderTotalAmount });
                                 sessionStorage.setItem('pixel_fired_fallback', 'true');
                             }
@@ -4895,6 +4906,14 @@ window.addEventListener("DOMContentLoaded", checkPaymentStatus);
 window.addEventListener('DOMContentLoaded', () => {
     const links = document.querySelectorAll('a');
     links.forEach(link => {
+        // WhatsApp Contact tracking
+        if(link.getAttribute('href') && link.getAttribute('href').includes('wa.me')) {
+            link.addEventListener('click', () => {
+                // Event: Contact - when a user initiates support chat/call
+                if (typeof fbq !== 'undefined') fbq('track', 'Contact');
+            });
+        }
+
         if(link.innerText.toUpperCase().includes('BUY DIGITAL COPY') || link.innerText.toUpperCase().includes('BUY  DIGITAL COPY') || link.innerText.toUpperCase().includes('UNLOCK INSTANT ACCESS')) {
             link.addEventListener('click', openModal);
             link.removeAttribute('target');
