@@ -32,6 +32,14 @@
     {
       "source": "/terms",
       "destination": "/terms-and-conditions.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/maintenance",
+      "destination": "/maintenance.html"
     }
   ]
 }
