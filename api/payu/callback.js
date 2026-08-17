@@ -59,13 +59,6 @@ export default async function handler(req, res) {
 
     if (status === 'success') {
       const orderAmount = parseFloat(amount || 0);
-      const isAddon1 = udf1 === '1' || orderAmount === 298 || orderAmount === 347;
-      const isAddon2 = udf2 === '1' || orderAmount === 248 || orderAmount === 347;
-
-      let names = ['Construction Estimation Master Toolkit™'];
-      if (isAddon1) names.push('Master Construction Estimation');
-      if (isAddon2) names.push('Practical Vastu Shastra Guide');
-      const planLabel = names.join(' + ');
 
       // Check if order exists in Supabase
       let order = null;
@@ -81,6 +74,15 @@ export default async function handler(req, res) {
       } catch (dbReadErr) {
         console.error('Error fetching Supabase order in PayU callback:', dbReadErr);
       }
+
+      const orderAddonStr = order?.addon || '';
+      const isAddon1 = udf1 === '1' || orderAddonStr.includes('Master Construction Estimation') || orderAmount === 298 || orderAmount === 347;
+      const isAddon2 = udf2 === '1' || orderAddonStr.includes('Practical Vastu Shastra Guide') || orderAmount === 248 || orderAmount === 347;
+
+      let names = ['Construction Estimation Master Toolkit™'];
+      if (isAddon1) names.push('Master Construction Estimation');
+      if (isAddon2) names.push('Practical Vastu Shastra Guide');
+      const planLabel = names.join(' + ');
 
       // If already paid and email sent, skip duplicate fulfillment
       if (order && order.status === 'paid' && order.email_sent === true) {

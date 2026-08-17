@@ -4527,11 +4527,24 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
                     <button type="button" onclick="toggleAddon2()" style="background:none; border:none; color:#ef4444; font-size:18px; cursor:pointer; padding:0; line-height:1;" title="Remove Add-on">&times;</button>
                 </div>
             </div>
+            <div id="couponDiscountRow" style="display:none; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #2a2a2a; color:#4ade80;">
+                <span>🎟️ Coupon (admin1)</span>
+                <span id="couponDiscountDisplay" style="font-weight:700;">-₹346</span>
+            </div>
             <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0 2px;">
                 <span style="color:#fff; font-weight:700; font-size:14px;">Total</span>
                 <span id="totalDisplay" style="color:#ffb347; font-weight:800; font-size:16px;">₹347</span>
             </div>
             <div style="font-size:11px; color:#666; margin-top:4px; text-align:right;"><s>₹4197 value</s> — You save 92%!</div>
+        </div>
+
+        <!-- Coupon Code Box -->
+        <div style="margin-bottom:16px;">
+            <div style="display:flex; gap:8px;">
+                <input type="text" id="couponCodeInput" placeholder="Have a coupon code?" style="flex:1; padding:10px 12px; border-radius:6px; border:1px solid #444; background:#2a2a2a; color:#fff; font-size:14px; text-transform:uppercase; box-sizing:border-box;">
+                <button type="button" id="applyCouponBtn" onclick="applyCoupon()" style="padding:10px 16px; background:#333; color:#fff; border:1px solid #555; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer; transition:background 0.2s;">Apply</button>
+            </div>
+            <div id="couponMessage" style="display:none; font-size:12px; margin-top:6px; padding:4px 8px; border-radius:4px;"></div>
         </div>
         
         <div class="addon-card">
@@ -4625,15 +4638,30 @@ let isAddon2Selected = true;
     }
 })();
 
+let appliedCoupon = null;
+
 function updatePriceBreakdown() {
     const addon1Row = document.getElementById('addon1Row');
     const addon2Row = document.getElementById('addon2Row');
     const totalDisplay = document.getElementById('totalDisplay');
     const payBtn = document.getElementById('payButtonText');
+    const couponDiscountRow = document.getElementById('couponDiscountRow');
+    const couponDiscountDisplay = document.getElementById('couponDiscountDisplay');
     
-    let total = 199;
-    if (isAddon1Selected) total += 99;
-    if (isAddon2Selected) total += 49;
+    let subtotal = 199;
+    if (isAddon1Selected) subtotal += 99;
+    if (isAddon2Selected) subtotal += 49;
+    
+    let total = subtotal;
+    if (appliedCoupon === 'admin1') {
+        total = 1;
+        if (couponDiscountRow) {
+            couponDiscountRow.style.display = 'flex';
+            if (couponDiscountDisplay) couponDiscountDisplay.textContent = '-₹' + (subtotal - 1);
+        }
+    } else {
+        if (couponDiscountRow) couponDiscountRow.style.display = 'none';
+    }
     
     orderTotalAmount = total;
 
@@ -4641,6 +4669,71 @@ function updatePriceBreakdown() {
     if (addon2Row) addon2Row.style.display = isAddon2Selected ? 'flex' : 'none';
     if (totalDisplay) totalDisplay.textContent = '₹' + total;
     if (payBtn) payBtn.innerText = 'Complete Secure Payment (₹' + total + ')';
+}
+
+function applyCoupon() {
+    const input = document.getElementById('couponCodeInput');
+    const msg = document.getElementById('couponMessage');
+    const applyBtn = document.getElementById('applyCouponBtn');
+    if (!input) return;
+    
+    const code = input.value.trim().toLowerCase();
+    if (!code) {
+        if (msg) {
+            msg.style.display = 'block';
+            msg.style.background = 'rgba(239,68,68,0.2)';
+            msg.style.color = '#ef4444';
+            msg.textContent = 'Please enter a coupon code.';
+        }
+        return;
+    }
+    
+    if (code === 'admin1') {
+        appliedCoupon = 'admin1';
+        if (msg) {
+            msg.style.display = 'block';
+            msg.style.background = 'rgba(74,222,128,0.2)';
+            msg.style.color = '#4ade80';
+            msg.textContent = 'Coupon admin1 applied! Special Admin price: ₹1';
+        }
+        input.disabled = true;
+        if (applyBtn) {
+            applyBtn.textContent = 'Remove';
+            applyBtn.onclick = removeCoupon;
+            applyBtn.style.background = '#7f1d1d';
+        }
+    } else {
+        appliedCoupon = null;
+        if (msg) {
+            msg.style.display = 'block';
+            msg.style.background = 'rgba(239,68,68,0.2)';
+            msg.style.color = '#ef4444';
+            msg.textContent = 'Invalid coupon code.';
+        }
+    }
+    updatePriceBreakdown();
+}
+
+function removeCoupon() {
+    appliedCoupon = null;
+    const input = document.getElementById('couponCodeInput');
+    const msg = document.getElementById('couponMessage');
+    const applyBtn = document.getElementById('applyCouponBtn');
+    
+    if (input) {
+        input.disabled = false;
+        input.value = '';
+    }
+    if (msg) {
+        msg.style.display = 'none';
+        msg.textContent = '';
+    }
+    if (applyBtn) {
+        applyBtn.textContent = 'Apply';
+        applyBtn.onclick = applyCoupon;
+        applyBtn.style.background = '#333';
+    }
+    updatePriceBreakdown();
 }
 
 function toggleAddon1() {
@@ -4681,7 +4774,7 @@ function openModal(e) {
     // Generate order ID for tracking drafts
     if (!window.currentOrderId) {
         window.currentOrderId = 'order_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
-        // Persist the order ID across the Cashfree payment redirect
+        // Persist the order ID across payment redirect
         sessionStorage.setItem('currentOrderId', window.currentOrderId);
     }
     
@@ -4771,7 +4864,8 @@ async function initiatePayment(event) {
                 email: email,
                 phone: cleanedPhone,
                 addon1: isAddon1Selected,
-                addon2: isAddon2Selected
+                addon2: isAddon2Selected,
+                couponCode: appliedCoupon || (document.getElementById("couponCodeInput") ? document.getElementById("couponCodeInput").value.trim() : "")
             })
         });
 
@@ -4845,8 +4939,10 @@ async function checkPaymentStatus() {
 
             const modal = document.getElementById("successModal");
             if (modal) {
-                const isAddon1 = (amount === 298 || amount === 347);
-                const isAddon2 = (amount === 248 || amount === 347);
+                let isAddon1 = (amount === 298 || amount === 347);
+                let isAddon2 = (amount === 248 || amount === 347);
+                if (amount === 1 || isAddon1Selected) isAddon1 = true;
+                if (amount === 1 || isAddon2Selected) isAddon2 = true;
                 
                 const packageName = document.getElementById('successPackageName');
                 const btnContainer = document.getElementById('successButtonsContainer');
