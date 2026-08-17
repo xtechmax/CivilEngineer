@@ -2,6 +2,26 @@
   "cleanUrls": false,
   "rewrites": [
     {
+      "source": "/api/payu/hash",
+      "destination": "/api/payu/hash.js"
+    },
+    {
+      "source": "/api/payu/callback",
+      "destination": "/api/payu/callback.js"
+    },
+    {
+      "source": "/api/save-draft",
+      "destination": "/api/save-draft.js"
+    },
+    {
+      "source": "/api/check-status",
+      "destination": "/api/check-status.js"
+    },
+    {
+      "source": "/api/create-order",
+      "destination": "/api/create-order.js"
+    },
+    {
       "source": "/contact-us",
       "destination": "/contact-us.html"
     },
