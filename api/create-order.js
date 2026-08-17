@@ -105,7 +105,8 @@ export default async function handler(req, res) {
       return res.status(response.status).json(data);
     }
 
-    // Save Order Record to Supabase
+    // CRITICAL: Check if this orderId already resulted in a PAID order
+    // This prevents duplicate records if user retries on a completed payment
     const supabaseUrl = 'https://qqqhdzubrkzmecqpfuft.supabase.co';
     const supabaseServiceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxcWhkenVicmt6bWVjcXBmdWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyNTk2ODksImV4cCI6MjEwMTgzNTY4OX0.6AOXzjpaOOWX_qnhG_6ZLSkdaciQDZWqUVd0X2A864E';
 

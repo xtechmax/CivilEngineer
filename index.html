@@ -4609,6 +4609,22 @@ let orderTotalAmount = 347;
 let isAddon1Selected = true;
 let isAddon2Selected = true;
 
+// Restore order ID from sessionStorage (persists across Cashfree redirect)
+// This prevents a fresh order being created when user returns from payment page
+(function() {
+    const savedOrderId = sessionStorage.getItem('currentOrderId');
+    if (savedOrderId) {
+        window.currentOrderId = savedOrderId;
+    }
+    // If we're landing back from a payment, clear the stored ID so a fresh
+    // order is created only after a fully-successful payment confirmation.
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('check_status') === 'true') {
+        sessionStorage.removeItem('currentOrderId');
+        window.currentOrderId = null;
+    }
+})();
+
 function updatePriceBreakdown() {
     const addon1Row = document.getElementById('addon1Row');
     const addon2Row = document.getElementById('addon2Row');
@@ -4665,6 +4681,8 @@ function openModal(e) {
     // Generate order ID for tracking drafts
     if (!window.currentOrderId) {
         window.currentOrderId = 'order_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+        // Persist the order ID across the Cashfree payment redirect
+        sessionStorage.setItem('currentOrderId', window.currentOrderId);
     }
     
     // Reset addon to selected state each open
@@ -4851,6 +4869,9 @@ async function checkPaymentStatus() {
             console.error(e);
         }
         window.history.replaceState({}, document.title, window.location.pathname);
+        // Clear stored order ID so any future purchase creates a fresh one
+        sessionStorage.removeItem('currentOrderId');
+        window.currentOrderId = null;
     } else if (urlParams.get("status") === "success") {
         // Fallback for previous hardcoded urls that might be in history
         // BUT ONLY IF there's no txnid (meaning it's not the old payu one)
