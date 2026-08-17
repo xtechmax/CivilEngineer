@@ -28,9 +28,9 @@ export default async function handler(req, res) {
     } else {
       amount = (199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0)).toFixed(2);
     }
-    const txnid = clientOrderId || ('TXN_' + Date.now() + '_' + Math.floor(Math.random() * 1000));
+    const txnid = 'TXN_' + Date.now() + '_' + Math.floor(1000 + Math.random() * 9000);
     const productinfo = 'Construction Estimation Master Toolkit';
-    const firstname = (name || (email ? email.split('@')[0] : 'Customer')).replace(/[^a-zA-Z0-9 ]/g, '').trim() || 'Customer';
+    const firstname = (name || (email ? email.split('@')[0] : 'Customer')).replace(/[^a-zA-Z0-9]/g, '').trim() || 'Customer';
 
     let cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
     if (cleanPhone.length > 10) {
