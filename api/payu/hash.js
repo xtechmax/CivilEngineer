@@ -129,8 +129,11 @@ export default async function handler(req, res) {
       console.error('Supabase Save Exception:', dbErr);
     }
 
+    const isTestEnv = process.env.PAYU_ENVIRONMENT === 'test' || key === 'XZdqBd';
+    const actionUrl = isTestEnv ? 'https://test.payu.in/_payment' : 'https://secure.payu.in/_payment';
+
     return res.status(200).json({
-      action: 'https://secure.payu.in/_payment',
+      action: actionUrl,
       params: {
         key,
         txnid,
