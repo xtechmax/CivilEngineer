@@ -929,7 +929,7 @@ var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/
 <link rel="icon" href="logo.jpg" sizes="192x192" />
 <link rel="apple-touch-icon" href="logo.jpg" />
 <meta name="msapplication-TileImage" content="logo.jpg" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" /><script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script><!-- Meta Pixel Code -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" /><!-- Meta Pixel Code -->
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -1193,7 +1193,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 }
 
 </style>
-<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
+</head>
 <body>
     <div class="zb-wrapper">
         <div class="zb-header">
@@ -1403,7 +1403,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 }
 
 </style>
-<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
+</head>
 <body>
 
     <section class="no-space-section">
@@ -2202,7 +2202,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 }
 
 </style>
-<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
+</head>
 <body>
 
 <section class="curriculum-section">
@@ -3024,7 +3024,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 }
 
 </style>
-<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
+</head>
 <body class="p-6 md:p-16 min-h-screen flex items-center">
 
 <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-20 items-center w-full">
@@ -3663,7 +3663,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 }
 
 </style>
-<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
+</head>
 <body>
 
 <section class="engineerxtech-pricing-section">
@@ -3880,7 +3880,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 }
 
 </style>
-<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
+</head>
 <body class="antialiased min-h-screen">
 
     <div class="bg-grid"></div>
@@ -4120,7 +4120,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 }
 
 </style>
-<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
+</head>
 <body class="font-montserrat">
 
 <section class="w-full max-w-5xl mx-auto px-4 py-12">
@@ -4343,7 +4343,7 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 }
 
 </style>
-<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
+</head>
 <body>
 
     <section class="section-container">
@@ -4762,7 +4762,7 @@ async function initiatePayment(event) {
     }
 
     try {
-        const response = await fetch("/api/create-order", {
+        const response = await fetch("/api/payu/hash", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -4777,17 +4777,30 @@ async function initiatePayment(event) {
 
         const result = await response.json();
         
-        if (response.ok && result.payment_session_id) {
+        if (response.ok && result.action && result.params) {
             // Event: AddPaymentInfo - when a user submits/saves billing info during checkout
             if (typeof fbq !== 'undefined') fbq('track', 'AddPaymentInfo');
-            const cashfree = Cashfree({ mode: "production" });
-            cashfree.checkout({
-                paymentSessionId: result.payment_session_id,
-                redirectTarget: "_self"
-            });
+
+            // Dynamically construct and submit PayU payment form
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = result.action;
+            
+            for (const [key, value] of Object.entries(result.params)) {
+                if (value !== undefined && value !== null) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = value;
+                    form.appendChild(input);
+                }
+            }
+            
+            document.body.appendChild(form);
+            form.submit();
         } else {
             errorDiv.style.display = "block";
-            errorDiv.innerText = result.error || "Failed to create order.";
+            errorDiv.innerText = result.error || "Failed to initialize PayU payment.";
             btnText.innerText = `Complete Secure Payment (₹${orderTotalAmount})`;
             payBtn.disabled = false;
             isSubmitting = false;
@@ -4803,67 +4816,75 @@ async function initiatePayment(event) {
 
 async function checkPaymentStatus() {
     const urlParams = new URLSearchParams(window.location.search);
-    const orderId = urlParams.get("order_id");
-    if (urlParams.get("check_status") === "true" && orderId) {
+    const orderId = urlParams.get("order_id") || urlParams.get("txnid");
+    const statusParam = urlParams.get("status");
+    const checkStatus = urlParams.get("check_status") === "true";
+    const amountParam = parseFloat(urlParams.get("amount") || 0);
+
+    if (statusParam === "failure") {
+        alert("Payment was unsuccessful or cancelled. Please try again.");
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return;
+    } else if (statusParam === "tampered" || statusParam === "error") {
+        alert("Payment verification error. If amount was deducted, your files will be delivered shortly.");
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return;
+    }
+
+    if ((checkStatus && orderId) || statusParam === "success") {
         try {
-            const res = await fetch('/api/check-status?order_id=' + orderId);
-            const data = await res.json();
-            if (data.status === 'success') {
-                const modal = document.getElementById("successModal");
-                if (modal) {
-                    const amount = parseFloat(data.amount || 0);
-                    // Determine which add-ons were bought based on amount
-                    const isAddon1 = (amount === 298 || amount === 347);
-                    const isAddon2 = (amount === 248 || amount === 347);
-                    
-                    const packageName = document.getElementById('successPackageName');
-                    const btnContainer = document.getElementById('successButtonsContainer');
-                    
-                    if (packageName) {
-                        let names = ['Construction Estimation Master Toolkit™'];
-                        if (isAddon1) names.push('Master Construction Estimation');
-                        if (isAddon2) names.push('Practical Vastu Shastra Guide');
-                        packageName.innerText = names.join(' + ');
-                    }
-                    if (btnContainer) {
-                        let btns = `<a href="/assets/EngineerXtech.pdf" download="EngineerXtech.pdf" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#2563eb;color:#fff;padding:13px;border-radius:8px;font-weight:bold;text-decoration:none;box-sizing:border-box;">
-                            <svg style="width:18px;height:18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                            ⬇ Download PDF (EngineerXtech)
+            let amount = amountParam;
+            if (!amount && orderId) {
+                try {
+                    const res = await fetch('/api/check-status?order_id=' + encodeURIComponent(orderId));
+                    const data = await res.json();
+                    if (data.amount) amount = parseFloat(data.amount);
+                } catch(e) {}
+            }
+            if (!amount) amount = orderTotalAmount || 347;
+
+            const modal = document.getElementById("successModal");
+            if (modal) {
+                const isAddon1 = (amount === 298 || amount === 347);
+                const isAddon2 = (amount === 248 || amount === 347);
+                
+                const packageName = document.getElementById('successPackageName');
+                const btnContainer = document.getElementById('successButtonsContainer');
+                
+                if (packageName) {
+                    let names = ['Construction Estimation Master Toolkit™'];
+                    if (isAddon1) names.push('Master Construction Estimation');
+                    if (isAddon2) names.push('Practical Vastu Shastra Guide');
+                    packageName.innerText = names.join(' + ');
+                }
+                if (btnContainer) {
+                    let btns = `<a href="/assets/EngineerXtech.pdf" download="EngineerXtech.pdf" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#2563eb;color:#fff;padding:13px;border-radius:8px;font-weight:bold;text-decoration:none;box-sizing:border-box;">
+                        <svg style="width:18px;height:18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        ⬇ Download PDF (EngineerXtech)
+                    </a>`;
+                    if (isAddon1) {
+                        btns += `<a href="https://drive.google.com/drive/folders/1Z5LNNv36jODonCyAoESu5252hN3MFVOh?usp=sharing" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#10B981;color:#fff;padding:13px;border-radius:8px;font-weight:bold;text-decoration:none;box-sizing:border-box;margin-top:0;">
+                            <svg style="width:18px;height:18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            📂 Open Add-on: Master Construction Estimation
                         </a>`;
-                        if (isAddon1) {
-                            btns += `<a href="https://drive.google.com/drive/folders/1Z5LNNv36jODonCyAoESu5252hN3MFVOh?usp=sharing" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#10B981;color:#fff;padding:13px;border-radius:8px;font-weight:bold;text-decoration:none;box-sizing:border-box;margin-top:0;">
-                                <svg style="width:18px;height:18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                                📂 Open Add-on: Master Construction Estimation
-                            </a>`;
-                        }
-                        if (isAddon2) {
-                            btns += `<a href="https://drive.google.com/drive/folders/1_54-ZuYJANA_keHuH4K5Vmod6Kl8zYYP?usp=drive_link" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#10B981;color:#fff;padding:13px;border-radius:8px;font-weight:bold;text-decoration:none;box-sizing:border-box;margin-top:0;">
-                                <svg style="width:18px;height:18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                                📂 Open Add-on: Practical Vastu Shastra Guide
-                            </a>`;
-                        }
-                        btnContainer.innerHTML = btns;
                     }
-                    modal.style.display = "flex";
-                    modal.classList.remove("hidden");
-                    if (typeof fbq !== 'undefined') {
-                        if (orderId) {
-                            if (!sessionStorage.getItem('pixel_fired_' + orderId)) {
-                                // Event: Purchase - on order confirmation, with dynamic values
-                                fbq('track', 'Purchase', { currency: 'INR', value: amount }, { eventID: orderId });
-                                sessionStorage.setItem('pixel_fired_' + orderId, 'true');
-                            }
-                        } else {
-                            if (!sessionStorage.getItem('pixel_fired_fallback')) {
-                                // Event: Purchase - on order confirmation, with dynamic values
-                                fbq('track', 'Purchase', { currency: 'INR', value: amount });
-                                sessionStorage.setItem('pixel_fired_fallback', 'true');
-                            }
-                        }
+                    if (isAddon2) {
+                        btns += `<a href="https://drive.google.com/drive/folders/1_54-ZuYJANA_keHuH4K5Vmod6Kl8zYYP?usp=drive_link" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#10B981;color:#fff;padding:13px;border-radius:8px;font-weight:bold;text-decoration:none;box-sizing:border-box;margin-top:0;">
+                            <svg style="width:18px;height:18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            📂 Open Add-on: Practical Vastu Shastra Guide
+                        </a>`;
+                    }
+                    btnContainer.innerHTML = btns;
+                }
+                modal.style.display = "flex";
+                modal.classList.remove("hidden");
+                if (typeof fbq !== 'undefined') {
+                    const trackingKey = orderId || ('payu_' + Date.now());
+                    if (!sessionStorage.getItem('pixel_fired_' + trackingKey)) {
+                        fbq('track', 'Purchase', { currency: 'INR', value: amount }, { eventID: trackingKey });
+                        sessionStorage.setItem('pixel_fired_' + trackingKey, 'true');
                     }
                 }
-            } else {
-                alert("Payment was not successful. Status: " + data.status);
             }
         } catch (e) {
             console.error(e);
@@ -4872,32 +4893,6 @@ async function checkPaymentStatus() {
         // Clear stored order ID so any future purchase creates a fresh one
         sessionStorage.removeItem('currentOrderId');
         window.currentOrderId = null;
-    } else if (urlParams.get("status") === "success") {
-        // Fallback for previous hardcoded urls that might be in history
-        // BUT ONLY IF there's no txnid (meaning it's not the old payu one)
-        if(!urlParams.get("txnid")) {
-            const modal = document.getElementById("successModal");
-            if (modal) {
-                modal.style.display = "flex";
-                                    modal.classList.remove("hidden");
-                    if (typeof fbq !== 'undefined') {
-                        if (orderId) {
-                            if (!sessionStorage.getItem('pixel_fired_' + orderId)) {
-                                // Event: Purchase - on order confirmation, with dynamic values
-                                fbq('track', 'Purchase', { currency: 'INR', value: orderTotalAmount }, { eventID: orderId });
-                                sessionStorage.setItem('pixel_fired_' + orderId, 'true');
-                            }
-                        } else {
-                            if (!sessionStorage.getItem('pixel_fired_fallback')) {
-                                // Event: Purchase - on order confirmation, with dynamic values
-                                fbq('track', 'Purchase', { currency: 'INR', value: orderTotalAmount });
-                                sessionStorage.setItem('pixel_fired_fallback', 'true');
-                            }
-                        }
-                    }
-            }
-        }
-        window.history.replaceState({}, document.title, window.location.pathname);
     }
 }
 window.addEventListener("DOMContentLoaded", checkPaymentStatus);
@@ -5352,7 +5347,7 @@ window.addEventListener('DOMContentLoaded', () => {
 }
 
 </style>
-<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script></head>
+</head>
 <body>
 
     <div id="apex-slow-toast-container">
