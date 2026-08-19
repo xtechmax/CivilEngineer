@@ -50,10 +50,9 @@ export default async function handler(req, res) {
     // --- End Blocklist Check ---
 
     const key = process.env.PAYU_MERCHANT_KEY || "Bcrp9R";
-    const salt = process.env.PAYU_MERCHANT_SALT || "DRPR9SPIlhkg3IfHUyfgibhbcvzKpdRM";
-
-    if (!key || !salt) {
-      return res.status(500).json({ error: 'PayU credentials not configured' });
+    let salt = process.env.PAYU_MERCHANT_SALT;
+    if (key === 'Bcrp9R' || !salt) {
+      salt = "DRPR9SPIlhkg3IfHUyfgibhbcvzKpdRM";
     }
 
     const host = req.headers['x-forwarded-host'] || req.headers.host || 'www.xtechmax.shop';
