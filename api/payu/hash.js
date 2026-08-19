@@ -49,8 +49,8 @@ export default async function handler(req, res) {
     }
     // --- End Blocklist Check ---
 
-    const key = process.env.PAYU_MERCHANT_KEY || "XZdqBd";
-    const salt = process.env.PAYU_MERCHANT_SALT || "iTDtDbj4vLXKuOdyYCdm1viP7GA7BCRi";
+    const key = process.env.PAYU_MERCHANT_KEY || "Bcrp9R";
+    const salt = process.env.PAYU_MERCHANT_SALT || "DRPR9SPIlhkg3IfHUyfgibhbcvzKpdRM";
 
     if (!key || !salt) {
       return res.status(500).json({ error: 'PayU credentials not configured' });
@@ -129,7 +129,7 @@ export default async function handler(req, res) {
       console.error('Supabase Save Exception:', dbErr);
     }
 
-    const isTestEnv = process.env.PAYU_ENVIRONMENT === 'test' || key === 'XZdqBd';
+    const isTestEnv = process.env.PAYU_ENVIRONMENT === 'test' || key === 'Bcrp9R' || key === 'XZdqBd' || process.env.PAYU_ENVIRONMENT !== 'production';
     const actionUrl = isTestEnv ? 'https://test.payu.in/_payment' : 'https://secure.payu.in/_payment';
 
     return res.status(200).json({

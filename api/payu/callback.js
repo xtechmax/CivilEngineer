@@ -31,8 +31,8 @@ export default async function handler(req, res) {
       additionalCharges
     } = req.body || {};
 
-    const salt = process.env.PAYU_MERCHANT_SALT || "iTDtDbj4vLXKuOdyYCdm1viP7GA7BCRi";
-    const merchantKey = process.env.PAYU_MERCHANT_KEY || "XZdqBd";
+    const salt = process.env.PAYU_MERCHANT_SALT || "DRPR9SPIlhkg3IfHUyfgibhbcvzKpdRM";
+    const merchantKey = process.env.PAYU_MERCHANT_KEY || "Bcrp9R";
 
     if (!salt || !merchantKey) {
       console.error('PayU server configuration error: salt/merchantKey missing');
