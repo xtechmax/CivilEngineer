@@ -4778,6 +4778,23 @@ function openModal(e) {
         sessionStorage.setItem('currentOrderId', window.currentOrderId);
     }
     
+    // Populate saved email and phone if inputs are empty
+    const emailInput = document.getElementById("custEmail");
+    const phoneInput = document.getElementById("custPhone");
+    if (emailInput && !emailInput.value) {
+        const savedEmail = localStorage.getItem("saved_email");
+        if (savedEmail) emailInput.value = savedEmail;
+    }
+    if (phoneInput && !phoneInput.value) {
+        const savedPhone = localStorage.getItem("saved_phone");
+        if (savedPhone) phoneInput.value = savedPhone;
+    }
+
+    // Reset submit button state
+    isSubmitting = false;
+    const payBtn = document.getElementById('payButton');
+    if (payBtn) payBtn.disabled = false;
+    
     // Reset addon to selected state each open
     isAddon1Selected = true;
     isAddon2Selected = true;
@@ -4786,12 +4803,28 @@ function openModal(e) {
     if (btn1) { btn1.className = 'addon-toggle-btn selected'; btn1.innerHTML = '✅ Added successfully'; }
     if (btn2) { btn2.className = 'addon-toggle-btn selected'; btn2.innerHTML = '✅ Added successfully'; }
     updatePriceBreakdown();
-    document.getElementById('payButton').disabled = false;
+    
     // Hide sticky bottom bar so it doesn't show through/below modal
     const stickyBar = document.querySelector('.bakery-footer-bar');
     if (stickyBar) stickyBar.style.display = 'none';
     document.getElementById('checkoutModalOverlay').style.display = 'flex';
 }
+
+function resetCheckoutButton() {
+    isSubmitting = false;
+    const payBtn = document.getElementById('payButton');
+    const btnText = document.getElementById('payButtonText');
+    if (payBtn) payBtn.disabled = false;
+    if (btnText) btnText.innerText = `Complete Secure Payment (₹${orderTotalAmount})`;
+}
+
+// Ensure when user navigates back from PayU or switches tabs, button is never stuck disabled
+window.addEventListener('pageshow', (event) => {
+    resetCheckoutButton();
+});
+window.addEventListener('focus', () => {
+    resetCheckoutButton();
+});
 
 function closeModal() {
     document.getElementById('checkoutModalOverlay').style.display = 'none';
@@ -4803,15 +4836,18 @@ function closeModal() {
 let isSubmitting = false;
 
 function saveDraftData() {
+    const email = document.getElementById("custEmail")?.value?.trim() || "";
+    const phone = document.getElementById("custPhone")?.value?.trim() || "";
+    
+    if (email) localStorage.setItem("saved_email", email);
+    if (phone) localStorage.setItem("saved_phone", phone);
+
     if (!window.currentOrderId) return;
     
     // Delay slightly so that if the user just clicked the "Pay" button,
     // the submit event has time to fire and set isSubmitting to true.
     setTimeout(() => {
         if (isSubmitting) return;
-        
-        const email = document.getElementById("custEmail").value.trim();
-        const phone = document.getElementById("custPhone").value.trim();
         
         if (email || phone) {
             let cleanedPhone = phone.replace(/\D/g, "");
@@ -4838,16 +4874,24 @@ function saveDraftData() {
 async function initiatePayment(event) {
     event.preventDefault();
     isSubmitting = true;
-    const email = document.getElementById("custEmail").value;
-    const phone = document.getElementById("custPhone").value;
+    const email = document.getElementById("custEmail").value.trim();
+    const phone = document.getElementById("custPhone").value.trim();
     const btnText = document.getElementById("payButtonText");
     const errorDiv = document.getElementById("paymentError");
     const payBtn = document.getElementById("payButton");
+
+    if (email) localStorage.setItem("saved_email", email);
+    if (phone) localStorage.setItem("saved_phone", phone);
     
     errorDiv.style.display = "none";
     errorDiv.innerText = "";
     btnText.innerText = "Processing...";
     payBtn.disabled = true;
+
+    // Safety timeout: if page does not navigate away within 8 seconds (e.g. cancelled/blocked), re-enable button
+    setTimeout(() => {
+        resetCheckoutButton();
+    }, 8000);
 
     let cleanedPhone = phone.replace(/\D/g, "");
     if (!cleanedPhone.startsWith("91") && cleanedPhone.length === 10) {
