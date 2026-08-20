@@ -798,7 +798,7 @@
                                                     <th className="py-3 px-4">Amount</th>
                                                     <th className="py-3 px-4">Add-on</th>
                                                     <th className="py-3 px-4">Status</th>
-                                                    <th className="py-3 px-4">Cashfree Order ID</th>
+                                                    <th className="py-3 px-4">Gateway Order ID</th>
                                                     <th className="py-3 px-4">Payment ID</th>
                                                     <th className="py-3 px-4">Follow-up</th>
                                                     <th className="py-3 px-4">WhatsApp</th>
@@ -810,7 +810,7 @@
                                                     filteredOrders.map(order => {
                                                         let cleanPhone = (order.phone || "").replace(/[^0-9]/g, '');
                                                         if (cleanPhone.length === 10) {
-                                                            cleanPhone = "91" + cleanPhone;
+                                                             cleanPhone = "91" + cleanPhone;
                                                         }
                                                         
                                                         const rawWaText = `Hi! 👋 We noticed that your order for the Construction Estimation Master Toolkit is still pending.\nComplete your order and master Quantity Surveying, Estimation, Site Formulas, Construction Billing, BOQ & Contracts—everything you need to manage project finances, avoid costly errors, and execute engineering contracts like a pro! 🏗️\nIf you need any help completing your order, feel free to reach out.\nYou can also visit: https://www.xtechmax.shop/`;
@@ -832,13 +832,39 @@
                                                                 <td className="py-3 px-4 whitespace-nowrap">{order.phone}</td>
                                                                 <td className="py-3 px-4 font-semibold text-slate-900">₹{order.amount}</td>
                                                                 <td className="py-3 px-4 whitespace-nowrap">
-                                                                    {order.addon ? (
-                                                                        <span className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-medium text-[11px] border border-blue-100">
-                                                                            {order.addon}
-                                                                        </span>
-                                                                    ) : (
-                                                                        <span className="text-slate-400">—</span>
-                                                                    )}
+                                                                    {(() => {
+                                                                        if (!order.addon) return <span className="text-slate-400">—</span>;
+                                                                        const text = String(order.addon);
+                                                                        const hasEst = text.includes("Estimation") || text.includes("Master Construction");
+                                                                        const hasVastu = text.includes("Vastu");
+                                                                        
+                                                                        if (hasEst && hasVastu) {
+                                                                            return (
+                                                                                <div className="inline-flex items-center gap-1" title={order.addon}>
+                                                                                    <span className="bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded font-bold text-[10px] border border-blue-200">EST</span>
+                                                                                    <span className="text-slate-400 font-bold text-[10px]">+</span>
+                                                                                    <span className="bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded font-bold text-[10px] border border-purple-200">VASTU</span>
+                                                                                </div>
+                                                                            );
+                                                                        } else if (hasEst) {
+                                                                            return (
+                                                                                <span className="bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded font-bold text-[10px] border border-blue-200" title={order.addon}>
+                                                                                    EST
+                                                                                </span>
+                                                                            );
+                                                                        } else if (hasVastu) {
+                                                                            return (
+                                                                                <span className="bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded font-bold text-[10px] border border-purple-200" title={order.addon}>
+                                                                                    VASTU
+                                                                                </span>
+                                                                            );
+                                                                        }
+                                                                        return (
+                                                                            <span className="bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded font-medium text-[10px] border border-slate-200" title={order.addon}>
+                                                                                {order.addon.length > 12 ? order.addon.slice(0, 10) + '..' : order.addon}
+                                                                            </span>
+                                                                        );
+                                                                    })()}
                                                                 </td>
                                                                 <td className="py-3 px-4">
                                                                     {order.status === "paid" && (
