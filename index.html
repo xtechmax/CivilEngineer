@@ -4652,6 +4652,29 @@ function updatePriceBreakdown() {
     if (isAddon1Selected) subtotal += 99;
     if (isAddon2Selected) subtotal += 49;
     
+    if (appliedCoupon === 'first10' && subtotal !== 347) {
+        appliedCoupon = null;
+        const msg = document.getElementById('couponMessage');
+        const input = document.getElementById('couponCodeInput');
+        const applyBtn = document.getElementById('applyCouponBtn');
+        if (msg) {
+            msg.style.display = 'block';
+            msg.style.background = 'rgba(239,68,68,0.2)';
+            msg.style.color = '#ef4444';
+            msg.textContent = 'FIRST10 removed (Full Add-on Pack required).';
+        }
+        if (input) {
+            input.disabled = false;
+            input.value = '';
+        }
+        if (applyBtn) {
+            applyBtn.textContent = 'Apply';
+            applyBtn.onclick = applyCoupon;
+            applyBtn.style.background = '#333';
+            applyBtn.style.color = '#fff';
+        }
+    }
+
     let total = subtotal;
     if (appliedCoupon === 'admin1') {
         total = 1;
@@ -4713,6 +4736,20 @@ function applyCoupon() {
             applyBtn.style.color = '#ccc';
         }
     } else if (code === 'first10') {
+        let currentSubtotal = 199;
+        if (isAddon1Selected) currentSubtotal += 99;
+        if (isAddon2Selected) currentSubtotal += 49;
+        
+        if (currentSubtotal !== 347) {
+            if (msg) {
+                msg.style.display = 'block';
+                msg.style.background = 'rgba(239,68,68,0.2)';
+                msg.style.color = '#ef4444';
+                msg.textContent = 'FIRST10 coupon is only valid for the Full Add-on Pack (₹347).';
+            }
+            return;
+        }
+
         appliedCoupon = 'first10';
         if (msg) {
             msg.style.display = 'block';

@@ -29,7 +29,7 @@ export default async function handler(req, res) {
       amount = '1.00';
     } else {
       let baseAmount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0);
-      if (isFirst10Valid) {
+      if (isFirst10Valid && Math.abs(baseAmount - 347.00) < 0.01) {
         baseAmount = baseAmount * 0.90; // 10% discount
       }
       amount = baseAmount.toFixed(2);
