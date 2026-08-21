@@ -220,7 +220,42 @@
                     if (ordersResp.ok) {
                         const supaOrders = await ordersResp.json();
                         if (Array.isArray(supaOrders)) {
-                            setOrders(supaOrders);
+                            // Find emails and phones that have a "paid" order
+                            const paidEmails = new Set();
+                            const paidPhones = new Set();
+                            
+                            supaOrders.forEach(o => {
+                                if (o.status === "paid") {
+                                    if (o.email) paidEmails.add(o.email);
+                                    if (o.phone) paidPhones.add(o.phone);
+                                }
+                            });
+                            
+                            const idsToPatch = [];
+                            const processedOrders = supaOrders.map(o => {
+                                const shouldBeConverted = (o.email && paidEmails.has(o.email)) || (o.phone && paidPhones.has(o.phone));
+                                if (shouldBeConverted && o.followup_status !== "Converted") {
+                                    idsToPatch.push(o.id);
+                                    return { ...o, followup_status: "Converted" };
+                                }
+                                return o;
+                            });
+                            
+                            if (idsToPatch.length > 0) {
+                                // Background patch to persist the auto-conversion
+                                const idList = idsToPatch.join(',');
+                                fetch(`${SUPABASE_URL}/rest/v1/orders?id=in.(${idList})`, {
+                                    method: "PATCH",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        "apikey": SUPABASE_ANON_KEY,
+                                        "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+                                    },
+                                    body: JSON.stringify({ followup_status: "Converted" })
+                                }).catch(err => console.error("Auto-convert patch error:", err));
+                            }
+                            
+                            setOrders(processedOrders);
                         }
                     }
 
@@ -895,31 +930,27 @@
                                                                 {/* Follow-up Column */}
                                                                 <td className="py-3 px-4 min-w-[160px]">
                                                                     <div className="flex flex-col gap-1">
-                                                                        <select
-                                                                            value={order.followup_status || "Not Contacted"}
-                                                                            onChange={e => handleFollowupChange(order.id, e.target.value)}
-                                                                            className="border border-slate-200 rounded px-2 py-1 text-xs text-slate-700 bg-white outline-none"
-                                                                        >
-                                                                            <option value="Not Contacted">Not Contacted</option>
-                                                                            <option value="Interested">Interested</option>
-                                                                            <option value="Converted">Converted</option>
-                                                                            <option value="Not Interested">Not Interested</option>
-                                                                            <option value="Other Issue">Other Issue</option>
-                                                                        </select>
-                                                                        
                                                                         {(() => {
                                                                             const status = order.followup_status || "Not Contacted";
-                                                                            if (status === "Not Contacted") return null;
-                                                                            let bgClass = "bg-slate-100 text-slate-600";
-                                                                            if (status === "Interested") bgClass = "bg-blue-500 text-white";
-                                                                            if (status === "Converted") bgClass = "bg-emerald-500 text-white";
-                                                                            if (status === "Not Interested") bgClass = "bg-rose-500 text-white";
-                                                                            if (status === "Other Issue") bgClass = "bg-purple-500 text-white";
+                                                                            let bgClass = "bg-slate-50 border border-slate-200 text-slate-700";
+                                                                            if (status === "Interested") bgClass = "bg-blue-500 border-blue-600 text-white font-semibold shadow-sm";
+                                                                            if (status === "Converted") bgClass = "bg-emerald-500 border-emerald-600 text-white font-semibold shadow-sm";
+                                                                            if (status === "Not Interested") bgClass = "bg-rose-500 border-rose-600 text-white font-semibold shadow-sm";
+                                                                            if (status === "Other Issue") bgClass = "bg-purple-500 border-purple-600 text-white font-semibold shadow-sm";
                                                                             
                                                                             return (
-                                                                                <span className={`inline-block ${bgClass} px-2 py-0.5 rounded text-[10px] font-bold w-fit mt-1 shadow-sm`}>
-                                                                                    {status}
-                                                                                </span>
+                                                                                <select
+                                                                                    value={status}
+                                                                                    onChange={e => handleFollowupChange(order.id, e.target.value)}
+                                                                                    className={`rounded px-2 py-1 text-[11px] outline-none cursor-pointer transition-colors ${bgClass}`}
+                                                                                    style={{ WebkitAppearance: 'none', appearance: 'none', textAlign: 'center', width: 'fit-content' }}
+                                                                                >
+                                                                                    <option value="Not Contacted" className="bg-white text-slate-900 font-normal">Not Contacted</option>
+                                                                                    <option value="Interested" className="bg-white text-slate-900 font-normal">Interested</option>
+                                                                                    <option value="Converted" className="bg-white text-slate-900 font-normal">Converted</option>
+                                                                                    <option value="Not Interested" className="bg-white text-slate-900 font-normal">Not Interested</option>
+                                                                                    <option value="Other Issue" className="bg-white text-slate-900 font-normal">Other Issue</option>
+                                                                                </select>
                                                                             );
                                                                         })()}
 
