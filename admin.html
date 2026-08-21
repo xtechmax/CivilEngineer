@@ -375,12 +375,26 @@
                 });
             }, [orders, statusFilter, searchQuery]);
 
-            // Handlers & Supabase Sync
             const handleFollowupChange = async (id, newStatus) => {
-                setOrders(prev => prev.map(o => o.id === id ? { ...o, followup_status: newStatus } : o));
+                const orderToChange = orders.find(o => o.id === id);
+                if (!orderToChange) return;
+
+                const { email, phone } = orderToChange;
+
+                // Find all matching orders by email OR phone (if they exist)
+                const matchingOrders = orders.filter(o => {
+                    const matchEmail = email && o.email === email;
+                    const matchPhone = phone && o.phone === phone;
+                    return matchEmail || matchPhone;
+                });
+                
+                const matchingIds = matchingOrders.map(o => o.id);
+
+                setOrders(prev => prev.map(o => matchingIds.includes(o.id) ? { ...o, followup_status: newStatus } : o));
 
                 try {
-                    await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${id}`, {
+                    const idList = matchingIds.join(',');
+                    await fetch(`${SUPABASE_URL}/rest/v1/orders?id=in.(${idList})`, {
                         method: "PATCH",
                         headers: {
                             "Content-Type": "application/json",
@@ -888,15 +902,26 @@
                                                                         >
                                                                             <option value="Not Contacted">Not Contacted</option>
                                                                             <option value="Interested">Interested</option>
+                                                                            <option value="Converted">Converted</option>
                                                                             <option value="Not Interested">Not Interested</option>
                                                                             <option value="Other Issue">Other Issue</option>
                                                                         </select>
                                                                         
-                                                                        {order.followup_status && order.followup_status !== "Not Contacted" && (
-                                                                            <span className="inline-block bg-slate-100 text-slate-600 px-2 py-0.5 rounded text-[10px] font-medium w-fit">
-                                                                                {order.followup_status}
-                                                                            </span>
-                                                                        )}
+                                                                        {(() => {
+                                                                            const status = order.followup_status || "Not Contacted";
+                                                                            if (status === "Not Contacted") return null;
+                                                                            let bgClass = "bg-slate-100 text-slate-600";
+                                                                            if (status === "Interested") bgClass = "bg-blue-500 text-white";
+                                                                            if (status === "Converted") bgClass = "bg-emerald-500 text-white";
+                                                                            if (status === "Not Interested") bgClass = "bg-rose-500 text-white";
+                                                                            if (status === "Other Issue") bgClass = "bg-purple-500 text-white";
+                                                                            
+                                                                            return (
+                                                                                <span className={`inline-block ${bgClass} px-2 py-0.5 rounded text-[10px] font-bold w-fit mt-1 shadow-sm`}>
+                                                                                    {status}
+                                                                                </span>
+                                                                            );
+                                                                        })()}
 
                                                                         {order.followup_status === "Other Issue" && (
                                                                             <textarea
