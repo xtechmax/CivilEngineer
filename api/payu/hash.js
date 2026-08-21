@@ -21,12 +21,18 @@ export default async function handler(req, res) {
     }
 
     // Secure server-side amount calculation
-    const isCouponValid = typeof couponCode === 'string' && couponCode.trim().toLowerCase() === 'admin1';
+    const normalizedCoupon = typeof couponCode === 'string' ? couponCode.trim().toLowerCase() : '';
+    const isAdminValid = normalizedCoupon === 'admin1';
+    const isFirst10Valid = normalizedCoupon === 'first10';
     let amount;
-    if (isCouponValid) {
+    if (isAdminValid) {
       amount = '1.00';
     } else {
-      amount = (199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0)).toFixed(2);
+      let baseAmount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0);
+      if (isFirst10Valid) {
+        baseAmount = baseAmount * 0.90; // 10% discount
+      }
+      amount = baseAmount.toFixed(2);
     }
     const txnid = 'TXN_' + Date.now() + '_' + Math.floor(1000 + Math.random() * 9000);
     const productinfo = 'Construction Estimation Master Toolkit';

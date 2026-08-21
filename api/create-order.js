@@ -12,8 +12,20 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, addon1, addon2, orderId: clientOrderId } = req.body || {};
-    const amount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0);
+    const { name, email, phone, addon1, addon2, couponCode, orderId: clientOrderId } = req.body || {};
+    const normalizedCoupon = typeof couponCode === 'string' ? couponCode.trim().toLowerCase() : '';
+    const isAdminValid = normalizedCoupon === 'admin1';
+    const isFirst10Valid = normalizedCoupon === 'first10';
+    let amount;
+    if (isAdminValid) {
+      amount = 1.00;
+    } else {
+      amount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0);
+      if (isFirst10Valid) {
+        amount = amount * 0.90; // 10% discount
+      }
+      amount = parseFloat(amount.toFixed(2));
+    }
     const orderId = clientOrderId || ('order_' + Date.now() + '_' + Math.floor(Math.random() * 1000));
 
     // Active Cashfree Production Credentials
