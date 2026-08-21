@@ -167,7 +167,7 @@ export default async function handler(req, res) {
             <div style="background:#1c1c1e;padding:20px;border-radius:10px;margin:20px 0;border:1px solid #333;">
               <h3 style="color:#FFB347;margin-top:0;">📦 Your Files Are Ready</h3>
               <p style="color:#d1d5db;font-size:13px;">The PDF is attached to this email. You can also download it directly below.</p>
-              <p style="color:#aaa;font-size:12px;margin-top:10px;">📎 <strong>Attachment:</strong> EngineerXtech.pdf</p>
+              <p style="color:#aaa;font-size:12px;margin-top:10px;">📎 <strong>Attachment:</strong> Thank-you-for-choosingus.pdf</p>
             </div>
           `;
 
@@ -214,7 +214,7 @@ export default async function handler(req, res) {
           // Read PDF from assets
           let pdfBuffer;
           try {
-            const pdfPath = path.join(process.cwd(), 'assets', 'EngineerXtech.pdf');
+            const pdfPath = path.join(process.cwd(), 'assets', 'Thank-you-for-choosingus.pdf');
             pdfBuffer = fs.readFileSync(pdfPath);
           } catch (pdfReadErr) {
             console.error('Could not read PDF from disk:', pdfReadErr);
@@ -223,7 +223,7 @@ export default async function handler(req, res) {
           const attachments = [];
           if (pdfBuffer) {
             attachments.push({
-              filename: 'EngineerXtech.pdf',
+              filename: 'Thank-you-for-choosingus.pdf',
               content: pdfBuffer.toString('base64')
             });
           }
