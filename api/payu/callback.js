@@ -201,7 +201,7 @@ export default async function handler(req, res) {
               <div style="background:#064e3b;padding:20px;border-radius:10px;margin:10px 0;border:1px solid #059669;text-align:center;">
                 <h3 style="color:#34d399;margin-top:0;">⚡ Add-on: Bill-of-Quantities Excel Version</h3>
                 <p style="color:#d1d5db;font-size:13px;margin-bottom:14px;">Professional BOQ Template for Accurate Estimation:</p>
-                <a href="#" target="_blank" style="background:#10B981;color:#fff;padding:12px 24px;text-decoration:none;font-weight:bold;border-radius:8px;display:inline-block;">
+                <a href="https://docs.google.com/spreadsheets/d/11H9k4FCP49ibC9ULBq0vrVmF6uUidL77/edit?usp=drive_link&ouid=108890284739332724525&rtpof=true&sd=true" target="_blank" style="background:#10B981;color:#fff;padding:12px 24px;text-decoration:none;font-weight:bold;border-radius:8px;display:inline-block;">
                   Access Add-on Excel File →
                 </a>
               </div>

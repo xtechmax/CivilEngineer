@@ -184,7 +184,7 @@ export default async function handler(req, res) {
             <h3 style="color: #34d399; margin-top: 0; font-size: 16px;">⚡ Your Bill-of-Quantities Excel Version</h3>
             <p style="color: #d1d5db; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">Click below to access your bonus BOQ Excel Template:</p>
             <div style="text-align: center;">
-              <a href="#" target="_blank" style="background: #10B981; color: #fff; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block;">
+              <a href="https://docs.google.com/spreadsheets/d/11H9k4FCP49ibC9ULBq0vrVmF6uUidL77/edit?usp=drive_link&ouid=108890284739332724525&rtpof=true&sd=true" target="_blank" style="background: #10B981; color: #fff; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block;">
                 Access BOQ Excel File →
               </a>
             </div>
