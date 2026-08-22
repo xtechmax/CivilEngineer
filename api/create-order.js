@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, addon1, addon2, couponCode, orderId: clientOrderId } = req.body || {};
+    const { name, email, phone, addon1, addon2, addon3, couponCode, orderId: clientOrderId } = req.body || {};
     const normalizedCoupon = typeof couponCode === 'string' ? couponCode.trim().toLowerCase() : '';
     const isAdminValid = normalizedCoupon === 'admin1';
     const isFirst10Valid = normalizedCoupon === 'first10';
@@ -20,8 +20,8 @@ export default async function handler(req, res) {
     if (isAdminValid) {
       amount = 1.00;
     } else {
-      amount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0);
-      if (isFirst10Valid && Math.abs(amount - 347.00) < 0.01) {
+      amount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0) + (addon3 ? 99.00 : 0);
+      if (isFirst10Valid && Math.abs(amount - 446.00) < 0.01) {
         amount = amount * 0.90; // 10% discount
       }
       amount = parseFloat(amount.toFixed(2));
@@ -72,7 +72,7 @@ export default async function handler(req, res) {
             email: email || '',
             phone: phone || '',
             amount: amount,
-            addon: [addon1 ? 'Master Construction Estimation' : null, addon2 ? 'Practical Vastu Shastra Guide' : null].filter(Boolean).join(' + ') || null,
+            addon: [addon1 ? 'Master Construction Estimation' : null, addon2 ? 'Practical Vastu Shastra Guide' : null, addon3 ? 'Bill-of-Quantities Excel Version' : null].filter(Boolean).join(' + ') || null,
             status: 'failed',
             cashfree_order_id: 'BLOCKED_USER',
             followup_note: `Blocked User Attempt. IP: ${clientIp}`
@@ -143,7 +143,7 @@ export default async function handler(req, res) {
           email: email || '',
           phone: phone || '',
           amount: amount,
-          addon: [addon1 ? 'Master Construction Estimation' : null, addon2 ? 'Practical Vastu Shastra Guide' : null].filter(Boolean).join(' + ') || null,
+          addon: [addon1 ? 'Master Construction Estimation' : null, addon2 ? 'Practical Vastu Shastra Guide' : null, addon3 ? 'Bill-of-Quantities Excel Version' : null].filter(Boolean).join(' + ') || null,
           status: 'pending',
           gateway_order_id: orderId,
       };

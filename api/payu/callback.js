@@ -105,10 +105,12 @@ export default async function handler(req, res) {
       const orderAddonStr = order?.addon || '';
       const isAddon1 = udf1 === '1' || orderAddonStr.includes('Master Construction Estimation') || orderAmount === 298 || orderAmount === 347 || orderAmount === 1;
       const isAddon2 = udf2 === '1' || orderAddonStr.includes('Practical Vastu Shastra Guide') || orderAmount === 248 || orderAmount === 347 || orderAmount === 1;
+      const isAddon3 = udf4 === '1' || orderAddonStr.includes('Bill-of-Quantities Excel Version') || orderAmount === 446;
 
       let names = ['Construction Estimation Master Toolkit™'];
       if (isAddon1) names.push('Master Construction Estimation');
       if (isAddon2) names.push('Practical Vastu Shastra Guide');
+      if (isAddon3) names.push('Bill-of-Quantities Excel Version');
       const planLabel = names.join(' + ');
 
       // Update Supabase to paid
@@ -121,7 +123,7 @@ export default async function handler(req, res) {
           amount: orderAmount,
           email: email || order?.email || '',
           phone: phone || udf3 || order?.phone || '',
-          addon: [isAddon1 ? 'Master Construction Estimation' : null, isAddon2 ? 'Practical Vastu Shastra Guide' : null].filter(Boolean).join(' + ') || null,
+          addon: [isAddon1 ? 'Master Construction Estimation' : null, isAddon2 ? 'Practical Vastu Shastra Guide' : null, isAddon3 ? 'Bill-of-Quantities Excel Version' : null].filter(Boolean).join(' + ') || null,
           gateway_order_id: txnid
         };
 
@@ -190,6 +192,17 @@ export default async function handler(req, res) {
                 <p style="color:#d1d5db;font-size:13px;margin-bottom:14px;">Complete Mastery — Access via Google Drive:</p>
                 <a href="${addon2DriveLink}" target="_blank" style="background:#10B981;color:#fff;padding:12px 24px;text-decoration:none;font-weight:bold;border-radius:8px;display:inline-block;">
                   Access Add-on Drive Folder →
+                </a>
+              </div>
+            `;
+          }
+          if (isAddon3) {
+            downloadHtml += `
+              <div style="background:#064e3b;padding:20px;border-radius:10px;margin:10px 0;border:1px solid #059669;text-align:center;">
+                <h3 style="color:#34d399;margin-top:0;">⚡ Add-on: Bill-of-Quantities Excel Version</h3>
+                <p style="color:#d1d5db;font-size:13px;margin-bottom:14px;">Professional BOQ Template for Accurate Estimation:</p>
+                <a href="#" target="_blank" style="background:#10B981;color:#fff;padding:12px 24px;text-decoration:none;font-weight:bold;border-radius:8px;display:inline-block;">
+                  Access Add-on Excel File →
                 </a>
               </div>
             `;

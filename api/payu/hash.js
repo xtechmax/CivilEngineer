@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, addon1, addon2, couponCode, orderId: clientOrderId } = req.body || {};
+    const { name, email, phone, addon1, addon2, addon3, couponCode, orderId: clientOrderId } = req.body || {};
     
     if (!email && !phone) {
       return res.status(400).json({ error: 'Email or phone number is required' });
@@ -28,8 +28,8 @@ export default async function handler(req, res) {
     if (isAdminValid) {
       amount = '1.00';
     } else {
-      let baseAmount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0);
-      if (isFirst10Valid && Math.abs(baseAmount - 347.00) < 0.01) {
+      let baseAmount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0) + (addon3 ? 99.00 : 0);
+      if (isFirst10Valid && Math.abs(baseAmount - 446.00) < 0.01) {
         baseAmount = baseAmount * 0.90; // 10% discount
       }
       amount = baseAmount.toFixed(2);
@@ -73,8 +73,9 @@ export default async function handler(req, res) {
 
     const udf1 = addon1 ? '1' : '0';
     const udf2 = addon2 ? '1' : '0';
+    const udf4 = addon3 ? '1' : '0';
     const udf3 = cleanPhone;
-    const udf4 = '';
+    
     const udf5 = '';
 
     // Hash sequence: key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||salt
@@ -100,7 +101,7 @@ export default async function handler(req, res) {
         email: email || '',
         phone: phone || cleanPhone,
         amount: parseFloat(amount),
-        addon: [addon1 ? 'Master Construction Estimation' : null, addon2 ? 'Practical Vastu Shastra Guide' : null].filter(Boolean).join(' + ') || null,
+        addon: [addon1 ? 'Master Construction Estimation' : null, addon2 ? 'Practical Vastu Shastra Guide' : null, addon3 ? 'Bill-of-Quantities Excel Version' : null].filter(Boolean).join(' + ') || null,
         status: 'pending',
         gateway_order_id: txnid,
       };

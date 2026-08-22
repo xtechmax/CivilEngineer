@@ -145,10 +145,12 @@ export default async function handler(req, res) {
       const orderAmount = parseFloat(updatedOrder.amount || 0);
       const isAddon1 = addonStr.includes('Master Construction Estimation') || (orderAmount === 298 || orderAmount === 347);
       const isAddon2 = addonStr.includes('Practical Vastu Shastra Guide') || (orderAmount === 248 || orderAmount === 347);
+      const isAddon3 = addonStr.includes('Bill-of-Quantities Excel Version') || (orderAmount === 446);
 
       let names = ['Construction Estimation Master Toolkit™'];
       if (isAddon1) names.push('Master Construction Estimation');
       if (isAddon2) names.push('Practical Vastu Shastra Guide');
+      if (isAddon3) names.push('Bill-of-Quantities Excel Version');
       const planLabel = names.join(' + ');
 
       let downloadSectionsHtml = `
@@ -171,6 +173,19 @@ export default async function handler(req, res) {
             <div style="text-align: center;">
               <a href="${addon1DriveLink}" target="_blank" style="background: #10B981; color: #fff; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block;">
                 Access Master Construction Estimation →
+              </a>
+            </div>
+          </div>
+        `;
+      }
+      if (isAddon3) {
+        downloadSectionsHtml += `
+          <div style="background: #064e3b; padding: 20px; border-radius: 10px; margin: 20px 0; border: 1px solid #059669;">
+            <h3 style="color: #34d399; margin-top: 0; font-size: 16px;">⚡ Your Bill-of-Quantities Excel Version</h3>
+            <p style="color: #d1d5db; font-size: 13px; margin-bottom: 18px; line-height: 1.5;">Click below to access your bonus BOQ Excel Template:</p>
+            <div style="text-align: center;">
+              <a href="#" target="_blank" style="background: #10B981; color: #fff; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 8px; display: inline-block;">
+                Access BOQ Excel File →
               </a>
             </div>
           </div>

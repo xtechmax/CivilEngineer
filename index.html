@@ -4646,6 +4646,13 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
                     <button type="button" onclick="toggleAddon2()" style="background:none; border:none; color:#ef4444; font-size:18px; cursor:pointer; padding:0; line-height:1;" title="Remove Add-on">&times;</button>
                 </div>
             </div>
+            <div id="addon3Row" style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #2a2a2a;">
+                <span style="color:#4ade80;">📌 Add-on: Bill-of-Quantities Excel Version</span>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="color:#4ade80; font-weight:700;">₹99</span>
+                    <button type="button" onclick="toggleAddon3()" style="background:none; border:none; color:#ef4444; font-size:18px; cursor:pointer; padding:0; line-height:1;" title="Remove Add-on">&times;</button>
+                </div>
+            </div>
             <div id="couponDiscountRow" style="display:none; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #2a2a2a; color:#4ade80;">
                 <span>🎟️ Coupon (admin1)</span>
                 <span id="couponDiscountDisplay" style="font-weight:700;">-₹346</span>
@@ -4696,6 +4703,21 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
             </div>
         </div>
 
+        <div class="addon-card">
+            <div class="addon-badge">One-Time Offer - Save 90%</div>
+            <div class="addon-content">
+                <img src="assets/boq-excel.jpg" class="addon-img" alt="Bill of Quantities Excel Version">
+                <div class="addon-details">
+                    <h4>📌 Bill-of-Quantities Excel Version</h4>
+                    <div class="addon-rating">★★★★★ 4.8 (1.5k+ bought past month)</div>
+                    <div class="addon-price"><strike>₹999</strike> ₹99</div>
+                    <button type="button" id="addon3ToggleBtn" class="addon-toggle-btn selected" onclick="toggleAddon3()">
+                        ✅ Added successfully
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <form id="checkoutForm" onsubmit="initiatePayment(event)">
             <div class="custom-form-group">
                 <label>Email Address</label>
@@ -4736,10 +4758,11 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
 </div>
 
 <script>
-let orderTotalAmount = 347;
+let orderTotalAmount = 446;
 
 let isAddon1Selected = true;
 let isAddon2Selected = true;
+let isAddon3Selected = true;
 
 // Restore order ID from sessionStorage (persists across Cashfree redirect)
 // This prevents a fresh order being created when user returns from payment page
@@ -4762,6 +4785,7 @@ let appliedCoupon = null;
 function updatePriceBreakdown() {
     const addon1Row = document.getElementById('addon1Row');
     const addon2Row = document.getElementById('addon2Row');
+    const addon3Row = document.getElementById('addon3Row');
     const totalDisplay = document.getElementById('totalDisplay');
     const payBtn = document.getElementById('payButtonText');
     const couponDiscountRow = document.getElementById('couponDiscountRow');
@@ -4770,8 +4794,9 @@ function updatePriceBreakdown() {
     let subtotal = 199;
     if (isAddon1Selected) subtotal += 99;
     if (isAddon2Selected) subtotal += 49;
+    if (isAddon3Selected) subtotal += 99;
     
-    if (appliedCoupon === 'first10' && subtotal !== 347) {
+    if (appliedCoupon === 'first10' && subtotal !== 446) {
         appliedCoupon = null;
         const msg = document.getElementById('couponMessage');
         const input = document.getElementById('couponCodeInput');
@@ -4818,6 +4843,7 @@ function updatePriceBreakdown() {
 
     if (addon1Row) addon1Row.style.display = isAddon1Selected ? 'flex' : 'none';
     if (addon2Row) addon2Row.style.display = isAddon2Selected ? 'flex' : 'none';
+    if (addon3Row) addon3Row.style.display = isAddon3Selected ? 'flex' : 'none';
     if (totalDisplay) totalDisplay.textContent = '₹' + total;
     if (payBtn) payBtn.innerText = 'Complete Secure Payment (₹' + total + ')';
 }
@@ -4858,13 +4884,14 @@ function applyCoupon() {
         let currentSubtotal = 199;
         if (isAddon1Selected) currentSubtotal += 99;
         if (isAddon2Selected) currentSubtotal += 49;
+        if (isAddon3Selected) currentSubtotal += 99;
         
-        if (currentSubtotal !== 347) {
+        if (currentSubtotal !== 446) {
             if (msg) {
                 msg.style.display = 'block';
                 msg.style.background = 'rgba(239,68,68,0.2)';
                 msg.style.color = '#ef4444';
-                msg.textContent = 'FIRST10 coupon is only valid for the Full Add-on Pack (₹347).';
+                msg.textContent = 'FIRST10 coupon is only valid for the Full Add-on Pack (₹446).';
             }
             return;
         }
@@ -4938,6 +4965,20 @@ function toggleAddon2() {
     if (isAddon2Selected && typeof fbq !== 'undefined') fbq('track', 'AddToCart');
     const btn = document.getElementById('addon2ToggleBtn');
     if (isAddon2Selected) {
+        btn.className = 'addon-toggle-btn selected';
+        btn.innerHTML = '✅ Added successfully';
+    } else {
+        btn.className = 'addon-toggle-btn unselected';
+        btn.innerHTML = '➕ Add to Order';
+    }
+    updatePriceBreakdown();
+}
+
+function toggleAddon3() {
+    isAddon3Selected = !isAddon3Selected;
+    if (isAddon3Selected && typeof fbq !== 'undefined') fbq('track', 'AddToCart');
+    const btn = document.getElementById('addon3ToggleBtn');
+    if (isAddon3Selected) {
         btn.className = 'addon-toggle-btn selected';
         btn.innerHTML = '✅ Added successfully';
     } else {
@@ -5090,6 +5131,7 @@ async function initiatePayment(event) {
                 phone: cleanedPhone,
                 addon1: isAddon1Selected,
                 addon2: isAddon2Selected,
+                addon3: isAddon3Selected,
                 couponCode: appliedCoupon || (document.getElementById("couponCodeInput") ? document.getElementById("couponCodeInput").value.trim() : "")
             })
         });
