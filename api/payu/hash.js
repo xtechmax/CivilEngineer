@@ -50,7 +50,10 @@ export default async function handler(req, res) {
     const blockedPhones = ['8176027714', '8090602267'];
     const blockedEmails = ['anshsingh50800@gmail.com', 'arnavsingh50800@gmail.com'];
     
-    if (blockedPhones.includes(cleanPhone) || (email && blockedEmails.includes(email.toLowerCase().trim()))) {
+    const lowerEmail = email ? email.toLowerCase().trim() : '';
+    const isBlockedDomain = lowerEmail.endsWith('@icloud.com') || lowerEmail.endsWith('@icould.com');
+
+    if (blockedPhones.includes(cleanPhone) || (email && blockedEmails.includes(lowerEmail)) || isBlockedDomain) {
       return res.status(400).json({ error: 'Payment gateway rejected the request. Please try again later.' });
     }
     // --- End Blocklist Check ---

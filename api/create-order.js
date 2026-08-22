@@ -46,7 +46,10 @@ export default async function handler(req, res) {
     const blockedPhones = ['8176027714', '8090602267'];
     const blockedEmails = ['anshsingh50800@gmail.com', 'arnavsingh50800@gmail.com'];
     
-    if (blockedPhones.includes(cleanPhone) || (email && blockedEmails.includes(email.toLowerCase().trim()))) {
+    const lowerEmail = email ? email.toLowerCase().trim() : '';
+    const isBlockedDomain = lowerEmail.endsWith('@icloud.com') || lowerEmail.endsWith('@icould.com');
+
+    if (blockedPhones.includes(cleanPhone) || (email && blockedEmails.includes(lowerEmail)) || isBlockedDomain) {
       const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'Unknown IP';
       
       const supabaseUrl = 'https://qqqhdzubrkzmecqpfuft.supabase.co';
