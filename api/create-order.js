@@ -20,8 +20,10 @@ export default async function handler(req, res) {
     if (isAdminValid) {
       amount = 1.00;
     } else {
-      amount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0) + (addon3 ? 99.00 : 0);
-      if (isFirst10Valid && Math.abs(amount - 446.00) < 0.01) {
+      amount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0);
+      let addon3Cost = (addon1 && addon2) ? 0 : 99.00;
+      if (addon3) amount += addon3Cost;
+      if (isFirst10Valid && Math.abs(amount - 347.00) < 0.01) {
         amount = amount * 0.90; // 10% discount
       }
       amount = parseFloat(amount.toFixed(2));
