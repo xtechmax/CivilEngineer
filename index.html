@@ -4626,7 +4626,58 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
         <span class="cashfree-close" onclick="closeModal()">&#x2715;</span>
         <h2>Complete Your Purchase</h2>
 
-        <!-- Price Breakdown -->
+
+        
+        <div class="addon-card">
+            <div class="addon-badge">One-Time Offer - Save 95%</div>
+            <div class="addon-content">
+                <img src="/assets/addon-book.jpg" class="addon-img" alt="Add-on Book">
+                <div class="addon-details">
+                    <h4>📌 Master Construction Estimation — BOQ, BBS, Rate Analysis & Billing</h4>
+                    <div class="addon-rating">★★★★★ 5.0 (2k+ bought past month)</div>
+                    <div class="addon-price"><strike>₹999</strike> ₹99</div>
+                    <button type="button" id="addon1ToggleBtn" class="addon-toggle-btn selected" onclick="toggleAddon1()">
+                        ✅ Added successfully
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="addon-card">
+            <div class="addon-badge">One-Time Offer - Save 95%</div>
+            <div class="addon-content">
+                <img src="assets/book-blue-vastu.jpg" class="addon-img" alt="Practical Vastu Shastra Guide">
+                <div class="addon-details">
+                    <h4>📌 Practical Vastu Shastra Guide — Complete Mastery</h4>
+                    <div class="addon-rating">★★★★★ 4.9 (3k+ bought past month)</div>
+                    <div class="addon-price"><strike>₹999</strike> ₹49</div>
+                    <button type="button" id="addon2ToggleBtn" class="addon-toggle-btn selected" onclick="toggleAddon2()">
+                        ✅ Added successfully
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="addon-card">
+            <div class="addon-badge">One-Time Offer - Save 90%</div>
+            <div class="addon-content">
+                <img src="assets/boq-excel.jpg" class="addon-img" alt="Bill of Quantities Excel Version">
+                <div class="addon-details">
+                    <h4>📌 Bill-of-Quantities Excel Version</h4>
+                    <div class="addon-rating">★★★★★ 4.8 (1.5k+ bought past month)</div>
+                    <div class="addon-price"><strike>₹999</strike> <span id="addon3PriceLabel">₹99</span></div>
+                    <div id="addon3ProgressBarContainer" style="margin-bottom: 10px; background: #333; border-radius: 4px; height: 8px; overflow: hidden; max-width: 80%;">
+                        <div id="addon3ProgressBar" style="width: 100%; height: 100%; background: #4ade80; transition: width 0.3s;"></div>
+                    </div>
+                    <div id="addon3ProgressText" style="font-size: 11px; color: #aaa; margin-bottom: 8px;">Unlocked! This add-on is now FREE.</div>
+                    <button type="button" id="addon3ToggleBtn" class="addon-toggle-btn selected" onclick="toggleAddon3()">
+                        ✅ Added successfully
+                    </button>
+                </div>
+            </div>
+        </div>
+
+                <!-- Price Breakdown -->
         <div id="priceBreakdown" style="background:#1a1a1a; border-radius:8px; padding:14px 16px; margin-bottom:18px; font-size:13px;">
             <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #2a2a2a;">
                 <span style="color:#ccc;">📘 Construction Master Bundle (4-in-1)</span>
@@ -4671,55 +4722,6 @@ src="https://www.facebook.com/tr?id=1032162379606085&ev=PageView&noscript=1"
                 <button type="button" id="applyCouponBtn" onclick="applyCoupon()" style="padding:10px 16px; background:#333; color:#fff; border:1px solid #555; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer; transition:background 0.2s;">Apply</button>
             </div>
             <div id="couponMessage" style="display:none; font-size:12px; margin-top:6px; padding:4px 8px; border-radius:4px;"></div>
-        </div>
-        
-        <div class="addon-card">
-            <div class="addon-badge">One-Time Offer - Save 95%</div>
-            <div class="addon-content">
-                <img src="/assets/addon-book.jpg" class="addon-img" alt="Add-on Book">
-                <div class="addon-details">
-                    <h4>📌 Master Construction Estimation — BOQ, BBS, Rate Analysis & Billing</h4>
-                    <div class="addon-rating">★★★★★ 5.0 (2k+ bought past month)</div>
-                    <div class="addon-price"><strike>₹999</strike> <span id="addon3PriceLabel">₹99</span></div>
-                    <div id="addon3ProgressBarContainer" style="margin-bottom: 10px; background: #333; border-radius: 4px; height: 8px; overflow: hidden; max-width: 80%;">
-                        <div id="addon3ProgressBar" style="width: 100%; height: 100%; background: #4ade80; transition: width 0.3s;"></div>
-                    </div>
-                    <div id="addon3ProgressText" style="font-size: 11px; color: #aaa; margin-bottom: 8px;">Unlocked! This add-on is now FREE.</div>
-                    <button type="button" id="addon1ToggleBtn" class="addon-toggle-btn selected" onclick="toggleAddon1()">
-                        ✅ Added successfully
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="addon-card">
-            <div class="addon-badge">One-Time Offer - Save 95%</div>
-            <div class="addon-content">
-                <img src="assets/book-blue-vastu.jpg" class="addon-img" alt="Practical Vastu Shastra Guide">
-                <div class="addon-details">
-                    <h4>📌 Practical Vastu Shastra Guide — Complete Mastery</h4>
-                    <div class="addon-rating">★★★★★ 4.9 (3k+ bought past month)</div>
-                    <div class="addon-price"><strike>₹999</strike> ₹49</div>
-                    <button type="button" id="addon2ToggleBtn" class="addon-toggle-btn selected" onclick="toggleAddon2()">
-                        ✅ Added successfully
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="addon-card">
-            <div class="addon-badge">One-Time Offer - Save 90%</div>
-            <div class="addon-content">
-                <img src="assets/boq-excel.jpg" class="addon-img" alt="Bill of Quantities Excel Version">
-                <div class="addon-details">
-                    <h4>📌 Bill-of-Quantities Excel Version</h4>
-                    <div class="addon-rating">★★★★★ 4.8 (1.5k+ bought past month)</div>
-                    <div class="addon-price"><strike>₹999</strike> ₹99</div>
-                    <button type="button" id="addon3ToggleBtn" class="addon-toggle-btn selected" onclick="toggleAddon3()">
-                        ✅ Added successfully
-                    </button>
-                </div>
-            </div>
         </div>
 
         <form id="checkoutForm" onsubmit="initiatePayment(event)">
