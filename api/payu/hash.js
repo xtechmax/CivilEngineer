@@ -22,15 +22,21 @@ export default async function handler(req, res) {
 
     // Secure server-side amount calculation
     const normalizedCoupon = typeof couponCode === 'string' ? couponCode.trim().toLowerCase() : '';
+    const lowerEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+    const isAdminValid = (normalizedCoupon === 'admin1' && lowerEmail === 'zulak.ns@gmail.com');
     const isFirst10Valid = normalizedCoupon === 'first10';
     let amount;
-    let baseAmount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0);
-    let addon3Cost = (addon1 && addon2) ? 0 : 99.00;
-    if (addon3) baseAmount += addon3Cost;
-    if (isFirst10Valid && Math.abs(baseAmount - 347.00) < 0.01) {
-      baseAmount = baseAmount * 0.90; // 10% discount
+    if (isAdminValid) {
+      amount = '1.00';
+    } else {
+      let baseAmount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0);
+      let addon3Cost = (addon1 && addon2) ? 0 : 99.00;
+      if (addon3) baseAmount += addon3Cost;
+      if (isFirst10Valid && Math.abs(baseAmount - 347.00) < 0.01) {
+        baseAmount = baseAmount * 0.90; // 10% discount
+      }
+      amount = baseAmount.toFixed(2);
     }
-    amount = baseAmount.toFixed(2);
     const txnid = 'TXN_' + Date.now() + '_' + Math.floor(1000 + Math.random() * 9000);
     const productinfo = 'Construction Estimation Master Toolkit';
     const firstname = (name || (email ? email.split('@')[0] : 'Customer')).replace(/[^a-zA-Z0-9]/g, '').trim() || 'Customer';

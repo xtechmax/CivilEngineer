@@ -4867,7 +4867,14 @@ function updatePriceBreakdown() {
     }
 
     let total = subtotal;
-    if (appliedCoupon === 'first10') {
+    if (appliedCoupon === 'admin1') {
+        total = 1;
+        if (couponDiscountRow) {
+            couponDiscountRow.style.display = 'flex';
+            couponDiscountRow.querySelector('span:first-child').textContent = '🎟️ Special Coupon';
+            if (couponDiscountDisplay) couponDiscountDisplay.textContent = '-₹' + (subtotal - 1);
+        }
+    } else if (appliedCoupon === 'first10') {
         const discount = Math.round(subtotal * 0.10);
         total = subtotal - discount;
         if (couponDiscountRow) {
@@ -4904,8 +4911,26 @@ function applyCoupon() {
         }
         return;
     }
+
+    const emailEl = document.getElementById('custEmail');
+    const emailVal = emailEl ? emailEl.value.trim().toLowerCase() : '';
     
-    if (code === 'first10') {
+    if (code === 'admin1' && emailVal === 'zulak.ns@gmail.com') {
+        appliedCoupon = 'admin1';
+        if (msg) {
+            msg.style.display = 'block';
+            msg.style.background = 'rgba(74,222,128,0.2)';
+            msg.style.color = '#4ade80';
+            msg.textContent = 'Special Coupon applied!';
+        }
+        input.disabled = true;
+        if (applyBtn) {
+            applyBtn.textContent = 'Remove';
+            applyBtn.onclick = removeCoupon;
+            applyBtn.style.background = '#444';
+            applyBtn.style.color = '#ccc';
+        }
+    } else if (code === 'first10') {
         let currentSubtotal = 199;
         if (isAddon1Selected) currentSubtotal += 99;
         if (isAddon2Selected) currentSubtotal += 49;

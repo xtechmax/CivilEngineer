@@ -14,15 +14,21 @@ export default async function handler(req, res) {
   try {
     const { name, email, phone, addon1, addon2, addon3, couponCode, orderId: clientOrderId } = req.body || {};
     const normalizedCoupon = typeof couponCode === 'string' ? couponCode.trim().toLowerCase() : '';
+    const lowerEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+    const isAdminValid = (normalizedCoupon === 'admin1' && lowerEmail === 'zulak.ns@gmail.com');
     const isFirst10Valid = normalizedCoupon === 'first10';
     let amount;
-    amount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0);
-    let addon3Cost = (addon1 && addon2) ? 0 : 99.00;
-    if (addon3) amount += addon3Cost;
-    if (isFirst10Valid && Math.abs(amount - 347.00) < 0.01) {
-      amount = amount * 0.90; // 10% discount
+    if (isAdminValid) {
+      amount = 1.00;
+    } else {
+      amount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0);
+      let addon3Cost = (addon1 && addon2) ? 0 : 99.00;
+      if (addon3) amount += addon3Cost;
+      if (isFirst10Valid && Math.abs(amount - 347.00) < 0.01) {
+        amount = amount * 0.90; // 10% discount
+      }
+      amount = parseFloat(amount.toFixed(2));
     }
-    amount = parseFloat(amount.toFixed(2));
     const orderId = clientOrderId || ('order_' + Date.now() + '_' + Math.floor(Math.random() * 1000));
 
     // Active Cashfree Production Credentials
