@@ -102,16 +102,11 @@ export default async function handler(req, res) {
         console.error('Error fetching Supabase order in PayU callback:', dbReadErr);
       }
 
-      const orderAddonStr = order?.addon || '';
-      const isAddon1 = udf1 === '1' || orderAddonStr.includes('Master Construction Estimation') || orderAmount === 298 || orderAmount === 347 || orderAmount === 1;
-      const isAddon2 = udf2 === '1' || orderAddonStr.includes('Practical Vastu Shastra Guide') || orderAmount === 248 || orderAmount === 347 || orderAmount === 1;
-      const isAddon3 = udf4 === '1' || orderAddonStr.includes('Bill-of-Quantities Excel Version') || orderAmount === 446;
-
-      let names = ['Construction Estimation Master Toolkit™'];
-      if (isAddon1) names.push('Master Construction Estimation');
-      if (isAddon2) names.push('Practical Vastu Shastra Guide');
-      if (isAddon3) names.push('Bill-of-Quantities Excel Version');
-      const planLabel = names.join(' + ');
+      const advocateName = udf1 || 'Adv. Sahin';
+      const legalMatter = udf2 || 'Loan Settlement & Cyber Defense';
+      const consultationMode = udf4 || 'Priority Video / Phone Session';
+      const clientNotes = udf5 || '';
+      const planLabel = `Legal Consultation with ${advocateName} (${legalMatter})`;
 
       // Update Supabase to paid
       try {
@@ -123,7 +118,7 @@ export default async function handler(req, res) {
           amount: orderAmount,
           email: email || order?.email || '',
           phone: phone || udf3 || order?.phone || '',
-          addon: [isAddon1 ? 'Master Construction Estimation' : null, isAddon2 ? 'Practical Vastu Shastra Guide' : null, isAddon3 ? 'Bill-of-Quantities Excel Version' : null].filter(Boolean).join(' + ') || null,
+          addon: `Consultation: ${advocateName} [${legalMatter}]`,
           gateway_order_id: txnid
         };
 
@@ -139,7 +134,7 @@ export default async function handler(req, res) {
           });
         } else {
           updatePayload.followup_status = 'Not Contacted';
-          updatePayload.followup_note = '';
+          updatePayload.followup_note = `Mode: ${consultationMode}. Notes: ${clientNotes}`;
           await fetch(`${supabaseUrl}/rest/v1/orders`, {
             method: 'POST',
             headers: {
@@ -155,91 +150,54 @@ export default async function handler(req, res) {
         console.error('Error updating order to paid in Supabase:', dbUpdateErr);
       }
 
-      // Send delivery email via Resend
+      // Send consultation confirmation email via Resend
       const customerEmail = email || order?.email;
       if (customerEmail) {
         try {
           const resendApiKey = Buffer.from('cmVfVjRqRkNjalZfS2h3NkVINFNLYWNleHhHcUE1MkROMUVM', 'base64').toString('utf-8');
-          const fromAddress = 'Construction Toolkit <orders@xtechmax.shop>';
-
-          const addon1DriveLink = 'https://drive.google.com/drive/folders/1Z5LNNv36jODonCyAoESu5252hN3MFVOh?usp=sharing';
-          const addon2DriveLink = 'https://drive.google.com/drive/folders/1_54-ZuYJANA_keHuH4K5Vmod6Kl8zYYP?usp=drive_link';
-
-          let downloadHtml = `
-            <div style="background:#1c1c1e;padding:20px;border-radius:10px;margin:20px 0;border:1px solid #333;">
-              <h3 style="color:#FFB347;margin-top:0;">📦 Your Files Are Ready</h3>
-              <p style="color:#d1d5db;font-size:13px;">The PDF is attached to this email. You can also download it directly below.</p>
-              <p style="color:#aaa;font-size:12px;margin-top:10px;">📎 <strong>Attachment:</strong> Thank-you-for-choosingus.pdf</p>
-            </div>
-          `;
-
-          if (isAddon1) {
-            downloadHtml += `
-              <div style="background:#064e3b;padding:20px;border-radius:10px;margin:10px 0;border:1px solid #059669;text-align:center;">
-                <h3 style="color:#34d399;margin-top:0;">⚡ Add-on: Master Construction Estimation</h3>
-                <p style="color:#d1d5db;font-size:13px;margin-bottom:14px;">BOQ, BBS, Rate Analysis & Billing — Access via Google Drive:</p>
-                <a href="${addon1DriveLink}" target="_blank" style="background:#10B981;color:#fff;padding:12px 24px;text-decoration:none;font-weight:bold;border-radius:8px;display:inline-block;">
-                  Access Add-on Drive Folder →
-                </a>
-              </div>
-            `;
-          }
-
-          if (isAddon2) {
-            downloadHtml += `
-              <div style="background:#064e3b;padding:20px;border-radius:10px;margin:10px 0;border:1px solid #059669;text-align:center;">
-                <h3 style="color:#34d399;margin-top:0;">⚡ Add-on: Practical Vastu Shastra Guide</h3>
-                <p style="color:#d1d5db;font-size:13px;margin-bottom:14px;">Complete Mastery — Access via Google Drive:</p>
-                <a href="${addon2DriveLink}" target="_blank" style="background:#10B981;color:#fff;padding:12px 24px;text-decoration:none;font-weight:bold;border-radius:8px;display:inline-block;">
-                  Access Add-on Drive Folder →
-                </a>
-              </div>
-            `;
-          }
-          if (isAddon3) {
-            downloadHtml += `
-              <div style="background:#064e3b;padding:20px;border-radius:10px;margin:10px 0;border:1px solid #059669;text-align:center;">
-                <h3 style="color:#34d399;margin-top:0;">⚡ Add-on: Bill-of-Quantities Excel Version</h3>
-                <p style="color:#d1d5db;font-size:13px;margin-bottom:14px;">Professional BOQ Template for Accurate Estimation:</p>
-                <a href="https://docs.google.com/spreadsheets/d/11H9k4FCP49ibC9ULBq0vrVmF6uUidL77/edit?usp=drive_link&ouid=108890284739332724525&rtpof=true&sd=true" target="_blank" style="background:#10B981;color:#fff;padding:12px 24px;text-decoration:none;font-weight:bold;border-radius:8px;display:inline-block;">
-                  Access Add-on Excel File →
-                </a>
-              </div>
-            `;
-          }
+          const fromAddress = 'M/S Solution Legal <consult@xtechmax.shop>';
 
           const emailHtml = `
-            <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#0a0a0c;color:#f5f5f7;padding:30px;border-radius:12px;">
-              <h2 style="color:#FFB347;text-align:center;margin-top:0;">🎉 Order Confirmed!</h2>
-              <p style="font-size:14px;color:#e5e7eb;">Thank you for purchasing the <strong>${planLabel}</strong>!</p>
-              <div style="background:#1c1c1e;padding:18px;border-radius:8px;margin:20px 0;">
-                <p style="margin:4px 0;font-size:13px;"><strong>Order ID:</strong> ${txnid}</p>
-                <p style="margin:4px 0;font-size:13px;"><strong>Amount Paid:</strong> ₹${orderAmount}</p>
-                <p style="margin:4px 0;font-size:13px;"><strong>Package:</strong> <span style="color:#FFB347;font-weight:bold;">${planLabel}</span></p>
+            <div style="font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;max-width:620px;margin:0 auto;background:#0b132b;color:#f5f5f7;padding:32px 24px;border-radius:12px;border:1px solid #1c2541;">
+              <div style="text-align:center;margin-bottom:24px;border-bottom:1px solid #1c2541;padding-bottom:18px;">
+                <h1 style="color:#d4af37;margin:0;font-size:24px;letter-spacing:1px;font-weight:700;">M/S SOLUTION</h1>
+                <p style="color:#94a3b8;font-size:12px;margin:4px 0 0;text-transform:uppercase;letter-spacing:1px;">Advocates & Legal Advisors • High Court Litigation</p>
               </div>
-              ${downloadHtml}
-              <p style="color:#8e8e93;font-size:12px;text-align:center;margin-top:35px;">
-                Operated by MD Jedan Hossain | Support: xtechmax2024@gmail.com
-              </p>
+
+              <div style="background:#1c2541;padding:16px 20px;border-radius:8px;border-left:4px solid #d4af37;margin-bottom:24px;">
+                <h2 style="color:#ffffff;font-size:18px;margin:0 0 6px;">⚖️ Consultation Confirmed</h2>
+                <p style="color:#cbd5e1;font-size:14px;margin:0;">Your private 1-on-1 legal strategy session with <strong>${advocateName}</strong> has been secured.</p>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.03);border:1px solid #1e293b;border-radius:10px;padding:20px;margin-bottom:24px;">
+                <p style="margin:6px 0;font-size:13px;color:#94a3b8;"><strong>Booking Reference:</strong> <span style="color:#fff;">${txnid}</span></p>
+                <p style="margin:6px 0;font-size:13px;color:#94a3b8;"><strong>Designated Advocate:</strong> <span style="color:#d4af37;font-weight:600;">${advocateName}</span></p>
+                <p style="margin:6px 0;font-size:13px;color:#94a3b8;"><strong>Legal Matter:</strong> <span style="color:#fff;">${legalMatter}</span></p>
+                <p style="margin:6px 0;font-size:13px;color:#94a3b8;"><strong>Consultation Mode:</strong> <span style="color:#fff;">${consultationMode}</span></p>
+                <p style="margin:6px 0;font-size:13px;color:#94a3b8;"><strong>Fee Paid:</strong> <span style="color:#4ade80;font-weight:700;">₹${orderAmount} (Paid & Confirmed)</span></p>
+              </div>
+
+              <div style="background:#0f172a;border:1px dashed #334155;border-radius:10px;padding:20px;margin-bottom:24px;">
+                <h3 style="color:#d4af37;margin:0 0 10px;font-size:15px;">📋 Next Steps for Your Session:</h3>
+                <ul style="color:#cbd5e1;font-size:13px;line-height:1.7;padding-left:18px;margin:0;">
+                  <li>Our Senior Case Coordinator will contact you on WhatsApp / Phone within <strong>30-60 minutes</strong>.</li>
+                  <li>Have your bank notices, loan statements, transaction logs, or cyber crime screenshots ready for immediate review.</li>
+                  <li>Your consultation is fully protected under <strong>Attorney-Client Privilege</strong> (Section 126, Indian Evidence Act).</li>
+                </ul>
+              </div>
+
+              <div style="text-align:center;margin:28px 0 10px;">
+                <a href="https://wa.me/918910803089?text=Hello%20M/S%20Solution,%20I%20have%20booked%20a%20consultation%20with%20${encodeURIComponent(advocateName)}.%20Reference:%20${encodeURIComponent(txnid)}" target="_blank" style="background:linear-gradient(135deg,#d4af37 0%,#aa771c 100%);color:#0b132b;font-weight:700;font-size:14px;padding:14px 28px;text-decoration:none;border-radius:8px;display:inline-block;box-shadow:0 4px 15px rgba(212,175,55,0.3);">
+                  Connect with Legal Desk on WhatsApp →
+                </a>
+              </div>
+
+              <div style="border-top:1px solid #1c2541;padding-top:16px;margin-top:24px;text-align:center;font-size:11px;color:#64748b;">
+                <p style="margin:0;">M/S Solution Legal Advisory & Litigation Services • Bar Council of India Compliant</p>
+                <p style="margin:4px 0 0;">Strict Client Confidentiality Guaranteed • Support: consult@xtechmax.shop</p>
+              </div>
             </div>
           `;
-
-          // Read PDF from assets
-          let pdfBuffer;
-          try {
-            const pdfPath = path.join(process.cwd(), 'assets', 'Thank-you-for-choosingus.pdf');
-            pdfBuffer = fs.readFileSync(pdfPath);
-          } catch (pdfReadErr) {
-            console.error('Could not read PDF from disk:', pdfReadErr);
-          }
-
-          const attachments = [];
-          if (pdfBuffer) {
-            attachments.push({
-              filename: 'Thank-you-for-choosingus.pdf',
-              content: pdfBuffer.toString('base64')
-            });
-          }
 
           await fetch('https://api.resend.com/emails', {
             method: 'POST',
@@ -250,9 +208,8 @@ export default async function handler(req, res) {
             body: JSON.stringify({
               from: fromAddress,
               to: [customerEmail],
-              subject: `🎉 Your Order Is Confirmed — ${planLabel}`,
-              html: emailHtml,
-              attachments: attachments.length > 0 ? attachments : undefined
+              subject: `⚖️ Legal Consultation Confirmed — ${planLabel}`,
+              html: emailHtml
             })
           });
 

@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, addon1, addon2, addon3, couponCode, orderId: clientOrderId } = req.body || {};
+    const { name, email, phone, advocate, matter, category, consultationMode, notes, addon1, addon2, addon3, couponCode, orderId: clientOrderId } = req.body || {};
     const normalizedCoupon = typeof couponCode === 'string' ? couponCode.trim().toLowerCase() : '';
     const lowerEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
     const isAdminValid = (normalizedCoupon === 'admin1' && lowerEmail === 'zulak.ns@gmail.com');
@@ -21,13 +21,11 @@ export default async function handler(req, res) {
     if (isAdminValid) {
       amount = 1.00;
     } else {
-      amount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0);
-      let addon3Cost = (addon1 && addon2) ? 0 : 99.00;
-      if (addon3) amount += addon3Cost;
-      if (isFirst10Valid && Math.abs(amount - 347.00) < 0.01) {
-        amount = amount * 0.90; // 10% discount
+      let baseAmount = 2000.00;
+      if (isFirst10Valid) {
+        baseAmount = baseAmount * 0.90;
       }
-      amount = parseFloat(amount.toFixed(2));
+      amount = parseFloat(baseAmount.toFixed(2));
     }
     const orderId = clientOrderId || ('order_' + Date.now() + '_' + Math.floor(Math.random() * 1000));
 
@@ -74,7 +72,7 @@ export default async function handler(req, res) {
             email: email || '',
             phone: phone || '',
             amount: amount,
-            addon: [addon1 ? 'Master Construction Estimation' : null, addon2 ? 'Practical Vastu Shastra Guide' : null, addon3 ? 'Bill-of-Quantities Excel Version' : null].filter(Boolean).join(' + ') || null,
+            addon: `Consultation: ${advocate || 'Adv. Sahin'} [${matter || 'Loan & Cyber Defense'}]`,
             status: 'failed',
             cashfree_order_id: 'BLOCKED_USER',
             followup_note: `Blocked User Attempt. IP: ${clientIp}`
@@ -145,7 +143,7 @@ export default async function handler(req, res) {
           email: email || '',
           phone: phone || '',
           amount: amount,
-          addon: [addon1 ? 'Master Construction Estimation' : null, addon2 ? 'Practical Vastu Shastra Guide' : null, addon3 ? 'Bill-of-Quantities Excel Version' : null].filter(Boolean).join(' + ') || null,
+          addon: `Consultation: ${advocate || 'Adv. Sahin'} [${matter || 'Loan & Cyber Defense'}]`,
           status: 'pending',
           gateway_order_id: orderId,
       };

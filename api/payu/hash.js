@@ -14,13 +14,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, addon1, addon2, addon3, couponCode, orderId: clientOrderId } = req.body || {};
+    const { name, email, phone, advocate, matter, category, consultationMode, notes, addon1, addon2, addon3, couponCode, orderId: clientOrderId } = req.body || {};
     
     if (!email && !phone) {
       return res.status(400).json({ error: 'Email or phone number is required' });
     }
 
-    // Secure server-side amount calculation
+    // Secure server-side amount calculation for M/S Solution Legal Consultation
     const normalizedCoupon = typeof couponCode === 'string' ? couponCode.trim().toLowerCase() : '';
     const lowerEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
     const isAdminValid = (normalizedCoupon === 'admin1' && lowerEmail === 'zulak.ns@gmail.com');
@@ -29,17 +29,17 @@ export default async function handler(req, res) {
     if (isAdminValid) {
       amount = '1.00';
     } else {
-      let baseAmount = 199.00 + (addon1 ? 99.00 : 0) + (addon2 ? 49.00 : 0);
-      let addon3Cost = (addon1 && addon2) ? 0 : 99.00;
-      if (addon3) baseAmount += addon3Cost;
-      if (isFirst10Valid && Math.abs(baseAmount - 347.00) < 0.01) {
-        baseAmount = baseAmount * 0.90; // 10% discount
+      let baseAmount = 2000.00; // Consultation booking fee: Rs. 2000
+      if (isFirst10Valid) {
+        baseAmount = baseAmount * 0.90; // 10% discount -> Rs. 1800
       }
       amount = baseAmount.toFixed(2);
     }
-    const txnid = 'TXN_' + Date.now() + '_' + Math.floor(1000 + Math.random() * 9000);
-    const productinfo = 'Construction Estimation Master Toolkit';
-    const firstname = (name || (email ? email.split('@')[0] : 'Customer')).replace(/[^a-zA-Z0-9]/g, '').trim() || 'Customer';
+    const chosenAdvocate = advocate || 'Adv. Sahin';
+    const chosenMatter = matter || category || 'Loan Settlement & Cyber Defense';
+    const txnid = 'LEGAL_' + Date.now() + '_' + Math.floor(1000 + Math.random() * 9000);
+    const productinfo = `M/S Solution Consultation - ${chosenAdvocate}`;
+    const firstname = (name || (email ? email.split('@')[0] : 'Client')).replace(/[^a-zA-Z0-9]/g, '').trim() || 'Client';
 
     let cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
     if (cleanPhone.length > 10) {
@@ -73,12 +73,11 @@ export default async function handler(req, res) {
     const surl = `${baseUrl}/api/payu/callback`;
     const furl = `${baseUrl}/api/payu/callback`;
 
-    const udf1 = addon1 ? '1' : '0';
-    const udf2 = addon2 ? '1' : '0';
-    const udf4 = addon3 ? '1' : '0';
+    const udf1 = chosenAdvocate;
+    const udf2 = chosenMatter;
     const udf3 = cleanPhone;
-    
-    const udf5 = '';
+    const udf4 = (consultationMode || 'Video / Phone Call').slice(0, 50);
+    const udf5 = (notes || '').slice(0, 50);
 
     // Hash sequence: key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||salt
     const hashString = `${key}|${txnid}|${amount}|${productinfo}|${firstname}|${email || ''}|${udf1}|${udf2}|${udf3}|${udf4}|${udf5}||||||${salt}`;
@@ -103,7 +102,7 @@ export default async function handler(req, res) {
         email: email || '',
         phone: phone || cleanPhone,
         amount: parseFloat(amount),
-        addon: [addon1 ? 'Master Construction Estimation' : null, addon2 ? 'Practical Vastu Shastra Guide' : null, addon3 ? 'Bill-of-Quantities Excel Version' : null].filter(Boolean).join(' + ') || null,
+        addon: `Consultation: ${chosenAdvocate} (${chosenMatter})`,
         status: 'pending',
         gateway_order_id: txnid,
       };
