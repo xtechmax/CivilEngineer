@@ -1388,7 +1388,77 @@
             .mobile-bottom-bar { display: flex; }
             body { padding-bottom: 70px; }
         }
+    
+        /* Bengali Typography & Language Switcher Styles */
+        body.lang-bn {
+            font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif;
+        }
+        body.lang-bn h1, 
+        body.lang-bn h2, 
+        body.lang-bn h3, 
+        body.lang-bn h4,
+        body.lang-bn .serif-font {
+            font-family: 'Hind Siliguri', 'Cinzel', serif;
+            letter-spacing: 0;
+            font-weight: 700;
+        }
+
+        .lang-toggle-btn {
+            background: rgba(255, 255, 255, 0.08);
+            color: #f1f5f9;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 20px;
+            padding: 7px 15px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.2s ease;
+        }
+        .lang-toggle-btn:hover {
+            background: var(--accent-gold);
+            color: #081124;
+            border-color: #ffffff;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.45);
+        }
+
+        .top-bar-lang-btn {
+            background: rgba(212, 175, 55, 0.15);
+            color: #f5e7a9;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 4px;
+            padding: 3px 10px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.2s;
+        }
+        .top-bar-lang-btn:hover {
+            background: var(--accent-gold);
+            color: #081124;
+        }
+
+        .mobile-lang-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -1396,13 +1466,16 @@
     <div class="top-bar">
         <div class="top-bar-left">
             <span class="pulse-dot"></span>
-            <span>Emergency Legal Intake: Recovery Agent Harassment & Cyber Crime Helpline Active</span>
+            <span data-i18n="top_alert">Emergency Legal Intake: Recovery Agent Harassment & Cyber Crime Helpline Active</span>
         </div>
         <div class="top-bar-right">
+            <button onclick="toggleLanguage()" class="top-bar-lang-btn" title="Toggle Bengali / English">
+                <i class="fa-solid fa-language"></i> <span class="lang-label-btn">বাংলা</span>
+            </button>
             <a href="https://www.facebook.com/profile.php?id=100091653904443" target="_blank" style="color: #60a5fa; text-decoration: none; display: flex; align-items: center; gap: 6px; font-weight: 600;">
                 <i class="fa-brands fa-facebook" style="color:#1877f2; font-size:15px;"></i> 250K+ Facebook Community
             </a>
-            <span><i class="fa-solid fa-scale-balanced"></i> Bar Council Compliant</span>
+            <span><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="top_bar_council">Bar Council Compliant</span></span>
             <a href="tel:+918981730089"><i class="fa-solid fa-phone"></i> +91 89817 30089</a>
         </div>
     </div>
@@ -1419,19 +1492,24 @@
             </a>
 
             <nav class="nav-links">
-                <a href="#loan-settlement">Loan Settlement</a>
-                <a href="#cyber-matter">Cyber Matter</a>
-                <a href="#advocates">Senior Advocates</a>
-                <a href="#all-services">All Legal Services</a>
-                <a href="#process">Consultation Process</a>
-                <a href="#faqs">FAQs</a>
+                <a href="#loan-settlement" data-i18n="nav_loan">Loan Settlement</a>
+                <a href="#cyber-matter" data-i18n="nav_cyber">Cyber Matter</a>
+                <a href="#advocates" data-i18n="nav_advocates">Senior Advocates</a>
+                <a href="#all-services" data-i18n="nav_services">All Legal Services</a>
+                <a href="#process" data-i18n="nav_process">Consultation Process</a>
+                <a href="#faqs" data-i18n="nav_faqs">FAQs</a>
             </nav>
 
-            <div>
+            <div style="display:flex; align-items:center; gap:12px;">
+                <!-- Language Switcher Button -->
+                <button onclick="toggleLanguage()" class="lang-toggle-btn" title="Change Language / ভাষা পরিবর্তন করুন">
+                    <i class="fa-solid fa-globe"></i>
+                    <span class="lang-label-btn">বাংলা (Bengali)</span>
+                </button>
                 <!-- CC Light Sweep Button (Navbar) -->
                 <button class="cc-light-sweep-btn" onclick="openConsultationModal('Adv. Sahin', 'Loan Settlement & Anti-Harassment')">
                     <i class="fa-solid fa-calendar-check"></i>
-                    <span>Book Consultation — ₹2,000</span>
+                    <span data-i18n="nav_book_btn">Book Consultation — ₹2,000</span>
                 </button>
             </div>
         </div>
@@ -1441,23 +1519,23 @@
     <section class="hero-section">
         <div class="hero-container">
             <div class="hero-badge">
-                <i class="fa-solid fa-shield-halved"></i> High Court Litigators & Banking Dispute Specialists
+                <i class="fa-solid fa-shield-halved"></i> <span data-i18n="hero_badge">High Court Litigators & Banking Dispute Specialists</span>
             </div>
 
             <!-- 250K+ Facebook Social Proof Badge -->
             <div style="margin-bottom: 22px;">
                 <a href="https://www.facebook.com/profile.php?id=100091653904443" target="_blank" style="display:inline-flex; align-items:center; gap:10px; background:rgba(24, 119, 242, 0.16); border:1px solid rgba(24, 119, 242, 0.45); padding:8px 20px; border-radius:99px; text-decoration:none; transition:all 0.25s; box-shadow:0 4px 15px rgba(24,119,242,0.2);">
                     <i class="fa-brands fa-facebook" style="color:#1877f2; font-size:20px;"></i>
-                    <span style="font-size:13.5px; color:#ffffff; font-weight:600;">Trusted by over <strong style="color:#60a5fa;">250K+ Followers</strong> on Facebook</span>
-                    <span style="background:#1877f2; color:#ffffff; font-size:11px; font-weight:700; padding:3px 10px; border-radius:12px; margin-left:6px; letter-spacing:0.4px;">Follow Page &rarr;</span>
+                    <span style="font-size:13.5px; color:#ffffff; font-weight:600;"><span data-i18n="hero_fb_text">Trusted by over <strong style="color:#60a5fa;">250K+ Followers</strong> on Facebook</span></span>
+                    <span style="background:#1877f2; color:#ffffff; font-size:11px; font-weight:700; padding:3px 10px; border-radius:12px; margin-left:6px; letter-spacing:0.4px;"><span data-i18n="hero_fb_btn">Follow Page &rarr;</span></span>
                 </a>
             </div>
             
-            <h1 class="hero-title">
+            <h1 class="hero-title" data-i18n="hero_title">
                 Specialized Legal Defense for <span class="gold-highlight">Loan Settlement</span> & <span class="gold-highlight">Cyber Crime</span> Emergencies
             </h1>
             
-            <p class="hero-subtitle">
+            <p class="hero-subtitle" data-i18n="hero_subtitle">
                 At <strong>M/S Solution Advocates and Solicitors</strong>, we deliver uncompromising legal relief. Stop recovery agent harassment, settle unmanageable debts legally with 50%–75% waivers, and recover lost funds from cyber fraud. Consult senior advocates within hours.
             </p>
 
@@ -1465,12 +1543,12 @@
                 <!-- Signature CC Light Sweep Button (Hero Main) -->
                 <button class="cc-light-sweep-btn btn-lg" onclick="openConsultationModal('Adv. Sahin', 'Loan Settlement & Anti-Harassment')">
                     <i class="fa-solid fa-gavel"></i>
-                    <span>Book Consultation Now — ₹2,000</span>
+                    <span data-i18n="hero_book_btn">Book Consultation Now — ₹2,000</span>
                 </button>
 
                 <a href="https://wa.me/918981730089?text=Hello%20M/S%20Solution%20Advocates%20and%20Solicitors,%20I%20need%20urgent%20legal%20help." target="_blank" class="hero-secondary-btn">
                     <i class="fa-brands fa-whatsapp" style="color: #25d366; font-size: 18px;"></i>
-                    <span>Emergency WhatsApp Desk</span>
+                    <span data-i18n="hero_wa_btn">Emergency WhatsApp Desk</span>
                 </a>
             </div>
 
@@ -1479,29 +1557,29 @@
                 <div class="trust-card">
                     <i class="fa-solid fa-user-shield"></i>
                     <div>
-                        <h4>Attorney Privilege</h4>
-                        <p>100% Confidential under Sec 126 Evidence Act</p>
+                        <h4 data-i18n="trust_1_t">Attorney Privilege</h4>
+                        <p data-i18n="trust_1_d">100% Confidential under Sec 126 Evidence Act</p>
                     </div>
                 </div>
                 <div class="trust-card">
                     <i class="fa-solid fa-ban"></i>
                     <div>
-                        <h4>Anti-Harassment Shield</h4>
-                        <p>RBI compliance notices to stop agent abuse</p>
+                        <h4 data-i18n="trust_2_t">Anti-Harassment Shield</h4>
+                        <p data-i18n="trust_2_d">RBI compliance notices to stop agent abuse</p>
                     </div>
                 </div>
                 <div class="trust-card">
                     <i class="fa-solid fa-laptop-code"></i>
                     <div>
-                        <h4>Cyber Crime Unit</h4>
-                        <p>Account unfreezing & fund recovery petitions</p>
+                        <h4 data-i18n="trust_3_t">Cyber Crime Unit</h4>
+                        <p data-i18n="trust_3_d">Account unfreezing & fund recovery petitions</p>
                     </div>
                 </div>
                 <div class="trust-card">
                     <i class="fa-solid fa-handshake"></i>
                     <div>
-                        <h4>Strategic OTS</h4>
-                        <p>Legal settlement saving 50%–75% of debt</p>
+                        <h4 data-i18n="trust_4_t">Strategic OTS</h4>
+                        <p data-i18n="trust_4_d">Legal settlement saving 50%–75% of debt</p>
                     </div>
                 </div>
             </div>
@@ -1513,21 +1591,21 @@
         <div class="stats-container">
             <div class="stat-item">
                 <h3>₹<span>18.5+</span> Cr</h3>
-                <p>Debt Settled Legally</p>
+                <p data-i18n="stat_debt">Debt Settled Legally</p>
             </div>
             <div class="stat-item">
                 <h3><span>3,500+</span></h3>
-                <p>Cyber Frauds Intercepted</p>
+                <p data-i18n="stat_cyber">Cyber Frauds Intercepted</p>
             </div>
             <div class="stat-item">
                 <a href="https://www.facebook.com/profile.php?id=100091653904443" target="_blank" style="text-decoration:none;">
                     <h3><span style="color:#1877f2;"><i class="fa-brands fa-facebook"></i> 250K+</span></h3>
-                    <p style="color:#1877f2; font-weight:700;">Facebook Followers &rarr;</p>
+                    <p style="color:#1877f2; font-weight:700;" data-i18n="stat_fb">Facebook Followers &rarr;</p>
                 </a>
             </div>
             <div class="stat-item">
                 <h3><span>12,000+</span></h3>
-                <p>Consultations Completed</p>
+                <p data-i18n="stat_consult">Consultations Completed</p>
             </div>
         </div>
     </div>
@@ -1536,9 +1614,9 @@
     <section id="loan-settlement" class="section-wrapper">
         <div class="section-container">
             <div class="section-header">
-                <span class="section-badge gold">Core Specialization 01</span>
-                <h2 class="section-title">Loan Settlement & Anti-Harassment Legal Shield</h2>
-                <p class="section-subtitle">
+                <span class="section-badge gold" data-i18n="loan_sec_badge">Core Specialization 01</span>
+                <h2 class="section-title" data-i18n="loan_sec_title">Loan Settlement & Anti-Harassment Legal Shield</h2>
+                <p class="section-subtitle" data-i18n="loan_sec_sub">
                     You have rights as a borrower. Banks and aggressive collection agencies cannot violate RBI guidelines, abuse your dignity, or harass your family.
                 </p>
             </div>
@@ -1550,9 +1628,9 @@
                     <div class="service-icon">
                         <i class="fa-solid fa-shield-virus"></i>
                     </div>
-                    <h3>Anti-Harassment Legal Injunctions</h3>
+                    <h3 data-i18n="loan_c1_t">Anti-Harassment Legal Injunctions</h3>
                     <p class="desc">
-                        Are recovery agents calling your relatives, visiting your workplace, or threatening police arrest? We issue immediate Cease & Desist notices to bank nodal officers and recovery agencies.
+                        <span data-i18n="loan_c1_d">Are recovery agents calling your relatives, visiting your workplace, or threatening police arrest? We issue immediate Cease & Desist notices to bank nodal officers and recovery agencies.</span>
                     </p>
                     <ul class="feature-list">
                         <li><i class="fa-solid fa-check-circle"></i> Enforce RBI Fair Practices Code (No calls before 8 AM / after 7 PM)</li>
@@ -1562,7 +1640,7 @@
                     </ul>
                     <button class="cc-light-sweep-btn" onclick="openConsultationModal('Adv. Sahin', 'Recovery Harassment Relief')">
                         <i class="fa-solid fa-phone-slash"></i>
-                        <span>Stop Harassment — Consult ₹2,000</span>
+                        <span data-i18n="loan_c1_b">Stop Harassment — Consult ₹2,000</span>
                     </button>
                 </div>
 
@@ -1572,9 +1650,9 @@
                     <div class="service-icon">
                         <i class="fa-solid fa-hand-holding-dollar"></i>
                     </div>
-                    <h3>One-Time Settlement (OTS) Negotiation</h3>
+                    <h3 data-i18n="loan_c2_t">One-Time Settlement (OTS) Negotiation</h3>
                     <p class="desc">
-                        Stuck with crippling credit card dues or personal loans? Our advocates negotiate directly with head office legal & NPA recovery cells to close loans permanently at massive discounts.
+                        <span data-i18n="loan_c2_d">Stuck with crippling credit card dues or personal loans? Our advocates negotiate directly with head office legal & NPA recovery cells to close loans permanently at massive discounts.</span>
                     </p>
                     <ul class="feature-list">
                         <li><i class="fa-solid fa-check-circle"></i> Legal waivers of 50% to 75% on total accumulated dues</li>
@@ -1584,7 +1662,7 @@
                     </ul>
                     <button class="cc-light-sweep-btn" onclick="openConsultationModal('Adv. Rukshana', 'One-Time Loan Settlement (OTS)')">
                         <i class="fa-solid fa-file-invoice-dollar"></i>
-                        <span>Settle Your Debt — Consult ₹2,000</span>
+                        <span data-i18n="loan_c2_b">Settle Your Debt — Consult ₹2,000</span>
                     </button>
                 </div>
 
@@ -1593,9 +1671,9 @@
                     <div class="service-icon">
                         <i class="fa-solid fa-scale-unbalanced-flip"></i>
                     </div>
-                    <h3>Defense against Sec 138 & Sec 25 Notices</h3>
+                    <h3 data-i18n="loan_c3_t">Defense against Sec 138 & Sec 25 Notices</h3>
                     <p class="desc">
-                        Received a legal notice for Cheque Bounce (Section 138 NI Act) or NACH/ECS bounce (Section 25 PASA)? Timely advocate response is vital to prevent non-bailable arrest warrants.
+                        <span data-i18n="loan_c3_d">Received a legal notice for Cheque Bounce (Section 138 NI Act) or NACH/ECS bounce (Section 25 PASA)? Timely advocate response is vital to prevent non-bailable arrest warrants.</span>
                     </p>
                     <ul class="feature-list">
                         <li><i class="fa-solid fa-check-circle"></i> Strategic legal replies within the statutory 15-day notice window</li>
@@ -1605,7 +1683,7 @@
                     </ul>
                     <button class="cc-light-sweep-btn" onclick="openConsultationModal('Adv. Sahin', 'Section 138 / Cheque Bounce Notice')">
                         <i class="fa-solid fa-envelope-open-text"></i>
-                        <span>Reply to Bank Notice — ₹2,000</span>
+                        <span data-i18n="loan_c3_b">Reply to Bank Notice — ₹2,000</span>
                     </button>
                 </div>
 
@@ -1614,9 +1692,9 @@
                     <div class="service-icon">
                         <i class="fa-solid fa-building-columns"></i>
                     </div>
-                    <h3>DRT, SARFAESI & Lok Adalat Litigation</h3>
+                    <h3 data-i18n="loan_c4_t">DRT, SARFAESI & Lok Adalat Litigation</h3>
                     <p class="desc">
-                        Facing symbolic possession, 13(2) / 13(4) SARFAESI notices, or Debt Recovery Tribunal (DRT) summons on business or secured loans? We formulate aggressive litigation strategies.
+                        <span data-i18n="loan_c4_d">Facing symbolic possession, 13(2) / 13(4) SARFAESI notices, or Debt Recovery Tribunal (DRT) summons on business or secured loans? We formulate aggressive litigation strategies.</span>
                     </p>
                     <ul class="feature-list">
                         <li><i class="fa-solid fa-check-circle"></i> Stay petitions against property auction and physical possession</li>
@@ -1626,7 +1704,7 @@
                     </ul>
                     <button class="cc-light-sweep-btn" onclick="openConsultationModal('Adv. Rukshana', 'DRT & SARFAESI Legal Defense')">
                         <i class="fa-solid fa-gavel"></i>
-                        <span>Consult DRT Advocate — ₹2,000</span>
+                        <span data-i18n="loan_c4_b">Consult DRT Advocate — ₹2,000</span>
                     </button>
                 </div>
             </div>
@@ -1637,9 +1715,9 @@
     <section id="cyber-matter" class="section-wrapper" style="background: #f1f5f9;">
         <div class="section-container">
             <div class="section-header">
-                <span class="section-badge gold">Core Specialization 02</span>
-                <h2 class="section-title">Cyber Crime, Financial Scams & Digital Extortion Defense</h2>
-                <p class="section-subtitle">
+                <span class="section-badge gold" data-i18n="cyber_sec_badge">Core Specialization 02</span>
+                <h2 class="section-title" data-i18n="cyber_sec_title">Cyber Crime, Financial Scams & Digital Extortion Defense</h2>
+                <p class="section-subtitle" data-i18n="cyber_sec_sub">
                     In cyber crimes, the first 24 to 48 hours are critical. Our specialized digital law advocates move swiftly to protect your funds, liberty, and reputation.
                 </p>
             </div>
@@ -1651,9 +1729,9 @@
                     <div class="service-icon" style="background: #0f172a; color: #38bdf8;">
                         <i class="fa-solid fa-money-bill-transfer"></i>
                     </div>
-                    <h3>Online Investment & Telegram Scam Recovery</h3>
+                    <h3 data-i18n="cyber_c1_t">Online Investment & Telegram Scam Recovery</h3>
                     <p class="desc">
-                        Defrauded through Telegram task scams, fake institutional stock trading portals, crypto platforms, or work-from-home fraud? We execute emergency fund-freezing procedures.
+                        <span data-i18n="cyber_c1_d">Defrauded through Telegram task scams, fake institutional stock trading portals, crypto platforms, or work-from-home fraud? We execute emergency fund-freezing procedures.</span>
                     </p>
                     <ul class="feature-list">
                         <li><i class="fa-solid fa-check-circle"></i> Immediate National Cyber Crime Reporting Portal (1930) escalation</li>
@@ -1663,7 +1741,7 @@
                     </ul>
                     <button class="cc-light-sweep-btn" onclick="openConsultationModal('Adv. Srilekha', 'Online Scam & Fund Recovery')">
                         <i class="fa-solid fa-rotate-left"></i>
-                        <span>Recover Lost Funds — Consult ₹2,000</span>
+                        <span data-i18n="cyber_c1_b">Recover Lost Funds — Consult ₹2,000</span>
                     </button>
                 </div>
 
@@ -1673,9 +1751,9 @@
                     <div class="service-icon" style="background: #0f172a; color: #38bdf8;">
                         <i class="fa-solid fa-unlock-keyhole"></i>
                     </div>
-                    <h3>Bank Account Debit Freeze Removal (Sec 457 CrPC)</h3>
+                    <h3 data-i18n="cyber_c2_t">Bank Account Debit Freeze Removal (Sec 457 CrPC)</h3>
                     <p class="desc">
-                        Has your bank account suddenly been frozen or put on lien due to a cyber police notice from another state (e.g. Telangana, Gujarat, Maharashtra)? We get it unlocked.
+                        <span data-i18n="cyber_c2_d">Has your bank account suddenly been frozen or put on lien due to a cyber police notice from another state (e.g. Telangana, Gujarat, Maharashtra)? We get it unlocked.</span>
                     </p>
                     <ul class="feature-list">
                         <li><i class="fa-solid fa-check-circle"></i> Filing Section 457 CrPC / BNSS petitions before the Jurisdictional Magistrate</li>
@@ -1685,7 +1763,7 @@
                     </ul>
                     <button class="cc-light-sweep-btn" onclick="openConsultationModal('Adv. Srilekha', 'Bank Account Freeze Removal (Sec 457)')">
                         <i class="fa-solid fa-key"></i>
-                        <span>Unfreeze My Account — ₹2,000</span>
+                        <span data-i18n="cyber_c2_b">Unfreeze My Account — ₹2,000</span>
                     </button>
                 </div>
 
@@ -1695,9 +1773,9 @@
                     <div class="service-icon" style="background: #0f172a; color: #38bdf8;">
                         <i class="fa-solid fa-shield-cat"></i>
                     </div>
-                    <h3>Fake Loan App Blackmail & Sextortion Shield</h3>
+                    <h3 data-i18n="cyber_c3_t">Fake Loan App Blackmail & Sextortion Shield</h3>
                     <p class="desc">
-                        Trapped by illegal instant 7-day loan apps accessing your contacts and threatening to share morphed photos? Or targeted in video call sextortion? We stop the blackmail immediately.
+                        <span data-i18n="cyber_c3_d">Trapped by illegal instant 7-day loan apps accessing your contacts and threatening to share morphed photos? Or targeted in video call sextortion? We stop the blackmail immediately.</span>
                     </p>
                     <ul class="feature-list">
                         <li><i class="fa-solid fa-check-circle"></i> Immediate protocol to neutralize blackmailer leverage and threats</li>
@@ -1707,7 +1785,7 @@
                     </ul>
                     <button class="cc-light-sweep-btn" onclick="openConsultationModal('Adv. Danish', 'Fake Loan App & Sextortion Defense')">
                         <i class="fa-solid fa-shield-halved"></i>
-                        <span>Stop Blackmail Now — Consult ₹2,000</span>
+                        <span data-i18n="cyber_c3_b">Stop Blackmail Now — Consult ₹2,000</span>
                     </button>
                 </div>
 
@@ -1716,9 +1794,9 @@
                     <div class="service-icon" style="background: #0f172a; color: #38bdf8;">
                         <i class="fa-solid fa-fingerprint"></i>
                     </div>
-                    <h3>Digital Extortion, Identity Theft & Cyber FIRs</h3>
+                    <h3 data-i18n="cyber_c4_t">Digital Extortion, Identity Theft & Cyber FIRs</h3>
                     <p class="desc">
-                        Hacked social media accounts, deepfake defamation, corporate data theft, or identity fraud? Our cyber litigators formulate decisive legal countermeasures.
+                        <span data-i18n="cyber_c4_d">Hacked social media accounts, deepfake defamation, corporate data theft, or identity fraud? Our cyber litigators formulate decisive legal countermeasures.</span>
                     </p>
                     <ul class="feature-list">
                         <li><i class="fa-solid fa-check-circle"></i> Registration of Cyber Police FIRs under Information Technology Act, 2000</li>
@@ -1728,7 +1806,7 @@
                     </ul>
                     <button class="cc-light-sweep-btn" onclick="openConsultationModal('Adv. Danish', 'Cyber FIR & Digital Law')">
                         <i class="fa-solid fa-file-shield"></i>
-                        <span>File Cyber Complaint — ₹2,000</span>
+                        <span data-i18n="cyber_c4_b">File Cyber Complaint — ₹2,000</span>
                     </button>
                 </div>
             </div>
@@ -1739,9 +1817,9 @@
     <section id="advocates" class="section-wrapper advocates-section">
         <div class="section-container">
             <div class="section-header">
-                <span class="section-badge gold">Our Renowned Counsel</span>
-                <h2 class="section-title" style="color:#ffffff;">Consult Our Senior High Court Advocates</h2>
-                <p class="section-subtitle" style="color:#94a3b8;">
+                <span class="section-badge gold" data-i18n="adv_sec_badge">Our Renowned Counsel</span>
+                <h2 class="section-title" style="color:#ffffff;" data-i18n="adv_sec_title">Consult Our Senior High Court Advocates</h2>
+                <p class="section-subtitle" style="color:#94a3b8;" data-i18n="adv_sec_sub">
                     Choose the specialist who matches your legal emergency. Book a direct 1-on-1 strategy session for a transparent flat fee of ₹2,000.
                 </p>
             </div>
@@ -1752,10 +1830,10 @@
                     <div>
                         <div class="advocate-photo-box"><img src="assets/advocates/adv-sahin.png" alt="Adv. Sahin" class="advocate-photo"></div>
                         <h3 class="advocate-name">Adv. Sahin</h3>
-                        <div class="advocate-title">Senior High Court Advocate</div>
-                        <div class="advocate-experience"><i class="fa-solid fa-award"></i> 15+ Years Practice</div>
+                        <div class="advocate-title" data-i18n="adv_sahin_title">Senior High Court Advocate</div>
+                        <div class="advocate-experience"><i class="fa-solid fa-award"></i> <span data-i18n="adv_sahin_exp">15+ Years Practice</span></div>
                         <p class="advocate-specialty">
-                            Leading legal authority in Banking Litigation, Recovery Harassment Injunctions, Sec 138 NI Act defense, and complex Debt Restructuring.
+                            <span data-i18n="adv_sahin_bio">Leading legal authority in Banking Litigation, Recovery Harassment Injunctions, Sec 138 NI Act defense, and complex Debt Restructuring.</span>
                         </p>
                         <div class="advocate-tags">
                             <span class="adv-tag">Loan Settlement</span>
@@ -1764,7 +1842,7 @@
                         </div>
                     </div>
                     <button class="cc-light-sweep-btn" onclick="openConsultationModal('Adv. Sahin', 'Loan Settlement & Harassment Injunction')">
-                        <span>Consult Adv. Sahin — ₹2,000</span>
+                        <span data-i18n="adv_sahin_btn">Consult Adv. Sahin — ₹2,000</span>
                     </button>
                 </div>
 
@@ -1773,10 +1851,10 @@
                     <div>
                         <div class="advocate-photo-box"><img src="assets/advocates/adv-srilekha.png" alt="Adv. Srilekha" class="advocate-photo"></div>
                         <h3 class="advocate-name">Adv. Srilekha</h3>
-                        <div class="advocate-title">Senior Cyber Law Litigator</div>
-                        <div class="advocate-experience"><i class="fa-solid fa-award"></i> 12+ Years Practice</div>
+                        <div class="advocate-title" data-i18n="adv_srilekha_title">Senior Cyber Law Litigator</div>
+                        <div class="advocate-experience"><i class="fa-solid fa-award"></i> <span data-i18n="adv_srilekha_exp">12+ Years Practice</span></div>
                         <p class="advocate-specialty">
-                            Recognized specialist in unfreezing bank accounts (Sec 457 CrPC), tracing multi-layered financial scam networks, and online fraud fund recoveries.
+                            <span data-i18n="adv_srilekha_bio">Recognized specialist in unfreezing bank accounts (Sec 457 CrPC), tracing multi-layered financial scam networks, and online fraud fund recoveries.</span>
                         </p>
                         <div class="advocate-tags">
                             <span class="adv-tag">Cyber Crime</span>
@@ -1785,7 +1863,7 @@
                         </div>
                     </div>
                     <button class="cc-light-sweep-btn" onclick="openConsultationModal('Adv. Srilekha', 'Cyber Crime & Account Freeze')">
-                        <span>Consult Adv. Srilekha — ₹2,000</span>
+                        <span data-i18n="adv_srilekha_btn">Consult Adv. Srilekha — ₹2,000</span>
                     </button>
                 </div>
 
@@ -1794,10 +1872,10 @@
                     <div>
                         <div class="advocate-photo-box"><img src="assets/advocates/adv-rukshana.png" alt="Adv. Rukshana" class="advocate-photo"></div>
                         <h3 class="advocate-name">Adv. Rukshana</h3>
-                        <div class="advocate-title">Senior Banking & DRT Advocate</div>
-                        <div class="advocate-experience"><i class="fa-solid fa-award"></i> 14+ Years Practice</div>
+                        <div class="advocate-title" data-i18n="adv_rukshana_title">Senior Banking & DRT Advocate</div>
+                        <div class="advocate-experience"><i class="fa-solid fa-award"></i> <span data-i18n="adv_rukshana_exp">14+ Years Practice</span></div>
                         <p class="advocate-specialty">
-                            Renowned for securing landmark One-Time Settlements (OTS) with top Indian banks and defending borrowers in SARFAESI & Debt Recovery Tribunals.
+                            <span data-i18n="adv_rukshana_bio">Renowned for securing landmark One-Time Settlements (OTS) with top Indian banks and defending borrowers in SARFAESI & Debt Recovery Tribunals.</span>
                         </p>
                         <div class="advocate-tags">
                             <span class="adv-tag">OTS Settlement</span>
@@ -1806,7 +1884,7 @@
                         </div>
                     </div>
                     <button class="cc-light-sweep-btn" onclick="openConsultationModal('Adv. Rukshana', 'One-Time Settlement & DRT')">
-                        <span>Consult Adv. Rukshana — ₹2,000</span>
+                        <span data-i18n="adv_rukshana_btn">Consult Adv. Rukshana — ₹2,000</span>
                     </button>
                 </div>
 
@@ -1815,10 +1893,10 @@
                     <div>
                         <div class="advocate-photo-box"><img src="assets/advocates/adv-danish.png" alt="Adv. Danish" class="advocate-photo"></div>
                         <h3 class="advocate-name">Adv. Danish</h3>
-                        <div class="advocate-title">Criminal Defense & Cyber Specialist</div>
-                        <div class="advocate-experience"><i class="fa-solid fa-award"></i> 11+ Years Practice</div>
+                        <div class="advocate-title" data-i18n="adv_danish_title">Criminal Defense & Cyber Specialist</div>
+                        <div class="advocate-experience"><i class="fa-solid fa-award"></i> <span data-i18n="adv_danish_exp">11+ Years Practice</span></div>
                         <p class="advocate-specialty">
-                            Expert in rapid emergency intervention for fake loan app blackmail, digital extortion, anticipatory bail, and high-stakes criminal complaints.
+                            <span data-i18n="adv_danish_bio">Expert in rapid emergency intervention for fake loan app blackmail, digital extortion, anticipatory bail, and high-stakes criminal complaints.</span>
                         </p>
                         <div class="advocate-tags">
                             <span class="adv-tag">Fake Loan Apps</span>
@@ -1827,7 +1905,7 @@
                         </div>
                     </div>
                     <button class="cc-light-sweep-btn" onclick="openConsultationModal('Adv. Danish', 'Criminal Defense & Digital Extortion')">
-                        <span>Consult Adv. Danish — ₹2,000</span>
+                        <span data-i18n="adv_danish_btn">Consult Adv. Danish — ₹2,000</span>
                     </button>
                 </div>
             </div>
@@ -1838,9 +1916,9 @@
     <section id="all-services" class="section-wrapper">
         <div class="section-container">
             <div class="section-header">
-                <span class="section-badge gold">Full Spectrum Legal Services</span>
-                <h2 class="section-title">All Kinds of Legal Solutions Under One Roof</h2>
-                <p class="section-subtitle">
+                <span class="section-badge gold" data-i18n="all_services_badge">Full Spectrum Legal Services</span>
+                <h2 class="section-title" data-i18n="all_services_title">All Kinds of Legal Solutions Under One Roof</h2>
+                <p class="section-subtitle" data-i18n="all_services_sub">
                     Beyond our specialized loan and cyber desks, M/S Solution provides seasoned legal representation across all civil, criminal, and commercial forums.
                 </p>
             </div>
@@ -1881,7 +1959,7 @@
             <div style="text-align: center; margin-top: 40px;">
                 <button class="cc-light-sweep-btn btn-lg" onclick="openConsultationModal('Senior Advocate', 'General Legal Advisory')">
                     <i class="fa-solid fa-calendar-check"></i>
-                    <span>Book Legal Consultation — ₹2,000</span>
+                    <span data-i18n="all_serv_btn">Book Legal Consultation — ₹2,000</span>
                 </button>
             </div>
         </div>
@@ -1891,16 +1969,16 @@
     <section class="pricing-section">
         <div class="section-container">
             <div class="pricing-box">
-                <div class="pricing-ribbon">100% Guaranteed Confidential</div>
+                <div class="pricing-ribbon"><span data-i18n="pricing_ribbon">100% Guaranteed Confidential</span></div>
 
                 <div class="price-header">
                     <div class="price-header-left">
-                        <h3>Comprehensive Legal Strategy Consultation</h3>
-                        <p>Direct 1-on-1 confidential session with Senior High Court Counsel</p>
+                        <h3 data-i18n="pricing_title">Comprehensive Legal Strategy Consultation</h3>
+                        <p data-i18n="pricing_sub">Direct 1-on-1 confidential session with Senior High Court Counsel</p>
                     </div>
                     <div class="price-display">
                         <div class="price-amount">₹2,000</div>
-                        <div class="price-terms">All-Inclusive Flat Fee • No Hidden Costs</div>
+                        <div class="price-terms" data-i18n="pricing_fee_term">All-Inclusive Flat Fee • No Hidden Costs</div>
                     </div>
                 </div>
 
@@ -1935,7 +2013,7 @@
                     <!-- CC Light Sweep Button (Pricing Card) -->
                     <button class="cc-light-sweep-btn btn-lg" style="width: 100%; max-width: 440px;" onclick="openConsultationModal('Senior Advocate', 'Full Strategy Consultation')">
                         <i class="fa-solid fa-lock"></i>
-                        <span>Book Your Consultation Now — ₹2,000</span>
+                        <span data-i18n="pricing_cta_btn">Book Your Consultation Now — ₹2,000</span>
                     </button>
                     <p style="font-size: 11.5px; color: #94a3b8; margin-top: 12px;">
                         🔒 Secure 256-Bit Encrypted Payment via PayU / UPI / Cards • Instant Slot Confirmation
@@ -1949,9 +2027,9 @@
     <section id="process" class="section-wrapper" style="background: #f8fafc;">
         <div class="section-container">
             <div class="section-header">
-                <span class="section-badge gold">How It Works</span>
-                <h2 class="section-title">Seamless 4-Step Consultation Process</h2>
-                <p class="section-subtitle">
+                <span class="section-badge gold" data-i18n="process_badge">How It Works</span>
+                <h2 class="section-title" data-i18n="process_title">Seamless 4-Step Consultation Process</h2>
+                <p class="section-subtitle" data-i18n="process_sub">
                     From booking to legal relief in less than 24 hours. Here is how your consultation proceeds.
                 </p>
             </div>
@@ -2027,9 +2105,9 @@
     <section id="faqs" class="section-wrapper" style="background: #f1f5f9;">
         <div class="section-container">
             <div class="section-header">
-                <span class="section-badge gold">Got Questions?</span>
-                <h2 class="section-title">Frequently Asked Questions</h2>
-                <p class="section-subtitle">
+                <span class="section-badge gold" data-i18n="faq_badge">Got Questions?</span>
+                <h2 class="section-title" data-i18n="faq_title">Frequently Asked Questions</h2>
+                <p class="section-subtitle" data-i18n="faq_sub">
                     Everything you need to know about our legal consultations, advocate sessions, and confidentiality.
                 </p>
             </div>
@@ -2162,13 +2240,16 @@
 
     <!-- Sticky Mobile Bottom Bar -->
     <div class="mobile-bottom-bar">
+        <button onclick="toggleLanguage()" class="mobile-lang-btn" title="Language">
+            <i class="fa-solid fa-language"></i> <span class="lang-label-btn">বাংলা</span>
+        </button>
         <div class="mobile-bar-price">
-            <span>Consultation Fee</span>
+            <span data-i18n="mob_fee_label">Consultation Fee</span>
             <strong>₹2,000</strong>
         </div>
         <button class="cc-light-sweep-btn" onclick="openConsultationModal('Adv. Sahin', 'Mobile Bottom Bar')">
             <i class="fa-solid fa-calendar-check"></i>
-            <span>Book Now</span>
+            <span data-i18n="mob_book_now">Book Now</span>
         </button>
     </div>
 
@@ -2183,7 +2264,7 @@
     <div id="consultationModal" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
-                <h3><i class="fa-solid fa-scale-balanced"></i> Book Legal Consultation <span>(₹2,000)</span></h3>
+                <h3><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="modal_heading">Book Legal Consultation</span> <span>(₹2,000)</span></h3>
                 <button type="button" class="modal-close-btn" onclick="closeConsultationModal()">&times;</button>
             </div>
 
@@ -2191,7 +2272,7 @@
                 <form id="consultationForm" onsubmit="initiateConsultationPayment(event)">
                     <!-- Step 1: Legal Category -->
                     <div class="form-group">
-                        <label for="legalCategory">1. Select Legal Matter / Issue</label>
+                        <label for="legalCategory" data-i18n="modal_step1">1. Select Legal Matter / Issue</label>
                         <select id="legalCategory" required>
                             <option value="Loan Settlement & Anti-Harassment">🛡️ Loan Settlement & Anti-Harassment Protection</option>
                             <option value="Cyber Scam & Fund Recovery">💻 Cyber Crime & Scam Fund Recovery</option>
@@ -2205,7 +2286,7 @@
 
                     <!-- Step 2: Choose Advocate -->
                     <div class="form-group">
-                        <label for="chosenAdvocate">2. Select Preferred Senior Advocate</label>
+                        <label for="chosenAdvocate" data-i18n="modal_step2">2. Select Preferred Senior Advocate</label>
                         <select id="chosenAdvocate" required>
                             <option value="Adv. Sahin">Adv. Sahin (Lead Banking Litigator & Loan Settlement)</option>
                             <option value="Adv. Srilekha">Adv. Srilekha (Senior Cyber Law & Forensic Litigator)</option>
@@ -2217,7 +2298,7 @@
 
                     <!-- Step 3: Consultation Mode -->
                     <div class="form-group">
-                        <label for="consultationMode">3. Preferred Consultation Format</label>
+                        <label for="consultationMode" data-i18n="modal_step3">3. Preferred Consultation Format</label>
                         <select id="consultationMode">
                             <option value="Priority Phone Call">📞 Priority Phone Call (Direct Advocate Connect)</option>
                             <option value="WhatsApp Video Conference">📹 WhatsApp Video Conference</option>
@@ -2228,58 +2309,58 @@
                     <!-- Client Personal Details -->
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="clientName">Your Full Name</label>
+                            <label for="clientName" data-i18n="modal_name_label">Your Full Name</label>
                             <input type="text" id="clientName" required placeholder="e.g. Rajesh Sharma">
                         </div>
                         <div class="form-group">
-                            <label for="clientCity">Your City / State</label>
+                            <label for="clientCity" data-i18n="modal_city_label">Your City / State</label>
                             <input type="text" id="clientCity" placeholder="e.g. Mumbai, Maharashtra">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="clientPhone">Phone / WhatsApp Number</label>
+                            <label for="clientPhone" data-i18n="modal_phone_label">Phone / WhatsApp Number</label>
                             <input type="tel" id="clientPhone" required placeholder="9876543210" onblur="saveDraftLead()" onchange="saveDraftLead()">
                         </div>
                         <div class="form-group">
-                            <label for="clientEmail">Email Address</label>
+                            <label for="clientEmail" data-i18n="modal_email_label">Email Address</label>
                             <input type="email" id="clientEmail" required placeholder="your.email@example.com" onblur="saveDraftLead()" onchange="saveDraftLead()">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="caseNotes">Brief Summary of Your Legal Issue</label>
+                        <label for="caseNotes" data-i18n="modal_summary_label">Brief Summary of Your Legal Issue</label>
                         <textarea id="caseNotes" rows="2" placeholder="Describe the bank, recovery threats, cyber scam amount, or notice details..."></textarea>
                     </div>
 
                     <!-- Coupon Code Input -->
                     <div class="coupon-box">
                         <input type="text" id="couponCodeInput" placeholder="HAVE A COUPON CODE?">
-                        <button type="button" id="applyCouponBtn" onclick="applyCouponCode()">Apply</button>
+                        <button type="button" id="applyCouponBtn" onclick="applyCouponCode()" data-i18n="modal_coupon_btn">Apply</button>
                     </div>
                     <div id="couponMessage" class="coupon-msg"></div>
 
                     <!-- Order Fee Summary -->
                     <div class="order-summary-card">
                         <div class="order-summary-row">
-                            <span>Senior Advocate Consultation Fee (45 Mins)</span>
+                            <span data-i18n="modal_fee_row">Senior Advocate Consultation Fee (45 Mins)</span>
                             <span>₹2,000</span>
                         </div>
                         <div class="order-summary-row">
-                            <span>Document & Notice Legal Assessment</span>
-                            <span style="color:var(--success-green); font-weight:600;">FREE (Included)</span>
+                            <span data-i18n="modal_doc_row">Document & Notice Legal Assessment</span>
+                            <span style="color:var(--success-green); font-weight:600;" data-i18n="modal_doc_val">FREE (Included)</span>
                         </div>
                         <div class="order-summary-row">
-                            <span>Attorney-Client Privilege Protection</span>
-                            <span style="color:var(--success-green); font-weight:600;">Guaranteed</span>
+                            <span data-i18n="modal_priv_row">Attorney-Client Privilege Protection</span>
+                            <span style="color:var(--success-green); font-weight:600;" data-i18n="modal_priv_val">Guaranteed</span>
                         </div>
                         <div id="couponDiscountRow" class="order-summary-row" style="display:none; color:var(--success-green);">
                             <span id="couponDiscountLabel">🎟️ Special Coupon</span>
                             <span id="couponDiscountDisplay">-₹0</span>
                         </div>
                         <div class="order-summary-row total-row">
-                            <span>Total Payable Amount</span>
+                            <span data-i18n="modal_total_row">Total Payable Amount</span>
                             <span id="totalDisplayPrice" class="total-price-tag">₹2,000</span>
                         </div>
                     </div>
@@ -2653,5 +2734,285 @@
             }
         });
     </script>
+
+    <!-- Comprehensive English & Bengali (Simple Bengali) Translation Engine -->
+    <script>
+    const i18nData = {
+        en: {
+            top_alert: "Emergency Legal Intake: Recovery Agent Harassment & Cyber Crime Helpline Active",
+            top_bar_council: "Bar Council Compliant",
+            nav_loan: "Loan Settlement",
+            nav_cyber: "Cyber Matter",
+            nav_advocates: "Senior Advocates",
+            nav_services: "All Legal Services",
+            nav_process: "Consultation Process",
+            nav_faqs: "FAQs",
+            nav_book_btn: "Book Consultation — ₹2,000",
+            hero_badge: "High Court Litigators & Banking Dispute Specialists",
+            hero_fb_text: "Trusted by over <strong style='color:#60a5fa;'>250K+ Followers</strong> on Facebook",
+            hero_fb_btn: "Follow Page &rarr;",
+            hero_title: "Specialized Legal Defense for <span class='gold-highlight'>Loan Settlement</span> & <span class='gold-highlight'>Cyber Crime</span> Emergencies",
+            hero_subtitle: "At <strong>M/S Solution Advocates and Solicitors</strong>, we deliver uncompromising legal relief. Stop recovery agent harassment, settle unmanageable debts legally with 50%–75% waivers, and recover lost funds from cyber fraud. Consult senior advocates within hours.",
+            hero_book_btn: "Book Consultation Now — ₹2,000",
+            hero_wa_btn: "Emergency WhatsApp Desk",
+            trust_1_t: "Attorney Privilege",
+            trust_1_d: "100% Confidential under Sec 126 Evidence Act",
+            trust_2_t: "Anti-Harassment Shield",
+            trust_2_d: "RBI compliance notices to stop agent abuse",
+            trust_3_t: "Cyber Crime Unit",
+            trust_3_d: "Account unfreezing & fund recovery petitions",
+            trust_4_t: "Strategic OTS",
+            trust_4_d: "Legal settlement saving 50%–75% of debt",
+            stat_debt: "Debt Settled Legally",
+            stat_cyber: "Cyber Frauds Intercepted",
+            stat_fb: "Facebook Followers &rarr;",
+            stat_consult: "Consultations Completed",
+            loan_sec_badge: "Core Specialization 01",
+            loan_sec_title: "Loan Settlement & Anti-Harassment Legal Shield",
+            loan_sec_sub: "You have rights as a borrower. Banks and aggressive collection agencies cannot violate RBI guidelines, abuse your dignity, or harass your family.",
+            loan_c1_t: "Anti-Harassment Legal Injunctions",
+            loan_c1_d: "Are recovery agents calling your relatives, visiting your workplace, or threatening police arrest? We issue immediate Cease & Desist notices to bank nodal officers and recovery agencies.",
+            loan_c1_b: "Stop Harassment — Consult ₹2,000",
+            loan_c2_t: "One-Time Settlement (OTS) Negotiation",
+            loan_c2_d: "Stuck with crippling credit card dues or personal loans? Our advocates negotiate directly with head office legal & NPA recovery cells to close loans permanently at massive discounts.",
+            loan_c2_b: "Settle Your Debt — Consult ₹2,000",
+            loan_c3_t: "Defense against Sec 138 & Sec 25 Notices",
+            loan_c3_d: "Received a legal notice for Cheque Bounce (Section 138 NI Act) or NACH/ECS bounce (Section 25 PASA)? Timely advocate response is vital to prevent non-bailable arrest warrants.",
+            loan_c3_b: "Reply to Bank Notice — ₹2,000",
+            loan_c4_t: "DRT, SARFAESI & Lok Adalat Litigation",
+            loan_c4_d: "Facing symbolic possession, 13(2) / 13(4) SARFAESI notices, or Debt Recovery Tribunal (DRT) summons on business or secured loans? We formulate aggressive litigation strategies.",
+            loan_c4_b: "Consult DRT Advocate — ₹2,000",
+            cyber_sec_badge: "Core Specialization 02",
+            cyber_sec_title: "Cyber Crime, Financial Scams & Digital Extortion Defense",
+            cyber_sec_sub: "In cyber crimes, the first 24 to 48 hours are critical. Our specialized digital law advocates move swiftly to protect your funds, liberty, and reputation.",
+            cyber_c1_t: "Online Investment & Telegram Scam Recovery",
+            cyber_c1_d: "Defrauded through Telegram task scams, fake institutional stock trading portals, crypto platforms, or work-from-home fraud? We execute emergency fund-freezing procedures.",
+            cyber_c1_b: "Recover Lost Funds — Consult ₹2,000",
+            cyber_c2_t: "Bank Account Debit Freeze Removal (Sec 457 CrPC)",
+            cyber_c2_d: "Has your bank account suddenly been frozen or put on lien due to a cyber police notice from another state (e.g. Telangana, Gujarat, Maharashtra)? We get it unlocked.",
+            cyber_c2_b: "Unfreeze My Account — ₹2,000",
+            cyber_c3_t: "Fake Loan App Blackmail & Sextortion Shield",
+            cyber_c3_d: "Trapped by illegal instant 7-day loan apps accessing your contacts and threatening to share morphed photos? Or targeted in video call sextortion? We stop the blackmail immediately.",
+            cyber_c3_b: "Stop Blackmail Now — Consult ₹2,000",
+            cyber_c4_t: "Digital Extortion, Identity Theft & Cyber FIRs",
+            cyber_c4_d: "Hacked social media accounts, deepfake defamation, corporate data theft, or identity fraud? Our cyber litigators formulate decisive legal countermeasures.",
+            cyber_c4_b: "File Cyber Complaint — ₹2,000",
+            adv_sec_badge: "Our Renowned Counsel",
+            adv_sec_title: "Consult Our Senior High Court Advocates",
+            adv_sec_sub: "Choose the specialist who matches your legal emergency. Book a direct 1-on-1 strategy session for a transparent flat fee of ₹2,000.",
+            adv_sahin_title: "Senior High Court Advocate",
+            adv_sahin_exp: "15+ Years Practice",
+            adv_sahin_bio: "Leading legal authority in Banking Litigation, Recovery Harassment Injunctions, Sec 138 NI Act defense, and complex Debt Restructuring.",
+            adv_sahin_btn: "Consult Adv. Sahin — ₹2,000",
+            adv_srilekha_title: "Senior Cyber Law Litigator",
+            adv_srilekha_exp: "12+ Years Practice",
+            adv_srilekha_bio: "Recognized specialist in unfreezing bank accounts (Sec 457 CrPC), tracing multi-layered financial scam networks, and online fraud fund recoveries.",
+            adv_srilekha_btn: "Consult Adv. Srilekha — ₹2,000",
+            adv_rukshana_title: "Senior Banking & DRT Advocate",
+            adv_rukshana_exp: "14+ Years Practice",
+            adv_rukshana_bio: "Renowned for securing landmark One-Time Settlements (OTS) with top Indian banks and defending borrowers in SARFAESI & Debt Recovery Tribunals.",
+            adv_rukshana_btn: "Consult Adv. Rukshana — ₹2,000",
+            adv_danish_title: "Criminal Defense & Cyber Specialist",
+            adv_danish_exp: "11+ Years Practice",
+            adv_danish_bio: "Expert in rapid emergency intervention for fake loan app blackmail, digital extortion, anticipatory bail, and high-stakes criminal complaints.",
+            adv_danish_btn: "Consult Adv. Danish — ₹2,000",
+            all_services_badge: "Full Spectrum Legal Services",
+            all_services_title: "All Kinds of Legal Solutions Under One Roof",
+            all_services_sub: "Beyond our specialized loan and cyber desks, M/S Solution provides seasoned legal representation across all civil, criminal, and commercial forums.",
+            all_serv_btn: "Book Legal Consultation — ₹2,000",
+            pricing_ribbon: "100% Guaranteed Confidential",
+            pricing_title: "Comprehensive Legal Strategy Consultation",
+            pricing_sub: "Direct 1-on-1 confidential session with Senior High Court Counsel",
+            pricing_fee_term: "All-Inclusive Flat Fee • No Hidden Costs",
+            pricing_cta_btn: "Book Your Consultation Now — ₹2,000",
+            process_badge: "How It Works",
+            process_title: "Seamless 4-Step Consultation Process",
+            process_sub: "From booking to legal relief in less than 24 hours. Here is how your consultation proceeds.",
+            faq_badge: "Got Questions?",
+            faq_title: "Frequently Asked Questions",
+            faq_sub: "Everything you need to know about our legal consultations, advocate sessions, and confidentiality.",
+            modal_heading: "Book Legal Consultation",
+            modal_step1: "1. Select Legal Matter / Issue",
+            modal_step2: "2. Select Preferred Senior Advocate",
+            modal_step3: "3. Preferred Consultation Format",
+            modal_name_label: "Your Full Name",
+            modal_city_label: "Your City / State",
+            modal_phone_label: "Phone / WhatsApp Number",
+            modal_email_label: "Email Address",
+            modal_summary_label: "Brief Summary of Your Legal Issue",
+            modal_coupon_btn: "Apply",
+            modal_fee_row: "Senior Advocate Consultation Fee (45 Mins)",
+            modal_doc_row: "Document & Notice Legal Assessment",
+            modal_doc_val: "FREE (Included)",
+            modal_priv_row: "Attorney-Client Privilege Protection",
+            modal_priv_val: "Guaranteed",
+            modal_total_row: "Total Payable Amount",
+            mob_fee_label: "Consultation Fee",
+            mob_book_now: "Book Now"
+        },
+        bn: {
+            top_alert: "জরুরি Legal Help: রিকভারি এজেন্টদের হেনস্থা ও সাইবার ক্রাইম হেল্পলাইন সক্রিয়",
+            top_bar_council: "বার কাউন্সিল মান্যতাপ্রাপ্ত (Bar Council Compliant)",
+            nav_loan: "লোন সেটেলমেন্ট (Loan Settlement)",
+            nav_cyber: "সাইবার ক্রাইম (Cyber Matter)",
+            nav_advocates: "সিনিয়র অ্যাডভোকেটগণ",
+            nav_services: "সকল আইনি পরিষেবা",
+            nav_process: "কীভাবে কাজ করে",
+            nav_faqs: "সাধারণ প্রশ্নোত্তর",
+            nav_book_btn: "পরামর্শ বুক করুন — ₹২,০০০",
+            hero_badge: "হাইকোর্ট লিটিগেটর ও ব্যাঙ্কিং ডিসপিউট বিশেষজ্ঞ",
+            hero_fb_text: "ফেসবুকে <strong style='color:#60a5fa;'>২৫০,০০০+ (250K+) ফলোয়ার্সদের</strong> অবিচল ভরসা",
+            hero_fb_btn: "ফেসবুক পেজ দেখুন &rarr;",
+            hero_title: "লোন সেটেলমেন্ট এবং সাইবার ক্রাইম সমস্যার জন্য নির্ভরযোগ্য <span class='gold-highlight'>Legal Defense</span>",
+            hero_subtitle: "<strong>M/S Solution Advocates and Solicitors</strong>-এ আমরা দিচ্ছি দ্রুত ও আপসহীন আইনি সমাধান। রিকভারি এজেন্টদের বেআইনি নির্যাতন বন্ধ করুন, ৫০% থেকে ৭৫% ছাড়ে লোন সেটেলমেন্ট করুন এবং অনলাইন ফ্রডের টাকা রিকভার করুন। আজই সিনিয়র হাইকোর্ট অ্যাডভোকেটদের সাথে পরামর্শ নিন।",
+            hero_book_btn: "পরামর্শ বুক করুন এখনই — ₹২,০০০",
+            hero_wa_btn: "জরুরি WhatsApp হেল্পডেস্ক",
+            trust_1_t: "১০০% গোপনীয়তা (Privilege)",
+            trust_1_d: "Evidence Act Sec 126 অনুযায়ী সম্পূর্ণ গোপন ও সুরক্ষিত",
+            trust_2_t: "অ্যান্টি-হ্যারাসমেন্ট শিল্ড",
+            trust_2_d: "RBI নিয়ম মেনে রিকভারি এজেন্টদের নির্যাতন বন্ধ",
+            trust_3_t: "সাইবার ক্রাইম ইউনিট",
+            trust_3_d: "অ্যাকাউন্ট আনফ্রিজ ও ফ্রড হওয়া ফান্ড ফেরতের পিটিশন",
+            trust_4_t: "স্ট্র্যাটেজিক OTS সেটেলমেন্ট",
+            trust_4_d: "৫০% থেকে ৭৫% পর্যন্ত ছাড় সহ আইনি সমাধান",
+            stat_debt: "১৮.৫+ কোটি টাকা লোন সেটেলড",
+            stat_cyber: "৩,৫০০+ সাইবার কেস সমাধান",
+            stat_fb: "ফেসবুক ফলোয়ার্স (Facebook) &rarr;",
+            stat_consult: "১২,০০০+ কনসালটেশন সম্পন্ন",
+            loan_sec_badge: "মূল স্পেশালাইজেশন ০১",
+            loan_sec_title: "লোন সেটেলমেন্ট ও রিকভারি এজেন্ট হেনস্থা থেকে আইনি মুক্তি",
+            loan_sec_sub: "একজন ঋণগ্রহীতা হিসেবে আপনার আইনি অধিকার রয়েছে। ব্যাঙ্ক বা রিকভারি এজেন্সি আপনার মর্যাদা ক্ষুণ্ণ করতে বা পরিবারকে হেনস্থা করতে পারে না।",
+            loan_c1_t: "রিকভারি এজেন্টদের হেনস্থা বন্ধে লিগ্যাল নোটিশ",
+            loan_c1_d: "রিকভারি এজেন্টরা কি আপনার আত্মীয়দের ফোন করছে, কর্মক্ষেত্রে আসছে বা পুলিশের ভয় দেখাচ্ছে? আমরা অবিলম্বে ব্যাঙ্ক ও এজেন্সির বিরুদ্ধে কঠোর লিগ্যাল নোটিশ পাঠাই।",
+            loan_c1_b: "হেনস্থা বন্ধ করুন — পরামর্শ ₹২,০০০",
+            loan_c2_t: "ওয়ান-টাইম সেটেলমেন্ট (OTS) নেগোশিয়েশন",
+            loan_c2_d: "ক্রেডিট কার্ডের বিল বা পার্সোনাল লোনের বোঝায় জর্জরিত? আমাদের অ্যাডভোকেটরা ব্যাঙ্কের হেড অফিসের সাথে সরাসরি কথা বলে বিপুল ছাড়ে লোন স্থায়ীভাবে বন্ধ করান।",
+            loan_c2_b: "লোন সেটেল করুন — পরামর্শ ₹২,০০০",
+            loan_c3_t: "চেক বাউন্স (Sec 138) ও Sec 25 নোটিশ ডিফেন্স",
+            loan_c3_d: "চেক বাউন্স (Cheque Bounce) বা NACH/ECS বাউন্সের লিগ্যাল নোটিশ পেয়েছেন? গ্রেফতারি পরোয়ানা এড়াতে সঠিক সময়ে অ্যাডভোকেটের মাধ্যমে উত্তর দেওয়া জরুরি।",
+            loan_c3_b: "ব্যাঙ্ক নোটিশের উত্তর দিন — ₹২,০০০",
+            loan_c4_t: "DRT, SARFAESI ও লোক আদালত ডিফেন্স",
+            loan_c4_d: "বিজনেস বা হোম লোনের ক্ষেত্রে ব্যাঙ্কের SARFAESI নোটিশ বা ডেট রিকভারি ট্রাইব্যুনাল (DRT) থেকে সমন এসেছে? আমরা দিচ্ছি নিখুঁত আইনি সহায়তা।",
+            loan_c4_b: "DRT অ্যাডভোকেটের পরামর্শ নিন — ₹২,০০০",
+            cyber_sec_badge: "মূল স্পেশালাইজেশন ০২",
+            cyber_sec_title: "সাইবার ক্রাইম, অনলাইন ফ্রড ও ব্ল্যাকমেইল প্রতিরোধ",
+            cyber_sec_sub: "সাইবার ক্রাইমে প্রথম ২৪ থেকে ৪৮ ঘণ্টা সবচেয়ে গুরুত্বপূর্ণ। আপনার টাকা, সম্মান ও স্বাধীনতা রক্ষায় আমাদের সাইবার অ্যাডভোকেটরা দ্রুত পদক্ষেপ নেন।",
+            cyber_c1_t: "অনলাইন ইনভেস্টমেন্ট ও টেলিগ্রাম স্ক্যাম ফান্ড রিকভারি",
+            cyber_c1_d: "Telegram টাস্ক স্ক্যাম, ভুয়া স্টক ট্রেডিং অ্যাপ, ক্রিপ্টো প্ল্যাটফর্ম বা ঘরে বসে আয়ের ফাঁদে টাকা হারিয়েছেন? আমরা জরুরি ভিত্তিতে ফান্ড ফ্রিজিং প্রক্রিয়া শুরু করি।",
+            cyber_c1_b: "টাকা ফেরত পান — পরামর্শ ₹২,০০০",
+            cyber_c2_t: "ব্যাঙ্ক অ্যাকাউন্ট ফ্রিজ আনলক (Sec 457 CrPC)",
+            cyber_c2_d: "অন্য কোনো রাজ্যের সাইবার পুলিশের নোটিশে হঠাৎ আপনার সেভিংস বা কারেন্ট অ্যাকাউন্ট ফ্রিজ বা লিয়েন (Lien) হয়ে গেছে? আমরা আইনি প্রক্রিয়ায় অ্যাকাউন্ট আনলক করি।",
+            cyber_c2_b: "অ্যাকাউন্ট আনফ্রিজ করুন — ₹২,০০০",
+            cyber_c3_t: "ফেক লোন অ্যাপ ব্ল্যাকমেইল ও সেক্সটরশন ডিফেন্স",
+            cyber_c3_d: "৭ দিনের ফেক লোন অ্যাপ কন্ট্যাক্ট লিস্টে নোংরা ছবি পাঠিয়ে ব্ল্যাকমেইল করছে? অথবা ভিডিও কলের মাধ্যমে সেক্সটরশনের শিকার? এই ব্ল্যাকমেইল আমরা এখনই বন্ধ করব।",
+            cyber_c3_b: "ব্ল্যাকমেইল বন্ধ করুন — পরামর্শ ₹২,০০০",
+            cyber_c4_t: "ডিজিটাল ব্ল্যাকমেইল, আইডেন্টিটি থেফট ও সাইবার FIR",
+            cyber_c4_d: "সোশ্যাল মিডিয়া অ্যাকাউন্ট হ্যাক, ডিপফেক ছবি, ডেটা চুরি বা পরিচয়ের অপব্যবহার? আমাদের অভিজ্ঞ আইনজীবীরা কঠোর আইনি ব্যবস্থা গ্রহণ করেন।",
+            cyber_c4_b: "সাইবার কমপ্লেন ফাইল করুন — ₹২,০০০",
+            adv_sec_badge: "আমাদের অভিজ্ঞ প্যানেল",
+            adv_sec_title: "অভিজ্ঞ হাইকোর্ট অ্যাডভোকেটদের সাথে সরাসরি পরামর্শ",
+            adv_sec_sub: "আপনার সমস্যার সাথে মানানসই স্পেশালিস্ট বেছে নিন। মাত্র ₹২,০০০ টাকায় সরাসরি ১-অন-১ প্রাইভেট স্ট্র্যাটেজি সেশন বুক করুন।",
+            adv_sahin_title: "সিনিয়র হাইকোর্ট অ্যাডভোকেট",
+            adv_sahin_exp: "১৫+ বছর অভিজ্ঞতা",
+            adv_sahin_bio: "ব্যাঙ্কিং মামলা, রিকভারি এজেন্টদের নির্যাতন বন্ধ, চেক বাউন্স ও লোন রিস্ট্রাকচারিং-এর শীর্ষ বিশেষজ্ঞ।",
+            adv_sahin_btn: "অ্যাডভোকেট শাহিনের পরামর্শ নিন — ₹২,০০০",
+            adv_srilekha_title: "সিনিয়র সাইবার ল' স্পেশালিস্ট",
+            adv_srilekha_exp: "১২+ বছর অভিজ্ঞতা",
+            adv_srilekha_bio: "ব্যাঙ্ক অ্যাকাউন্ট আনফ্রিজ (Sec 457 CrPC), অনলাইন স্ক্যাম ট্র্যাকিং ও ফ্রড ফান্ড রিকভারি বিশেষজ্ঞ।",
+            adv_srilekha_btn: "অ্যাডভোকেট শ্রীলেখার পরামর্শ নিন — ₹২,০০০",
+            adv_rukshana_title: "সিনিয়র ব্যাঙ্কিং ও DRT অ্যাডভোকেট",
+            adv_rukshana_exp: "১৪+ বছর অভিজ্ঞতা",
+            adv_rukshana_bio: "ব্যাঙ্ক ও NBFC-র সাথে আকর্ষণীয় OTS সেটেলমেন্ট এবং DRT/SARFAESI মামলায় দীর্ঘদিনের অভিজ্ঞ।",
+            adv_rukshana_btn: "অ্যাডভোকেট রুখসানার পরামর্শ নিন — ₹২,০০০",
+            adv_danish_title: "ক্রিমিনাল ডিফেন্স ও সাইবার স্পেশালিস্ট",
+            adv_danish_exp: "১১+ বছর অভিজ্ঞতা",
+            adv_danish_bio: "ফেক লোন অ্যাপ ব্ল্যাকমেইল, ডিজিটাল চাঁদাবাজি বন্ধ, জামিন ও জরুরি পুলিশ FIR বিশেষজ্ঞ।",
+            adv_danish_btn: "অ্যাডভোকেট দানিশের পরামর্শ নিন — ₹২,০০০",
+            all_services_badge: "আইনি পরিষেবার সম্পূর্ণ পরিসর",
+            all_services_title: "সব ধরনের আইনি সহায়তার এক নির্ভরযোগ্য ঠিকানা",
+            all_services_sub: "লোন এবং সাইবার বিষয় ছাড়াও, M/S Solution দেয় সব ধরনের দেওয়ানি, ফৌজদারি ও বাণিজ্যিক মামলার সুদক্ষ সমাধান।",
+            all_serv_btn: "আইনি পরামর্শ বুক করুন — ₹২,০০০",
+            pricing_ribbon: "১০০% সম্পূর্ণ গোপনীয়তার নিশ্চয়তা",
+            pricing_title: "সম্পূর্ণ লিগ্যাল স্ট্র্যাটেজি কনসালটেশন",
+            pricing_sub: "সিনিয়র হাইকোর্ট অ্যাডভোকেটের সাথে ৪৫ মিনিটের প্রাইভেট ১-অন-১ সেশন",
+            pricing_fee_term: "সম্পূর্ণ প্যাকেজ • কোনো লুকানো চার্জ নেই",
+            pricing_cta_btn: "আপনার কনসালটেশন বুক করুন এখনই — ₹২,০০০",
+            process_badge: "কীভাবে কাজ করে",
+            process_title: "সহজ ৪-ধাপের কনসালটেশন প্রক্রিয়া",
+            process_sub: "বুকিং থেকে আইনি সমাধান মাত্র ২৪ ঘণ্টার মধ্যে। যেভাবে আপনার পরামর্শ প্রক্রিয়া সম্পন্ন হয়।",
+            faq_badge: "সাধারণ প্রশ্নোত্তর",
+            faq_title: "সচরাচর জিজ্ঞাসিত প্রশ্নসমূহ (FAQs)",
+            faq_sub: "আমাদের আইনি পরামর্শ, অ্যাডভোকেট সেশন ও সম্পূর্ণ গোপনীয়তা সম্পর্কিত গুরুত্বপূর্ণ তথ্যাবলি।",
+            modal_heading: "আইনি পরামর্শ বুক করুন",
+            modal_step1: "১. আপনার আইনি সমস্যা নির্বাচন করুন",
+            modal_step2: "২. পছন্দের সিনিয়র অ্যাডভোকেট বেছে নিন",
+            modal_step3: "৩. পরামর্শের মাধ্যম নির্বাচন করুন",
+            modal_name_label: "আপনার পুরো নাম",
+            modal_city_label: "আপনার শহর / রাজ্য",
+            modal_phone_label: "ফোন / WhatsApp নম্বর",
+            modal_email_label: "ইমেল ঠিকানা",
+            modal_summary_label: "সমস্যার সংক্ষিপ্ত বিবরণ (লোনের পরিমাণ, ব্যাঙ্ক বা ফ্রডের বিবরণ)",
+            modal_coupon_btn: "প্রয়োগ করুন",
+            modal_fee_row: "সিনিয়র অ্যাডভোকেট ফি (৪৫ মিনিট)",
+            modal_doc_row: "কাগজপত্র ও নোটিশ পর্যালোচনা",
+            modal_doc_val: "বিনামূল্যে (FREE)",
+            modal_priv_row: "অ্যাটর্নি-ক্লায়েন্ট প্রিভিলেজ সুরক্ষা",
+            modal_priv_val: "নিশ্চিত (Guaranteed)",
+            modal_total_row: "মোট প্রদেয় অর্থ",
+            mob_fee_label: "কনসালটেশন ফি",
+            mob_book_now: "বুক করুন"
+        }
+    };
+
+    let currentLang = localStorage.getItem('ms_lang') || 'en';
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('ms_lang', lang);
+        const data = i18nData[lang];
+
+        if (lang === 'bn') {
+            document.body.classList.add('lang-bn');
+            document.querySelectorAll('.lang-label-btn').forEach(el => el.textContent = 'English');
+        } else {
+            document.body.classList.remove('lang-bn');
+            document.querySelectorAll('.lang-label-btn').forEach(el => el.textContent = 'বাংলা');
+        }
+
+        // Update elements with data-i18n
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (data[key]) {
+                el.innerHTML = data[key];
+            }
+        });
+
+        // Update Consultation fee button in modal
+        const submitBtnText = document.getElementById('paySubmitBtnText');
+        if (submitBtnText) {
+            if (lang === 'bn') {
+                submitBtnText.textContent = `₹${currentTotalAmount} প্রদান করুন ও বুকিং কনফার্ম করুন`;
+            } else {
+                submitBtnText.textContent = `Proceed to Pay ₹${currentTotalAmount} & Confirm Booking`;
+            }
+        }
+    }
+
+    function toggleLanguage() {
+        if (currentLang === 'en') {
+            setLanguage('bn');
+        } else {
+            setLanguage('en');
+        }
+    }
+
+    // Auto-initialize language on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        if (currentLang === 'bn') {
+            setLanguage('bn');
+        }
+    });
+    </script>
+
 </body>
 </html>
