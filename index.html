@@ -659,6 +659,40 @@
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
         }
 
+        
+        .site-logo-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid var(--accent-gold);
+            box-shadow: 0 4px 14px rgba(212, 175, 55, 0.4);
+            flex-shrink: 0;
+        }
+
+        .advocate-photo-box {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--accent-gold);
+            margin: 0 auto 16px;
+            background: #081124;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 16px rgba(212, 175, 55, 0.3);
+            position: relative;
+        }
+
+        .advocate-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            transition: transform 0.35s ease;
+        }
+
+        .advocate-card:hover .advocate-photo {
+            transform: scale(1.1);
+        }
         .advocate-avatar-box {
             width: 100px;
             height: 100px;
@@ -1366,7 +1400,7 @@
         </div>
         <div class="top-bar-right">
             <span><i class="fa-solid fa-scale-balanced"></i> Bar Council Compliant</span>
-            <a href="tel:+918910803089"><i class="fa-solid fa-phone"></i> +91 89108 03089</a>
+            <a href="tel:+918981730089"><i class="fa-solid fa-phone"></i> +91 89817 30089</a>
         </div>
     </div>
 
@@ -1374,9 +1408,7 @@
     <header class="site-header">
         <div class="nav-container">
             <a href="/" class="brand-logo">
-                <div class="logo-emblem">
-                    <i class="fa-solid fa-scale-balanced"></i>
-                </div>
+                <img src="assets/logo.avif" alt="M/S Solution" class="site-logo-img">
                 <div class="brand-text">
                     <h1>M/S SOLUTION</h1>
                     <span>Advocates & Legal Advisors</span>
@@ -1424,7 +1456,7 @@
                     <span>Book Consultation Now — ₹2,000</span>
                 </button>
 
-                <a href="https://wa.me/918910803089?text=Hello%20M/S%20Solution,%20I%20need%20urgent%20legal%20help." target="_blank" class="hero-secondary-btn">
+                <a href="https://wa.me/918981730089?text=Hello%20M/S%20Solution,%20I%20need%20urgent%20legal%20help." target="_blank" class="hero-secondary-btn">
                     <i class="fa-brands fa-whatsapp" style="color: #25d366; font-size: 18px;"></i>
                     <span>Emergency WhatsApp Desk</span>
                 </a>
@@ -1704,9 +1736,7 @@
                 <!-- Advocate 1: Adv. Sahin -->
                 <div class="advocate-card">
                     <div>
-                        <div class="advocate-avatar-box">
-                            <i class="fa-solid fa-user-tie"></i>
-                        </div>
+                        <div class="advocate-photo-box"><img src="assets/advocates/adv-sahin.png" alt="Adv. Sahin" class="advocate-photo"></div>
                         <h3 class="advocate-name">Adv. Sahin</h3>
                         <div class="advocate-title">Senior High Court Advocate</div>
                         <div class="advocate-experience"><i class="fa-solid fa-award"></i> 15+ Years Practice</div>
@@ -1727,9 +1757,7 @@
                 <!-- Advocate 2: Adv. Srilekha -->
                 <div class="advocate-card">
                     <div>
-                        <div class="advocate-avatar-box">
-                            <i class="fa-solid fa-user-shield"></i>
-                        </div>
+                        <div class="advocate-photo-box"><img src="assets/advocates/adv-srilekha.png" alt="Adv. Srilekha" class="advocate-photo"></div>
                         <h3 class="advocate-name">Adv. Srilekha</h3>
                         <div class="advocate-title">Senior Cyber Law Litigator</div>
                         <div class="advocate-experience"><i class="fa-solid fa-award"></i> 12+ Years Practice</div>
@@ -1750,9 +1778,7 @@
                 <!-- Advocate 3: Adv. Rukshana -->
                 <div class="advocate-card">
                     <div>
-                        <div class="advocate-avatar-box">
-                            <i class="fa-solid fa-user-doctor"></i>
-                        </div>
+                        <div class="advocate-photo-box"><img src="assets/advocates/adv-rukshana.png" alt="Adv. Rukshana" class="advocate-photo"></div>
                         <h3 class="advocate-name">Adv. Rukshana</h3>
                         <div class="advocate-title">Senior Banking & DRT Advocate</div>
                         <div class="advocate-experience"><i class="fa-solid fa-award"></i> 14+ Years Practice</div>
@@ -1773,9 +1799,7 @@
                 <!-- Advocate 4: Adv. Danish -->
                 <div class="advocate-card">
                     <div>
-                        <div class="advocate-avatar-box">
-                            <i class="fa-solid fa-user-ninja"></i>
-                        </div>
+                        <div class="advocate-photo-box"><img src="assets/advocates/adv-danish.png" alt="Adv. Danish" class="advocate-photo"></div>
                         <h3 class="advocate-name">Adv. Danish</h3>
                         <div class="advocate-title">Criminal Defense & Cyber Specialist</div>
                         <div class="advocate-experience"><i class="fa-solid fa-award"></i> 11+ Years Practice</div>
@@ -2065,9 +2089,7 @@
         <div class="footer-grid">
             <div class="footer-col">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
-                    <div class="logo-emblem" style="width: 36px; height: 36px; font-size: 16px;">
-                        <i class="fa-solid fa-scale-balanced"></i>
-                    </div>
+                    <img src="assets/logo.avif" alt="M/S Solution" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover; border: 1px solid var(--accent-gold);">
                     <h3 style="color:#ffffff; font-size: 18px; font-family:'Cinzel',serif;">M/S SOLUTION</h3>
                 </div>
                 <p>
@@ -2100,7 +2122,7 @@
             <div class="footer-col">
                 <h4>Contact & Consultation</h4>
                 <p><i class="fa-solid fa-location-dot" style="color:var(--accent-gold); margin-right:8px;"></i> High Court Chamber & Legal Consultation Desks</p>
-                <p><i class="fa-solid fa-phone" style="color:var(--accent-gold); margin-right:8px;"></i> +91 89108 03089</p>
+                <p><i class="fa-solid fa-phone" style="color:var(--accent-gold); margin-right:8px;"></i> +91 89817 30089</p>
                 <p><i class="fa-solid fa-envelope" style="color:var(--accent-gold); margin-right:8px;"></i> consult@xtechmax.shop</p>
                 <div style="margin-top: 16px;">
                     <button class="cc-light-sweep-btn" style="width: 100%; font-size: 13px; padding: 10px 16px;" onclick="openConsultationModal('Senior Advocate', 'Website Footer')">
@@ -2131,7 +2153,7 @@
     </div>
 
     <!-- Floating WhatsApp Help Button -->
-    <a href="https://wa.me/918910803089?text=Hello%20M/S%20Solution,%20I%20need%20urgent%20legal%20consultation." target="_blank" class="whatsapp-float" title="Chat with Legal Desk on WhatsApp">
+    <a href="https://wa.me/918981730089?text=Hello%20M/S%20Solution,%20I%20need%20urgent%20legal%20consultation." target="_blank" class="whatsapp-float" title="Chat with Legal Desk on WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
@@ -2280,7 +2302,7 @@
                     </p>
                 </div>
 
-                <a id="successWhatsAppBtn" href="https://wa.me/918910803089?text=Hello%20M/S%20Solution,%20I%20have%20completed%20my%20consultation%20booking." target="_blank" class="cc-light-sweep-btn" style="width: 100%;">
+                <a id="successWhatsAppBtn" href="https://wa.me/918981730089?text=Hello%20M/S%20Solution,%20I%20have%20completed%20my%20consultation%20booking." target="_blank" class="cc-light-sweep-btn" style="width: 100%;">
                     <i class="fa-brands fa-whatsapp"></i>
                     <span>Connect with Legal Desk on WhatsApp</span>
                 </a>
@@ -2313,7 +2335,7 @@
                 if (sModal) sModal.classList.add('active');
                 if (sOrder && orderIdParam) sOrder.textContent = orderIdParam;
                 if (sWaBtn && orderIdParam) {
-                    sWaBtn.href = `https://wa.me/918910803089?text=Hello%20M/S%20Solution,%20I%20have%20paid%20Rs.2000%20for%20consultation.%20Order%20ID:%20${encodeURIComponent(orderIdParam)}`;
+                    sWaBtn.href = `https://wa.me/918981730089?text=Hello%20M/S%20Solution,%20I%20have%20paid%20Rs.2000%20for%20consultation.%20Order%20ID:%20${encodeURIComponent(orderIdParam)}`;
                 }
                 sessionStorage.removeItem('currentOrderId');
             } else if (statusParam === 'failure') {
