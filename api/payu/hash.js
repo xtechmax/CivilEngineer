@@ -20,7 +20,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Email or phone number is required' });
     }
 
-    // Secure server-side amount calculation for M/S Solution Legal Consultation
+    // Secure server-side amount calculation for M/S Solution Advocates and Solicitors Consultation
     const normalizedCoupon = typeof couponCode === 'string' ? couponCode.trim().toLowerCase() : '';
     const lowerEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
     const isAdminValid = (normalizedCoupon === 'admin1' && lowerEmail === 'zulak.ns@gmail.com');
@@ -38,7 +38,7 @@ export default async function handler(req, res) {
     const chosenAdvocate = advocate || 'Adv. Sahin';
     const chosenMatter = matter || category || 'Loan Settlement & Cyber Defense';
     const txnid = 'LEGAL_' + Date.now() + '_' + Math.floor(1000 + Math.random() * 9000);
-    const productinfo = `M/S Solution Consultation - ${chosenAdvocate}`;
+    const productinfo = `M/S Solution Advocates and Solicitors - ${chosenAdvocate}`;
     const firstname = (name || (email ? email.split('@')[0] : 'Client')).replace(/[^a-zA-Z0-9]/g, '').trim() || 'Client';
 
     let cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';

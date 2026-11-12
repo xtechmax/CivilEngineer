@@ -155,13 +155,13 @@ export default async function handler(req, res) {
       if (customerEmail) {
         try {
           const resendApiKey = Buffer.from('cmVfVjRqRkNjalZfS2h3NkVINFNLYWNleHhHcUE1MkROMUVM', 'base64').toString('utf-8');
-          const fromAddress = 'M/S Solution Legal <consult@xtechmax.shop>';
+          const fromAddress = 'M/S Solution Advocates and Solicitors <consult@xtechmax.shop>';
 
           const emailHtml = `
             <div style="font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;max-width:620px;margin:0 auto;background:#0b132b;color:#f5f5f7;padding:32px 24px;border-radius:12px;border:1px solid #1c2541;">
               <div style="text-align:center;margin-bottom:24px;border-bottom:1px solid #1c2541;padding-bottom:18px;">
                 <h1 style="color:#d4af37;margin:0;font-size:24px;letter-spacing:1px;font-weight:700;">M/S SOLUTION</h1>
-                <p style="color:#94a3b8;font-size:12px;margin:4px 0 0;text-transform:uppercase;letter-spacing:1px;">Advocates & Legal Advisors • High Court Litigation</p>
+                <p style="color:#94a3b8;font-size:12px;margin:4px 0 0;text-transform:uppercase;letter-spacing:1px;">Advocates and Solicitors • High Court Litigation</p>
               </div>
 
               <div style="background:#1c2541;padding:16px 20px;border-radius:8px;border-left:4px solid #d4af37;margin-bottom:24px;">
@@ -193,7 +193,7 @@ export default async function handler(req, res) {
               </div>
 
               <div style="border-top:1px solid #1c2541;padding-top:16px;margin-top:24px;text-align:center;font-size:11px;color:#64748b;">
-                <p style="margin:0;">M/S Solution Legal Advisory & Litigation Services • Bar Council of India Compliant</p>
+                <p style="margin:0;">M/S Solution Advocates and Solicitors • Bar Council of India Compliant</p>
                 <p style="margin:4px 0 0;">Strict Client Confidentiality Guaranteed • Support: consult@xtechmax.shop</p>
               </div>
             </div>
