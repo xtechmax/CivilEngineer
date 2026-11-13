@@ -1358,6 +1358,45 @@
             margin: 0 auto 16px;
         }
 
+        
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hero-fb-badge-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(24, 119, 242, 0.16);
+            border: 1px solid rgba(24, 119, 242, 0.45);
+            padding: 8px 20px;
+            border-radius: 99px;
+            text-decoration: none;
+            transition: all 0.25s;
+            box-shadow: 0 4px 15px rgba(24, 119, 242, 0.2);
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Global Viewport & Mobile Overflow Reset */
+        html, body {
+            overflow-x: hidden !important;
+            width: 100% !important;
+            max-width: 100vw !important;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        img, svg, video {
+            max-width: 100%;
+            height: auto;
+        }
+
         /* Responsive Breakpoints */
         @media (max-width: 992px) {
             .trust-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1367,26 +1406,269 @@
             .process-grid { grid-template-columns: repeat(2, 1fr); }
             .case-study-grid { grid-template-columns: 1fr; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
-            nav.nav-links { display: none; }
+            nav.nav-links { display: none !important; }
         }
 
-        @media (max-width: 640px) {
-            .top-bar-right { display: none; }
-            .hero-title { font-size: 30px; }
-            .hero-subtitle { font-size: 15px; }
-            .trust-grid { grid-template-columns: 1fr; }
-            .stats-container { grid-template-columns: repeat(2, 1fr); }
-            .advocates-grid { grid-template-columns: 1fr; }
-            .all-services-grid { grid-template-columns: 1fr; }
-            .process-grid { grid-template-columns: 1fr; }
-            .inclusions-grid { grid-template-columns: 1fr; }
-            .price-header { flex-direction: column; align-items: flex-start; }
-            .price-display { text-align: left; }
-            .pricing-box { padding: 32px 20px; }
-            .footer-grid { grid-template-columns: 1fr; }
-            .form-row { grid-template-columns: 1fr; }
-            .mobile-bottom-bar { display: flex; }
-            body { padding-bottom: 70px; }
+        @media (max-width: 768px) {
+            /* Top Announcement Bar */
+            .top-bar {
+                padding: 6px 12px !important;
+                font-size: 11px !important;
+                justify-content: center !important;
+                text-align: center !important;
+            }
+            .top-bar-left {
+                justify-content: center !important;
+                text-align: center !important;
+                font-size: 11px !important;
+                line-height: 1.35 !important;
+                width: 100% !important;
+            }
+            .top-bar-right {
+                display: none !important;
+            }
+
+            /* Header Navigation */
+            .nav-container {
+                padding: 10px 14px !important;
+            }
+            .brand-logo {
+                gap: 8px !important;
+            }
+            .site-logo-img {
+                width: 36px !important;
+                height: 36px !important;
+            }
+            .brand-text h1 {
+                font-size: 15px !important;
+                letter-spacing: 0.5px !important;
+            }
+            .brand-text span {
+                font-size: 9px !important;
+            }
+            /* Hide the redundant massive navbar button on mobile since bottom sticky bar handles booking */
+            .site-header .nav-actions .cc-light-sweep-btn {
+                display: none !important;
+            }
+            .site-header .lang-toggle-btn {
+                padding: 6px 10px !important;
+                font-size: 11.5px !important;
+                gap: 5px !important;
+            }
+
+            /* Hero Section */
+            .hero-section {
+                padding: 36px 14px 44px !important;
+            }
+            .hero-badge {
+                font-size: 11px !important;
+                padding: 5px 12px !important;
+                margin-bottom: 12px !important;
+                max-width: 100% !important;
+                line-height: 1.35 !important;
+                display: inline-flex !important;
+            }
+            .hero-fb-badge-link {
+                gap: 6px !important;
+                padding: 6px 12px !important;
+                font-size: 11.5px !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                text-align: center !important;
+                border-radius: 99px !important;
+            }
+            .hero-title {
+                font-size: 22px !important;
+                line-height: 1.25 !important;
+                margin-bottom: 14px !important;
+                word-break: break-word !important;
+            }
+            .hero-subtitle {
+                font-size: 13.5px !important;
+                line-height: 1.55 !important;
+                margin-bottom: 24px !important;
+                padding: 0 4px !important;
+            }
+            .hero-cta-group {
+                flex-direction: column !important;
+                width: 100% !important;
+                gap: 10px !important;
+                margin-bottom: 30px !important;
+            }
+            .hero-cta-group .cc-light-sweep-btn,
+            .hero-cta-group .hero-secondary-btn {
+                width: 100% !important;
+                max-width: 100% !important;
+                justify-content: center !important;
+                font-size: 14px !important;
+                padding: 12px 16px !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Trust & Stats */
+            .trust-grid {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+            }
+            .trust-card {
+                padding: 12px 14px !important;
+            }
+            .trust-card h4 {
+                font-size: 14px !important;
+            }
+            .trust-card p {
+                font-size: 12px !important;
+            }
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px !important;
+                padding: 24px 14px !important;
+            }
+            .stat-item h3 {
+                font-size: 22px !important;
+            }
+            .stat-item p {
+                font-size: 11.5px !important;
+            }
+
+            /* Section Structure */
+            .section-wrapper {
+                padding: 40px 14px !important;
+            }
+            .section-header {
+                margin-bottom: 28px !important;
+            }
+            .section-title {
+                font-size: 22px !important;
+                line-height: 1.25 !important;
+            }
+            .section-subtitle {
+                font-size: 13px !important;
+                line-height: 1.55 !important;
+            }
+
+            /* Grids */
+            .service-grid,
+            .advocates-grid,
+            .all-services-grid,
+            .process-grid,
+            .case-study-grid {
+                grid-template-columns: 1fr !important;
+                gap: 16px !important;
+            }
+            .service-card,
+            .advocate-card,
+            .all-service-card,
+            .process-card,
+            .case-card {
+                padding: 20px 16px !important;
+            }
+            .advocate-photo-box {
+                width: 110px !important;
+                height: 110px !important;
+            }
+
+            /* Pricing Box */
+            .price-header {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px !important;
+            }
+            .price-display {
+                text-align: left !important;
+            }
+            .pricing-box {
+                padding: 24px 16px !important;
+                border-radius: 14px !important;
+            }
+            .price-amount {
+                font-size: 32px !important;
+            }
+            .inclusions-grid {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+            }
+
+            /* Footer */
+            .footer-grid {
+                grid-template-columns: 1fr !important;
+                gap: 24px !important;
+            }
+            .footer-bottom {
+                margin-top: 30px !important;
+                padding-top: 20px !important;
+            }
+            .disclaimer-box {
+                font-size: 11px !important;
+                line-height: 1.5 !important;
+                padding: 12px 14px !important;
+            }
+
+            /* Forms & Modals */
+            .form-row {
+                grid-template-columns: 1fr !important;
+            }
+            .modal-box {
+                max-width: 95% !important;
+                margin: 10px auto !important;
+                max-height: 94vh !important;
+            }
+            .modal-header {
+                padding: 14px 18px !important;
+            }
+            .modal-header h3 {
+                font-size: 16px !important;
+            }
+            .modal-body {
+                padding: 16px !important;
+            }
+
+            /* Sticky Mobile Bottom Booking Bar */
+            .mobile-bottom-bar {
+                display: flex !important;
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                z-index: 9999 !important;
+                padding: 10px 14px !important;
+                background: #081124 !important;
+                border-top: 1px solid var(--accent-gold) !important;
+                box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.45) !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                gap: 8px !important;
+            }
+            .mobile-bottom-bar .cc-light-sweep-btn {
+                padding: 9px 14px !important;
+                font-size: 12.5px !important;
+                gap: 6px !important;
+            }
+            .mobile-bar-price span {
+                font-size: 10px !important;
+            }
+            .mobile-bar-price strong {
+                font-size: 18px !important;
+            }
+            .mobile-lang-btn {
+                padding: 6px 10px !important;
+                font-size: 11.5px !important;
+            }
+
+            /* Floating WhatsApp Button - Sits cleanly above sticky bottom bar */
+            .whatsapp-float {
+                bottom: 78px !important;
+                right: 14px !important;
+                width: 48px !important;
+                height: 48px !important;
+                font-size: 24px !important;
+                box-shadow: 0 4px 15px rgba(37, 211, 102, 0.45) !important;
+            }
+
+            /* Prevent footer content from being hidden behind sticky bar */
+            body {
+                padding-bottom: 76px !important;
+            }
         }
     
         /* Bengali Typography & Language Switcher Styles */
@@ -1500,7 +1782,7 @@
                 <a href="#faqs" data-i18n="nav_faqs">FAQs</a>
             </nav>
 
-            <div style="display:flex; align-items:center; gap:12px;">
+            <div class="nav-actions">
                 <!-- Language Switcher Button -->
                 <button onclick="toggleLanguage()" class="lang-toggle-btn" title="Change Language / ভাষা পরিবর্তন করুন">
                     <i class="fa-solid fa-globe"></i>
@@ -1524,7 +1806,7 @@
 
             <!-- 250K+ Facebook Social Proof Badge -->
             <div style="margin-bottom: 22px;">
-                <a href="https://www.facebook.com/profile.php?id=100091653904443" target="_blank" style="display:inline-flex; align-items:center; gap:10px; background:rgba(24, 119, 242, 0.16); border:1px solid rgba(24, 119, 242, 0.45); padding:8px 20px; border-radius:99px; text-decoration:none; transition:all 0.25s; box-shadow:0 4px 15px rgba(24,119,242,0.2);">
+                <a href="https://www.facebook.com/profile.php?id=100091653904443" target="_blank" class="hero-fb-badge-link">
                     <i class="fa-brands fa-facebook" style="color:#1877f2; font-size:20px;"></i>
                     <span style="font-size:13.5px; color:#ffffff; font-weight:600;"><span data-i18n="hero_fb_text">Trusted by over <strong style="color:#60a5fa;">250K+ Followers</strong> on Facebook</span></span>
                     <span style="background:#1877f2; color:#ffffff; font-size:11px; font-weight:700; padding:3px 10px; border-radius:12px; margin-left:6px; letter-spacing:0.4px;"><span data-i18n="hero_fb_btn">Follow Page &rarr;</span></span>
