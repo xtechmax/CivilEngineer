@@ -187,7 +187,7 @@ export default async function handler(req, res) {
               </div>
 
               <div style="text-align:center;margin:28px 0 10px;">
-                <a href="https://wa.me/918981730089?text=Hello%20M/S%20Solution,%20I%20have%20booked%20a%20consultation%20with%20${encodeURIComponent(advocateName)}.%20Reference:%20${encodeURIComponent(txnid)}" target="_blank" style="background:linear-gradient(135deg,#d4af37 0%,#aa771c 100%);color:#0b132b;font-weight:700;font-size:14px;padding:14px 28px;text-decoration:none;border-radius:8px;display:inline-block;box-shadow:0 4px 15px rgba(212,175,55,0.3);">
+                <a href="https://wa.me/919123666277?text=Hello%20M/S%20Solution,%20I%20have%20booked%20a%20consultation%20with%20${encodeURIComponent(advocateName)}.%20Reference:%20${encodeURIComponent(txnid)}" target="_blank" style="background:linear-gradient(135deg,#d4af37 0%,#aa771c 100%);color:#0b132b;font-weight:700;font-size:14px;padding:14px 28px;text-decoration:none;border-radius:8px;display:inline-block;box-shadow:0 4px 15px rgba(212,175,55,0.3);">
                   Connect with Legal Desk on WhatsApp →
                 </a>
               </div>
