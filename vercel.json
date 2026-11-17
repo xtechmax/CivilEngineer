@@ -22,6 +22,14 @@
       "destination": "/api/create-order.js"
     },
     {
+      "source": "/sahin",
+      "destination": "/sahin.html"
+    },
+    {
+      "source": "/advocate-sahin",
+      "destination": "/sahin.html"
+    },
+    {
       "source": "/contact-us",
       "destination": "/contact-us.html"
     },

@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     if (isAdminValid) {
       amount = 1.00;
     } else {
-      let baseAmount = 2000.00;
+      let baseAmount = ((advocate && advocate.toLowerCase().includes('sahin')) || req.body?.tier === 'gold' || req.body?.amount === 2500 || req.body?.amount === '2500') ? 2500.00 : 2000.00;
       if (isFirst10Valid) {
         baseAmount = baseAmount * 0.90;
       }
